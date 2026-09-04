@@ -1,0 +1,3691 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>右豹代理后台 - 项目数据 Demo</title>
+  <style>
+    :root {
+      --nav: #13202a;
+      --nav-2: #172530;
+      --gold: #c8a45c;
+      --primary: #2f5c8a;
+      --bg: #f3f5f7;
+      --border: #e5e7eb;
+      --text: #1f2d3a;
+      --muted: #8b95a5;
+      --line: #edf0f3;
+      --green: #67c23a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      font-size: 14px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      min-width: 1180px;
+      min-height: 720px;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 224px 1fr;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      position: relative;
+      background: linear-gradient(180deg, #111e28 0%, #16242f 100%);
+      color: #d9e4ee;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      overflow: hidden;
+    }
+
+    .brand {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 18px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,.16);
+      overflow: hidden;
+    }
+
+    .brand-mark svg { width: 30px; height: 30px; }
+
+    .brand-name {
+      font-size: 18px;
+      line-height: 1;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    .brand-sub {
+      margin-top: 8px;
+      color: #bdc5ce;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      transform: scaleY(.92);
+      transform-origin: left center;
+    }
+
+    .nav {
+      list-style: none;
+      padding: 11px 10px 0;
+      margin: 0;
+      flex: 1;
+    }
+
+    .nav-group {
+      height: 46px;
+      border-radius: 7px;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 22px;
+      position: relative;
+    }
+
+    .nav-group .chevron {
+      margin-left: auto;
+      font-size: 15px;
+      color: #a88948;
+      transform: translateY(-1px);
+    }
+
+    .nav-item {
+      margin: 5px 0 0 4px;
+      width: 200px;
+      height: 40px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 22px;
+      color: #d9e4ee;
+      background: rgba(255,255,255,.02);
+      font-size: 13px;
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: var(--gold);
+      background: rgba(200,164,92,.12);
+    }
+
+    .nav-item.secondary {
+      margin-top: 8px;
+    }
+
+    .nav-item.secondary.active {
+      background: rgba(200,164,92,.12);
+      color: var(--gold);
+    }
+
+    .nav-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 3px;
+      height: 26px;
+      border-radius: 2px;
+      background: var(--gold);
+      opacity: 0;
+    }
+
+    .nav-item.active::before {
+      opacity: 1;
+    }
+
+    .side-foot {
+      height: 46px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      color: #5a7080;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      padding-left: 18px;
+    }
+
+    .workspace {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: 64px 1fr;
+      height: 100vh;
+    }
+
+    .topbar {
+      height: 64px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid #edf0f2;
+    }
+
+    .page-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #1f2d3a;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #285483;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .success-toast {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      height: 40px;
+      min-width: 112px;
+      padding: 0 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 6px;
+      border: 1px solid #e1f3d8;
+      background: #f0f9eb;
+      color: var(--green);
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      animation: toast 4.2s ease forwards;
+    }
+
+    @keyframes toast {
+      0%, 68% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(-12px); pointer-events: none; }
+    }
+
+    .content {
+      overflow: auto;
+      background: var(--bg);
+    }
+
+    .page-shell {
+      display: none;
+      min-height: 656px;
+      padding: 24px;
+    }
+
+    .page-shell.is-active {
+      display: flex;
+    }
+
+    .project-page {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .project-side {
+      width: 240px;
+      flex: 0 0 240px;
+      height: calc(100vh - 112px);
+      min-height: 520px;
+      max-height: 608px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-search {
+      height: 57px;
+      padding: 12px 12px;
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+
+    .input,
+    .select,
+    .date-range {
+      height: 32px;
+      border: 1px solid #dfe5ec;
+      border-radius: 5px;
+      background: #fff;
+      color: #3a4a58;
+      outline: none;
+      padding: 0 11px;
+      font-size: 14px;
+    }
+
+    .input::placeholder { color: #b7c0cc; }
+
+    .project-search .input {
+      width: 134px;
+      height: 32px;
+    }
+
+    .btn {
+      height: 32px;
+      min-width: 60px;
+      padding: 0 15px;
+      border: 1px solid #e6ebf0;
+      border-radius: 6px;
+      background: #fff;
+      color: #3a4a58;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      background: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+      box-shadow: none;
+      opacity: 1;
+    }
+
+    .btn.primary:disabled {
+      background: #cfd8e3;
+      border-color: #cfd8e3;
+      color: #fff;
+    }
+
+    .project-list {
+      padding: 10px 8px;
+      overflow: auto;
+    }
+
+    .project-row {
+      height: 50px;
+      border-radius: 7px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      color: #111827;
+      cursor: pointer;
+    }
+
+    .project-row.active {
+      border: 1px solid #2f7fd2;
+      background: #f9fcff;
+      box-shadow: inset 0 0 0 1px rgba(47,127,210,.04);
+    }
+
+    .detail-btn {
+      width: 40px;
+      height: 24px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #8b95a5;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .project-main {
+      flex: 1;
+      min-width: 0;
+      height: calc(100vh - 112px);
+      min-height: 520px;
+      max-height: 608px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tabs {
+      height: 62px;
+      flex: 0 0 62px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .tab {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px 0 0;
+      margin-right: 20px;
+      color: #1f2d3a;
+      font-size: 14px;
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      color: var(--primary);
+    }
+
+    .tab.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 1px;
+      width: 28px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    .panel {
+      flex: 1;
+      min-height: 0;
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 0;
+      padding: 16px 16px 0;
+      overflow: auto;
+      scrollbar-color: #cbd2dc #f0f2f5;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      row-gap: 18px;
+      column-gap: 28px;
+      width: 100%;
+      min-height: 150px;
+    }
+
+    .form-item {
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+
+    .label {
+      width: 64px;
+      flex: 0 0 64px;
+      color: #3a4a58;
+      font-size: 14px;
+    }
+
+    .form-item .input,
+    .form-item .select {
+      width: 160px;
+    }
+
+    .form-item.small .input,
+    .form-item.small .select {
+      width: 160px;
+    }
+
+    .select {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #b7c0cc;
+    }
+
+    .date-range {
+      width: 260px;
+      display: flex;
+      align-items: center;
+      color: #b7c0cc;
+      padding: 0 9px;
+      gap: 7px;
+    }
+
+    .date-range span:nth-child(3) {
+      color: #8b95a5;
+      margin: 0 9px;
+    }
+
+    .form-actions {
+      margin-left: 4px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .action-bar {
+      height: 32px;
+      margin: 8px 0 10px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .action-bar .btn:nth-child(2) {
+      min-width: 88px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      border-top: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      background: #fff;
+    }
+
+    table {
+      border-collapse: collapse;
+      min-width: 1360px;
+      width: 1360px;
+      table-layout: fixed;
+      color: #3a4a58;
+      font-size: 13.5px;
+    }
+
+    thead tr {
+      height: 40px;
+      background: #f6f8fb;
+      color: #526273;
+      font-weight: 600;
+    }
+
+    th,
+    td {
+      height: 40px;
+      border-bottom: 1px solid #ebeef3;
+      padding: 0 12px;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 400;
+    }
+
+    th {
+      color: #526273;
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(4) {
+      background: #f8fafc;
+    }
+
+    .check {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #e5eaf0;
+      border-radius: 3px;
+      display: inline-block;
+      background: #fff;
+      vertical-align: middle;
+    }
+
+    .pagination {
+      height: 48px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+      color: #3a4a58;
+      padding-top: 11px;
+    }
+
+    .page-select {
+      width: 128px;
+      height: 32px;
+      border: 1px solid #e6ebf0;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      color: #3a4a58;
+      background: #fff;
+    }
+
+    .pager {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-btn,
+    .page-num {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 2px;
+      background: #f5f7fa;
+      color: #c3cbd6;
+      display: grid;
+      place-items: center;
+      font-weight: 500;
+    }
+
+    .page-num {
+      color: #fff;
+      background: var(--primary);
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      display: inline-grid;
+      place-items: center;
+      color: currentColor;
+      opacity: .9;
+    }
+
+    .icon svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .enterprise-page {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .enterprise-head {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .head-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .enterprise-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2d3a;
+    }
+
+    .enterprise-sub {
+      margin-top: 4px;
+      color: #8b95a5;
+      font-size: 12px;
+    }
+
+    .status-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-chip {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+
+    .status-chip.draft { background: #eef3f8; color: #4c6075; border-color: #d7e0e8; }
+    .status-chip.pending { background: #fff7e6; color: #c7890d; border-color: #f3dfb0; }
+    .status-chip.approved { background: #f0f9eb; color: #67c23a; border-color: #d8efc7; }
+    .status-chip.rejected { background: #fff1f0; color: #f56c6c; border-color: #f6c7c4; }
+
+    .enterprise-card {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 20px 22px 18px;
+      overflow: auto;
+      min-height: 0;
+      flex: 1;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+    }
+
+    .section-block + .section-block {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid #eef1f4;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 14px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 18px;
+    }
+
+    .field-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .field-label {
+      color: #3a4a58;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .field-item .input,
+    .field-item .select {
+      width: 100%;
+      height: 38px;
+    }
+
+    .field-item .select.is-disabled {
+      background: #f6f8fb;
+      color: #98a2b3;
+      cursor: not-allowed;
+      opacity: .72;
+    }
+
+    .field-item .select.is-disabled span:last-child {
+      color: #b7c0cc;
+    }
+
+    .image-upload {
+      border: 1px dashed #d7dfe8;
+      border-radius: 8px;
+      background: #fbfcfe;
+      min-height: 132px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .image-upload .preview {
+      width: 100%;
+      height: 78px;
+      border-radius: 6px;
+      border: 1px solid #e7ecf1;
+      background: linear-gradient(180deg, #fff, #f7f9fc);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: #9aa3ae;
+      font-size: 12px;
+    }
+
+    .image-upload .preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-upload .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .image-upload .actions .btn {
+      height: 30px;
+      min-width: 72px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .image-upload .meta {
+      color: #8b95a5;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+
+    .field-item.wide {
+      grid-column: 1 / -1;
+    }
+
+    .field-item.wide textarea {
+      width: 100%;
+      min-height: 72px;
+      padding: 10px 12px;
+      border: 1px solid #dfe5ec;
+      border-radius: 5px;
+      outline: none;
+      resize: vertical;
+      color: #3a4a58;
+      font: inherit;
+    }
+
+    .enterprise-statusbar {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: #f7f9fc;
+      border: 1px solid #edf1f5;
+    }
+
+    .status-copy {
+      color: #5a7080;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .rejection-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #fff7f6;
+      border: 1px solid #f7d0cc;
+      color: #cf5f5f;
+      display: none;
+    }
+
+    .rejection-box.show {
+      display: block;
+    }
+
+    .review-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn.ghost {
+      background: #fff;
+      border-color: #dfe5ec;
+    }
+
+    .btn.link {
+      background: transparent;
+      border-color: transparent;
+      color: #2f5c8a;
+      padding: 0 4px;
+      min-width: 0;
+    }
+
+    .settlement-page {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .settlement-head {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .settlement-head-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .settlement-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2d3a;
+    }
+
+    .settlement-sub {
+      margin-top: 4px;
+      color: #8b95a5;
+      font-size: 12px;
+    }
+
+    .settlement-head-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .month-chip {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #eef3f8;
+      border: 1px solid #d7e0e8;
+      color: #4c6075;
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .settlement-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+      min-width: 0;
+    }
+
+    .stat-label {
+      color: #8b95a5;
+      font-size: 12px;
+    }
+
+    .stat-value {
+      margin-top: 10px;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 800;
+      color: #1f2d3a;
+    }
+
+    .stat-value.green { color: #67c23a; }
+    .stat-value.orange { color: #c7890d; }
+
+    .settlement-card {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 18px 18px 12px;
+      overflow: auto;
+      min-height: 0;
+      flex: 1;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+    }
+
+    .settlement-note {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #f7f9fc;
+      border: 1px solid #edf1f5;
+      color: #5a7080;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .settlement-table-wrap table {
+      min-width: 1080px;
+      width: 100%;
+    }
+
+    .settlement-ops {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn.small {
+      height: 28px;
+      min-width: 0;
+      padding: 0 10px;
+      font-size: 12px;
+      border-radius: 5px;
+    }
+
+    .settlement-ops .btn.small:disabled {
+      background: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+    }
+
+    .status-tag {
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-tag.pending {
+      background: #fff7e6;
+      color: #c7890d;
+    }
+
+    .status-tag.withdrawn {
+      background: #f0f9eb;
+      color: #67c23a;
+    }
+
+    .status-tag.reviewing {
+      background: #eef4ff;
+      color: #3b6ef5;
+    }
+
+    .mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.25);
+      z-index: 20;
+      display: none;
+    }
+
+    .mask.show {
+      display: block;
+    }
+
+    .drawer,
+    .modal {
+      position: fixed;
+      z-index: 21;
+      display: none;
+      background: #fff;
+      box-shadow: -12px 0 32px rgba(31,45,58,.18);
+    }
+
+    .drawer.show,
+    .modal.show {
+      display: block;
+    }
+
+    .drawer {
+      right: 0;
+      top: 0;
+      width: 440px;
+      height: 100vh;
+      padding: 18px 18px 16px;
+      overflow: auto;
+    }
+
+    #rulesDrawer {
+      width: 680px;
+      padding: 18px 22px 16px;
+    }
+
+    .modal {
+      left: 50%;
+      top: 50%;
+      width: 720px;
+      max-width: calc(100vw - 40px);
+      transform: translate(-50%, -50%);
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 22px 48px rgba(31,45,58,.22);
+    }
+
+    .drawer-head,
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .drawer-title,
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2d3a;
+    }
+
+    .drawer-sub,
+    .modal-sub {
+      margin-top: 4px;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .drawer-section + .drawer-section {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid #edf1f5;
+    }
+
+    .drawer-table {
+      width: 100%;
+      min-width: 0;
+      table-layout: auto;
+      font-size: 13px;
+    }
+
+    .drawer-table th,
+    .drawer-table td {
+      padding: 0 8px;
+      height: 36px;
+    }
+
+    .rules-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rules-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #edf1f5;
+    }
+
+    .rules-tab {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid #dfe5ec;
+      background: #fff;
+      color: #4c6075;
+      cursor: pointer;
+    }
+
+    .rules-tab.active {
+      background: #2f5c8a;
+      border-color: #2f5c8a;
+      color: #fff;
+    }
+
+    .rules-panel {
+      display: none;
+      padding-top: 14px;
+    }
+
+    .rules-panel.active {
+      display: block;
+    }
+
+    .rules-block + .rules-block {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed #e6ebf0;
+    }
+
+    .rules-block-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 8px;
+    }
+
+    .rules-list {
+      margin: 0;
+      padding-left: 18px;
+      color: #4c6075;
+      line-height: 1.8;
+    }
+
+    .rules-list li + li {
+      margin-top: 2px;
+    }
+
+    .rules-flow {
+      display: grid;
+      gap: 10px;
+    }
+
+    .flow-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0 2px;
+    }
+
+    .flow-node {
+      position: relative;
+      width: min(100%, 320px);
+      border-radius: 12px;
+      border: 1px solid #cfd8e3;
+      background: #f7fbff;
+      box-shadow: inset 0 0 0 1px rgba(47,92,138,.03);
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .flow-node.primary {
+      background: #eff7ff;
+      border-color: #7aa6df;
+      width: min(100%, 360px);
+    }
+
+    .flow-node.secondary {
+      background: #f5fff5;
+      border-color: #9ed2a0;
+    }
+
+    .flow-node-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2d3a;
+      line-height: 1.4;
+    }
+
+    .flow-node-text {
+      margin-top: 4px;
+      color: #5a7080;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .flow-arrow {
+      width: 2px;
+      height: 16px;
+      background: linear-gradient(180deg, #7aa6df, #cfd8e3);
+      position: relative;
+    }
+
+    .flow-arrow::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -2px;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #7aa6df;
+    }
+
+    .flow-branch {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .flow-branch-line {
+      flex: 1;
+      height: 2px;
+      background: #7aa6df;
+      position: relative;
+    }
+
+    .flow-branch-line::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 8px solid #7aa6df;
+    }
+
+    .flow-stage {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flow-decision {
+      width: 128px;
+      height: 128px;
+      position: relative;
+      transform: rotate(45deg);
+      border: 1px solid #f0c78a;
+      background: #fff9ef;
+      margin: 2px 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .flow-decision .flow-decision-inner {
+      transform: rotate(-45deg);
+      text-align: center;
+      width: 100px;
+    }
+
+    .flow-decision-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #8a5a13;
+      line-height: 1.4;
+    }
+
+    .flow-decision-text {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #9a6b21;
+      line-height: 1.45;
+    }
+
+    .flow-split {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .flow-split-stem {
+      width: 2px;
+      height: 16px;
+      background: #7aa6df;
+      position: relative;
+    }
+
+    .flow-split-stem::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -1px;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #7aa6df;
+    }
+
+    .flow-split-bar {
+      width: 420px;
+      height: 2px;
+      background: #7aa6df;
+      position: relative;
+      margin-top: 1px;
+    }
+
+    .flow-split-bar::before,
+    .flow-split-bar::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+
+    .flow-split-bar::before {
+      left: -1px;
+      border-right: 8px solid #7aa6df;
+    }
+
+    .flow-split-bar::after {
+      right: -1px;
+      border-left: 8px solid #7aa6df;
+    }
+
+    .flow-split-columns {
+      width: 520px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      padding-top: 0;
+      align-items: start;
+    }
+
+    .flow-branch-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-width: 0;
+    }
+
+    .flow-column-stem {
+      width: 2px;
+      height: 18px;
+      background: #7aa6df;
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .flow-column-stem::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -2px;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #7aa6df;
+    }
+
+    .flow-branch-column .flow-node {
+      width: 100%;
+    }
+
+    .flow-branch-path {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flow-branch-label {
+      font-size: 12px;
+      color: #8b95a5;
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .flow-branch-return {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .flow-return-line {
+      width: 2px;
+      height: 30px;
+      background: #7487a8;
+      position: relative;
+    }
+
+    .flow-return-line::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid #7487a8;
+    }
+
+    .flow-return-line::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #7487a8;
+    }
+
+    .flow-branch-tail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .flow-branch-tail-text {
+      color: #7487a8;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .flow-item {
+      border: 1px solid #e6ebf0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #fafcff;
+    }
+
+    .flow-item-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 4px;
+    }
+
+    .flow-item-text {
+      color: #5a7080;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .withdraw-step-panel {
+      display: none;
+    }
+
+    .withdraw-step-panel.is-active {
+      display: block;
+    }
+
+    .withdraw-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin: 4px 0 10px;
+    }
+
+    .settlement-confirm-list,
+    .withdraw-final-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .selected-settlement-item {
+      border: 1px solid #d4d7de;
+      border-radius: 10px;
+      background: #f3fff1;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .selected-settlement-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .selected-settlement-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 4px;
+    }
+
+    .selected-settlement-sub {
+      color: #8b95a5;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .withdraw-account-box {
+      margin-top: 12px;
+      border: 1px solid #e2e7ee;
+      border-radius: 10px;
+      background: #fbfcfe;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .withdraw-account-label {
+      color: #7d8794;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .withdraw-account-value {
+      color: #1f2d3a;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .upload-field {
+      border: 1px solid #e3e8ef;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%);
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 1px 0 rgba(31,45,58,.02);
+    }
+
+    .upload-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .upload-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      line-height: 1.4;
+    }
+
+    .upload-hint {
+      color: #8b95a5;
+      font-size: 12px;
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+
+    .upload-badge {
+      flex: 0 0 auto;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .upload-badge.required {
+      background: #fff3f3;
+      color: #d14343;
+      border: 1px solid #f3c8c8;
+    }
+
+    .upload-badge.optional {
+      background: #f4f7fb;
+      color: #667085;
+      border: 1px solid #d9e2ec;
+    }
+
+    .file-box {
+      min-height: 52px;
+      border: 1px dashed #cfd7e3;
+      border-radius: 10px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      color: #667085;
+      overflow: hidden;
+      transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+      cursor: pointer;
+    }
+
+    .file-box:hover {
+      border-color: #a8b7ca;
+      box-shadow: 0 6px 16px rgba(31,45,58,.04);
+    }
+
+    .file-box.has-file {
+      border-style: solid;
+      border-color: #cfe8d1;
+      background: #f4fff5;
+    }
+
+    .file-button {
+      height: 30px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f7f9fc 0%, #eef3f8 100%);
+      border: 1px solid #d9e2ec;
+      color: #3a4a58;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .file-name {
+      min-width: 0;
+      color: #8b95a5;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+
+    .file-state {
+      flex: 0 0 auto;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #f4f7fb;
+      color: #667085;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    .file-box.has-file .file-state {
+      background: #e9f8ec;
+      color: #1a7f37;
+    }
+
+    .upload-field input[type="file"] {
+      display: none;
+    }
+
+    .file-row {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .file-row .file-box {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .file-row .file-box .file-button {
+      margin-right: 2px;
+    }
+
+    .withdraw-final-card {
+      border: 1px solid #e2e7ee;
+      border-radius: 10px;
+      background: #fbfcfe;
+      padding: 14px 16px;
+      margin-top: 8px;
+    }
+
+    .withdraw-final-card + .withdraw-final-card {
+      margin-top: 12px;
+    }
+
+    .final-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .final-row + .final-row {
+      margin-top: 8px;
+    }
+
+    .final-row span:first-child {
+      color: #7d8794;
+      flex: 0 0 auto;
+    }
+
+    .final-row strong {
+      color: #1f2d3a;
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .file-action-group {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .file-view-btn {
+      height: 26px;
+      padding: 0 8px;
+      border: 1px solid #d7e3f3;
+      border-radius: 5px;
+      background: #f4f8ff;
+      color: #2f5c8a;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .file-view-btn:disabled {
+      cursor: not-allowed;
+      background: #f5f7fa;
+      border-color: #e4e7ed;
+      color: #c0c4cc;
+    }
+
+    .record-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .record-item {
+      border: 1px solid #e2e7ee;
+      border-radius: 10px;
+      background: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .record-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .record-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 4px;
+    }
+
+    .record-sub {
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .record-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+      flex: 0 0 auto;
+    }
+
+    .record-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .record-panel {
+      border: 1px solid #e2e7ee;
+      border-radius: 10px;
+      background: #fbfcfe;
+      padding: 14px 16px;
+      margin-top: 10px;
+    }
+
+    .record-panel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 10px;
+    }
+
+    .modal-actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .withdraw-modal-body {
+      padding: 22px 24px 20px;
+    }
+
+    .withdraw-modal-titlebar {
+      height: 66px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eef1f5;
+    }
+
+    .withdraw-modal-titlebar .btn.small {
+      width: 28px;
+      height: 28px;
+      min-width: 0;
+      padding: 0;
+      font-size: 18px;
+      line-height: 1;
+      color: #667085;
+      border-color: #dfe5ec;
+      border-radius: 6px;
+    }
+
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 4px 0 18px;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #8b95a5;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .step .num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid #c8d0da;
+      color: #8b95a5;
+      background: #fff;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .step.active {
+      color: #6f38e0;
+    }
+
+    .step.active .num {
+      border-color: #6f38e0;
+      background: #6f38e0;
+      color: #fff;
+    }
+
+    .step-line {
+      width: 56px;
+      height: 2px;
+      background: #dde3ea;
+      margin: 0 10px;
+    }
+
+    .withdraw-summary {
+      color: #7d8794;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .withdraw-footer {
+      padding: 14px 24px 20px;
+      border-top: 1px solid #eef1f5;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        min-width: 760px;
+        grid-template-columns: 190px 1fr;
+      }
+      .sidebar { width: 190px; }
+      .brand { padding-left: 14px; }
+      .nav-item { width: 166px; padding-left: 32px; }
+      .project-side { width: 220px; flex-basis: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="success-toast" aria-hidden="true"><span>✓</span><span>登录成功</span></div>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="2" y="2" width="44" height="44" rx="9" fill="#fff"/>
+            <path d="M30.4 7.8c3.8 2.2 6.2 5.3 7.4 9.2-3.1-.8-5.7-.7-7.8.4-1.7.9-2.2 2.5-1.4 4.7 3.7.4 6.3 2 7.7 4.8 1.1 2.3.8 4.4-.9 6.4-3.7 4.5-9.4 6-17.1 4.5 2.8-2.1 4.2-4.3 4.3-6.5-4.5.9-8.4-.2-11.5-3.4-3.1-3.2-4-6.9-2.7-11.2 2.4 2 5.1 2.7 8.1 2.2 2.8-.5 5.1-1.9 6.8-4.2 1.7-2.3 4.1-4.6 7.1-6.9Z" fill="#f05a28"/>
+            <path d="M28.7 18.3c-3.5 1.5-5.3 3.6-5.5 6.4-.1 2.2 1 4.1 3.4 5.7-4 .2-7.1-.7-9.2-2.7-1.5-1.4-2.1-3.1-1.8-5.1 2.4.3 4.7-.3 6.8-1.7 1.9-1.2 4-2.1 6.3-2.6Z" fill="#ff7a45"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">右豹代理</div>
+          <div class="brand-sub">YOUBAO CONSOLE</div>
+        </div>
+      </div>
+
+      <ul class="nav">
+        <li class="nav-item active" data-target="project">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="12" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg>
+          </span>
+          项目数据
+        </li>
+        <li class="nav-item secondary" data-target="enterprise">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19h16"/><path d="M6 19V7l6-3 6 3v12"/><path d="M9 10h2M13 10h2M9 13h2M13 13h2"/></svg>
+          </span>
+          企业信息
+        </li>
+        <li class="nav-item secondary" data-target="settlement">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+          </span>
+          结算中心
+        </li>
+      </ul>
+
+      <div class="side-foot">v0.0.1</div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div class="page-title">项目数据</div>
+        <div class="user">
+          <div class="avatar">赚</div>
+          <span>赚大钱</span>
+          <span style="color:#9aa3ae;">⌄</span>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-shell is-active" data-page="project">
+          <div class="project-page">
+          <aside class="project-side">
+            <div class="project-search">
+              <input class="input" placeholder="搜索项目">
+              <button class="btn primary">查询</button>
+            </div>
+            <div class="project-list">
+              <div class="project-row active"><span>小云雀挂载</span><button class="detail-btn">详情</button></div>
+              <div class="project-row"><span>小云雀展归</span><button class="detail-btn">详情</button></div>
+              <div class="project-row"><span>番茄小说-漫剧</span><button class="detail-btn">详情</button></div>
+              <div class="project-row"><span>网易云有声书</span><button class="detail-btn">详情</button></div>
+              <div class="project-row"><span>CapCut拉失活</span><button class="detail-btn">详情</button></div>
+              <div class="project-row"><span>CapCut拉新</span><button class="detail-btn">详情</button></div>
+            </div>
+          </aside>
+
+          <section class="project-main">
+            <div class="tabs">
+              <div class="tab active">提词</div>
+              <div class="tab">作品</div>
+              <div class="tab">订单</div>
+            </div>
+
+            <div class="panel">
+              <div class="filters">
+                <div class="form-item">
+                  <span class="label">关键词</span>
+                  <input class="input" placeholder="关键词">
+                </div>
+                <div class="form-item">
+                  <span class="label">其他信息</span>
+                  <input class="input" placeholder="书ID/书名">
+                </div>
+                <div class="form-item small">
+                  <span class="label">审核状态</span>
+                  <div class="select"><span>全部</span><span>⌄</span></div>
+                </div>
+                <div class="form-item">
+                  <span class="label">反馈信息</span>
+                  <input class="input" placeholder="模糊搜索">
+                </div>
+                <div class="form-item">
+                  <span class="label">创建时间</span>
+                  <div class="date-range"><span>▦</span><span>开始日期</span><span>-</span><span>结束日期</span></div>
+                </div>
+                <div class="form-actions">
+                  <button class="btn primary">查询</button>
+                  <button class="btn">重置</button>
+                </div>
+              </div>
+
+              <div class="action-bar">
+                <button class="btn">导出</button>
+                <button class="btn">批量导入</button>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <colgroup>
+                    <col style="width:48px"><col style="width:72px"><col style="width:120px"><col style="width:140px"><col style="width:140px"><col style="width:96px"><col style="width:160px"><col style="width:160px"><col style="width:160px"><col style="width:98px"><col style="width:100px"><col style="width:180px"><col style="width:110px"><col style="width:230px">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th><span class="check"></span></th>
+                      <th>ID</th>
+                      <th>账号UID</th>
+                      <th>审核状态</th>
+                      <th>反馈信息</th>
+                      <th>导出状态</th>
+                      <th>导出时间</th>
+                      <th>导入时间</th>
+                      <th>创建时间</th>
+                      <th>推广平台</th>
+                      <th>账号DID</th>
+                      <th>账号ID</th>
+                      <th>账号昵称</th>
+                      <th>主页链接</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="check"></span></td><td>1000174</td><td>53581</td><td>已驳回</td><td>请重新完善信息后再提交审核</td><td>已导出</td><td>2026-07-10 01:58:31</td><td>2026-07-10 02:03:47</td><td>2026-07-10 00:58:48</td><td>小云雀</td><td>6388</td><td>372828</td><td>2728822</td><td>-</td>
+                    </tr>
+                    <tr>
+                      <td><span class="check"></span></td><td>1000173</td><td>3658991</td><td>已驳回</td><td>请重新完善信息后再提交审核</td><td>已导出</td><td>2026-07-10 01:58:31</td><td>2026-07-10 02:03:47</td><td>2026-07-10 00:58:48</td><td>剪映</td><td>26688</td><td>235</td><td>都哦哦</td><td>https://testworks.youbaoyun.cn/#/pages/login/index?code=0DE30E35</td>
+                    </tr>
+                    <tr>
+                      <td><span class="check"></span></td><td>1000172</td><td>602735037691</td><td>已驳回</td><td>请重新完善信息后再提交审核</td><td>已导出</td><td>2026-07-10 01:58:31</td><td>2026-07-10 02:03:47</td><td>2026-07-10 00:58:48</td><td>抖音</td><td>-</td><td>MS4wLjABAAAA3w7c6OG6ycyB6kfUTP-Jfo16wRU6fih4PjH5SergXYQ</td><td>鸡肋</td><td>https://v.douyin.com/1_Po8Q3YEPs/</td>
+                    </tr>
+                    <tr>
+                      <td><span class="check"></span></td><td>1000171</td><td>36744</td><td>已驳回</td><td>请重新完善信息后再提交审核</td><td>未导出</td><td>-</td><td>-</td><td>2026-07-10 00:48:38</td><td>小云雀</td><td>4677</td><td>78788</td><td>878</td><td>-</td>
+                    </tr>
+                    <tr>
+                      <td><span class="check"></span></td><td>1000170</td><td>12313</td><td>已驳回</td><td>请重新完善信息后再提交审核</td><td>未导出</td><td>-</td><td>-</td><td>2026-07-10 00:48:38</td><td>剪映</td><td>-</td><td>12313</td><td>123132</td><td>-</td>
+                    </tr>
+                    <tr>
+                      <td><span class="check"></span></td><td>1000169</td><td>787979</td><td>已驳回</td><td>请重新完善信息后再提交审核</td><td>未导出</td><td>-</td><td>-</td><td>2026-07-10 00:48:38</td><td>抖音</td><td>-</td><td>23658</td><td>22688</td><td>-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="pagination">
+                <span>共 6 条</span>
+                <div class="page-select"><span>20条/页</span><span>⌄</span></div>
+                <div class="pager">
+                  <button class="page-btn">‹</button>
+                  <button class="page-num">1</button>
+                  <button class="page-btn">›</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          </div>
+        </div>
+
+        <div class="page-shell" data-page="enterprise">
+          <div class="enterprise-page">
+            <div class="enterprise-head">
+              <div class="head-title-group">
+                <div>
+                  <div class="enterprise-title">企业信息</div>
+                  <div class="enterprise-sub">用于代理用户提交相关的企业资料和结算账户信息</div>
+                </div>
+                <button class="btn ghost" id="enterpriseRulesBtn" type="button">需求规则</button>
+              </div>
+              <div class="status-area">
+                <span class="status-chip draft" id="enterpriseStatusChip">未提交</span>
+                <div class="review-actions">
+                  <button class="btn link" id="mockPendingBtn" type="button">演示审核中</button>
+                  <button class="btn link" id="mockRejectBtn" type="button">演示驳回</button>
+                  <button class="btn link" id="mockApproveBtn" type="button">演示通过</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="enterprise-card">
+              <div class="section-block">
+                <div class="section-title">公司信息</div>
+                <div class="field-grid">
+                  <label class="field-item">
+                    <span class="field-label">企业名称</span>
+                    <input class="input" id="companyName" placeholder="请输入企业名称">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">社会编码</span>
+                    <input class="input" id="socialCode" placeholder="请输入统一社会信用代码">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">公司电话</span>
+                    <input class="input" id="companyPhone" placeholder="请输入公司电话">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">公司地址</span>
+                    <input class="input" id="companyAddress" placeholder="请输入公司地址">
+                  </label>
+                  <label class="field-item wide">
+                    <span class="field-label">营业执照</span>
+                    <div class="image-upload">
+                      <div class="preview" id="businessLicensePreview">图片预览</div>
+                      <div class="actions">
+                        <input type="file" id="businessLicenseInput" accept="image/*" hidden>
+                        <button class="btn ghost" id="businessLicenseUploadBtn" type="button">选择图片</button>
+                        <button class="btn" id="businessLicenseClearBtn" type="button">清除</button>
+                        <span class="meta" id="businessLicenseName">未上传营业执照</span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="section-block">
+                <div class="section-title">对公账户信息</div>
+                <div class="field-grid">
+                  <label class="field-item">
+                    <span class="field-label">收款账户名称</span>
+                    <input class="input" id="accountName" placeholder="请输入收款账户名称">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">开户行名称</span>
+                    <input class="input" id="bankName" placeholder="请输入开户行名称">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">支行名称</span>
+                    <input class="input" id="branchName" placeholder="请输入支行名称">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">收款银行帐号</span>
+                    <input class="input" id="bankAccount" placeholder="请输入收款银行帐号">
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">发票类型</span>
+                    <div class="select" id="invoiceType"><span>增值税专用发票</span><span>⌄</span></div>
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">发票税率</span>
+                    <div class="select" id="invoiceRate"><span>3%</span><span>⌄</span></div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="enterprise-statusbar">
+                <div class="status-copy" id="enterpriseCopy">保存后提交审核，审核通过后将锁定信息；审核驳回时可查看原因并重新提交。</div>
+                <div class="review-actions">
+                  <button class="btn ghost" id="resetEnterpriseBtn" type="button">重置</button>
+                  <button class="btn primary" id="submitEnterpriseBtn" type="button">提交审核</button>
+                </div>
+              </div>
+              <div class="rejection-box" id="rejectionBox"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-shell" data-page="settlement">
+          <div class="settlement-page">
+      <div class="settlement-head">
+        <div class="settlement-head-left">
+          <div>
+          <div class="settlement-title">结算中心</div>
+          <div class="settlement-sub">每月1号自动统计上月账单，支持企业用户提现与结算资料上传。</div>
+          </div>
+          <button class="btn ghost" id="settlementRulesBtn" type="button">需求规则</button>
+        </div>
+        <div class="settlement-head-actions">
+          <span class="month-chip" id="settlementMonthChip">2026-08 账单</span>
+          <button class="btn ghost" id="openWithdrawModal" type="button">合并提现</button>
+        </div>
+      </div>
+
+            <div class="settlement-stats">
+              <div class="stat-card">
+                <div class="stat-label">累计收益金额</div>
+                <div class="stat-value" id="sumRevenue">0.00</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">累计服务费</div>
+                <div class="stat-value" id="sumServiceFee">0.00</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">已提现</div>
+                <div class="stat-value green" id="sumWithdrawn">0.00</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">待提现</div>
+                <div class="stat-value orange" id="sumPending">0.00</div>
+              </div>
+            </div>
+
+            <div class="settlement-card">
+              <div class="settlement-note">提现为企业用户提现，提交时需要上传结算单、发票等资料，审核通过后方可打款。</div>
+              <div class="table-wrap settlement-table-wrap">
+                <table>
+                  <colgroup>
+                    <col style="width:128px"><col style="width:168px"><col style="width:128px"><col style="width:110px"><col style="width:128px"><col style="width:114px"><col style="width:280px">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th>账单月份</th>
+                      <th>结算单</th>
+                      <th>收益金额</th>
+                      <th>服务费</th>
+                      <th>应打款金额</th>
+                      <th>提现状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="settlementRows"></tbody>
+                </table>
+              </div>
+              <div class="pagination">
+                <span>共 <span id="settlementCount">0</span> 条</span>
+                <div class="page-select"><span>20条/页</span><span>⌄</span></div>
+                <div class="pager">
+                  <button class="page-btn">‹</button>
+                  <button class="page-num">1</button>
+                  <button class="page-btn">›</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="mask" id="overlay"></div>
+  <aside class="drawer" id="detailDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-title" id="drawerTitle">账单明细</div>
+        <div class="drawer-sub" id="drawerSub">每个项目对应的月结收益</div>
+      </div>
+      <button class="btn small" id="closeDrawerBtn" type="button">关闭</button>
+    </div>
+    <div class="drawer-section">
+      <table class="drawer-table">
+        <colgroup>
+          <col style="width:180px"><col style="width:90px"><col style="width:110px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>项目名称</th>
+            <th>订单量</th>
+            <th>收益金额</th>
+          </tr>
+        </thead>
+      <tbody id="drawerRows"></tbody>
+      </table>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="withdrawRecordDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-title" id="recordDrawerTitle">提现申请详情</div>
+        <div class="drawer-sub" id="recordDrawerSub">查看用户提交的提现申请信息、审核与打款记录</div>
+      </div>
+      <button class="btn small" id="closeRecordDrawerBtn" type="button">关闭</button>
+    </div>
+    <div class="drawer-section">
+      <div class="record-panel">
+        <div class="record-panel-title">申请信息</div>
+        <div class="final-row"><span>申请类型</span><strong id="recordModeText">-</strong></div>
+        <div class="final-row"><span>申请金额</span><strong id="recordAmountText">¥0.00</strong></div>
+        <div class="final-row"><span>结算单</span><strong id="recordSettlementsText">-</strong></div>
+        <div class="final-row"><span>收款账户</span><strong id="recordAccountText">-</strong></div>
+        <div class="final-row"><span>材料文件</span><div class="file-action-group" id="recordFilesText">-</div></div>
+      </div>
+      <div class="record-panel">
+        <div class="record-panel-title">审核状态</div>
+        <div class="final-row"><span>审核状态</span><strong id="recordReviewStatusText">待审核</strong></div>
+        <div class="final-row"><span>驳回原因</span><strong id="recordReviewReasonText">-</strong></div>
+        <div class="final-row"><span>申请时间</span><strong id="recordCreatedAtText">-</strong></div>
+      </div>
+      <div class="record-panel">
+        <div class="record-panel-title">打款状态</div>
+        <div class="final-row"><span>打款状态</span><strong id="recordPayStatusText">待打款</strong></div>
+        <div class="final-row"><span>打款回执</span><div class="file-action-group" id="recordReceiptText">-</div></div>
+        <div class="final-row"><span>打款说明</span><strong id="recordPayNoteText">-</strong></div>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="drawer" id="rulesDrawer" aria-hidden="true">
+    <div class="drawer-head rules-head">
+      <div>
+        <div class="drawer-title" id="rulesDrawerTitle">需求规则</div>
+        <div class="drawer-sub" id="rulesDrawerSub">企业信息与结算中心的规则说明与业务流程</div>
+      </div>
+      <button class="btn small" id="closeRulesDrawerBtn" type="button">关闭</button>
+    </div>
+    <div class="rules-tabs">
+      <button class="rules-tab active" id="rulesTabRules" type="button">需求规则</button>
+      <button class="rules-tab" id="rulesTabFlow" type="button">业务流程</button>
+    </div>
+    <div class="rules-panel active" id="rulesPanelRules">
+      <div id="rulesPanelRulesContent"></div>
+    </div>
+    <div class="rules-panel" id="rulesPanelFlow">
+      <div id="rulesPanelFlowContent"></div>
+    </div>
+  </aside>
+
+  <div class="modal" id="withdrawModal" aria-hidden="true">
+    <div class="withdraw-modal-titlebar">
+      <div class="modal-title">申请提现</div>
+      <button class="btn small" id="closeModalBtn" type="button">×</button>
+    </div>
+    <div class="withdraw-modal-body">
+      <div class="steps">
+        <div class="step active"><span class="num">1</span><span>确认结算单</span></div>
+        <div class="step-line"></div>
+        <div class="step"><span class="num">2</span><span>上传资料</span></div>
+        <div class="step-line"></div>
+        <div class="step"><span class="num">3</span><span>提交申请</span></div>
+      </div>
+
+      <div class="withdraw-summary" id="withdrawSummary">可提现金额 ¥0.00 · 收款账户：-</div>
+      <div class="withdraw-step-panel is-active" id="withdrawStep1">
+        <div class="withdraw-section-title">确认结算单</div>
+        <div class="settlement-confirm-list" id="pendingList"></div>
+        <div class="withdraw-account-box">
+          <div>
+            <div class="withdraw-account-label">收款账户</div>
+            <div class="withdraw-account-value" id="withdrawAccountName">-</div>
+          </div>
+          <div>
+            <div class="withdraw-account-label">收款账号</div>
+            <div class="withdraw-account-value" id="withdrawAccountNo">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="withdraw-step-panel" id="withdrawStep2">
+        <div class="withdraw-section-title">上传资料</div>
+        <div class="upload-grid">
+          <label class="upload-field file-row">
+            <div class="upload-head">
+              <div>
+                <div class="upload-title">结算单</div>
+                <div class="upload-hint">请上传加盖公章的结算单</div>
+              </div>
+              <span class="upload-badge required">必传</span>
+            </div>
+            <div class="file-box">
+              <span class="file-button">选择文件</span>
+              <span class="file-name" id="settlementFileName">未选择任何文件</span>
+              <span class="file-state">待上传</span>
+              <input type="file" id="settlementFile">
+            </div>
+          </label>
+          <label class="upload-field file-row">
+            <div class="upload-head">
+              <div>
+                <div class="upload-title">发票</div>
+                <div class="upload-hint">支持扫描件或清晰照片</div>
+              </div>
+              <span class="upload-badge required">必传</span>
+            </div>
+            <div class="file-box">
+              <span class="file-button">选择文件</span>
+              <span class="file-name" id="invoiceFileName">未选择任何文件</span>
+              <span class="file-state">待上传</span>
+              <input type="file" id="invoiceFile">
+            </div>
+          </label>
+          <label class="upload-field file-row">
+            <div class="upload-head">
+              <div>
+                <div class="upload-title">补充材料</div>
+                <div class="upload-hint">如有补充文件可一并上传</div>
+              </div>
+              <span class="upload-badge optional">可选</span>
+            </div>
+            <div class="file-box">
+              <span class="file-button">选择文件</span>
+              <span class="file-name" id="extraFileName">未选择任何文件</span>
+              <span class="file-state">未上传</span>
+              <input type="file" id="extraFile">
+            </div>
+          </label>
+          <label class="upload-field">
+            <div class="upload-head">
+              <div>
+                <div class="upload-title">提现备注</div>
+                <div class="upload-hint">可填写收款说明或特殊备注</div>
+              </div>
+              <span class="upload-badge optional">可选</span>
+            </div>
+            <input class="input" id="withdrawNote" placeholder="可填写收款说明">
+          </label>
+        </div>
+      </div>
+
+      <div class="withdraw-step-panel" id="withdrawStep3">
+        <div class="withdraw-section-title">提交申请</div>
+        <div class="withdraw-final-card">
+          <div class="final-row"><span>申请类型</span><strong id="finalModeText">-</strong></div>
+          <div class="final-row"><span>提现金额</span><strong id="finalAmountText">¥0.00</strong></div>
+          <div class="final-row"><span>收款账户</span><strong id="finalAccountText">-</strong></div>
+        </div>
+        <div class="withdraw-final-card">
+          <div class="final-row"><span>结算单</span><strong id="finalSettlementsText">-</strong></div>
+          <div class="final-row"><span>结算单文件</span><strong id="finalSettlementFileText">未上传</strong></div>
+          <div class="final-row"><span>发票文件</span><strong id="finalInvoiceFileText">未上传</strong></div>
+          <div class="final-row"><span>补充材料</span><strong id="finalExtraFileText">未上传</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="withdraw-footer">
+      <button class="btn ghost" id="cancelWithdrawBtn" type="button">取消</button>
+      <button class="btn primary" id="submitWithdrawBtn" type="button">下一步</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [...document.querySelectorAll('.page-shell')];
+    const navProject = document.querySelector('[data-target="project"]');
+    const navEnterprise = document.querySelector('[data-target="enterprise"]');
+    const navSettlement = document.querySelector('[data-target="settlement"]');
+    const pageTitle = document.querySelector('.page-title');
+
+    const enterpriseStateKey = 'youbao-enterprise-demo-state';
+    const enterpriseDefaults = {
+      companyName: '',
+      socialCode: '',
+      companyPhone: '',
+      companyAddress: '',
+      businessLicense: { name: '', src: '' },
+      accountName: '',
+      bankName: '',
+      branchName: '',
+      bankAccount: '',
+      invoiceType: '增值税专用发票',
+      invoiceRate: '3%',
+    };
+
+    const enterpriseFields = {
+      companyName: document.getElementById('companyName'),
+      socialCode: document.getElementById('socialCode'),
+      companyPhone: document.getElementById('companyPhone'),
+      companyAddress: document.getElementById('companyAddress'),
+      businessLicense: document.getElementById('businessLicenseInput'),
+      accountName: document.getElementById('accountName'),
+      bankName: document.getElementById('bankName'),
+      branchName: document.getElementById('branchName'),
+      bankAccount: document.getElementById('bankAccount'),
+      invoiceType: document.getElementById('invoiceType'),
+      invoiceRate: document.getElementById('invoiceRate'),
+    };
+
+    const businessLicensePreview = document.getElementById('businessLicensePreview');
+    const businessLicenseName = document.getElementById('businessLicenseName');
+    const businessLicenseUploadBtn = document.getElementById('businessLicenseUploadBtn');
+    const businessLicenseClearBtn = document.getElementById('businessLicenseClearBtn');
+
+    const enterpriseStatusChip = document.getElementById('enterpriseStatusChip');
+    const enterpriseCopy = document.getElementById('enterpriseCopy');
+    const rejectionBox = document.getElementById('rejectionBox');
+    const submitEnterpriseBtn = document.getElementById('submitEnterpriseBtn');
+    const resetEnterpriseBtn = document.getElementById('resetEnterpriseBtn');
+    const mockPendingBtn = document.getElementById('mockPendingBtn');
+    const mockRejectBtn = document.getElementById('mockRejectBtn');
+    const mockApproveBtn = document.getElementById('mockApproveBtn');
+
+    const settlementRowsEl = document.getElementById('settlementRows');
+    const settlementCountEl = document.getElementById('settlementCount');
+    const sumRevenueEl = document.getElementById('sumRevenue');
+    const sumServiceFeeEl = document.getElementById('sumServiceFee');
+    const sumWithdrawnEl = document.getElementById('sumWithdrawn');
+    const sumPendingEl = document.getElementById('sumPending');
+    const settlementMonthChip = document.getElementById('settlementMonthChip');
+    const openWithdrawModalBtn = document.getElementById('openWithdrawModal');
+    const overlay = document.getElementById('overlay');
+    const detailDrawer = document.getElementById('detailDrawer');
+    const drawerRows = document.getElementById('drawerRows');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const drawerSub = document.getElementById('drawerSub');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+    const withdrawRecordDrawer = document.getElementById('withdrawRecordDrawer');
+    const closeRecordDrawerBtn = document.getElementById('closeRecordDrawerBtn');
+    const rulesDrawer = document.getElementById('rulesDrawer');
+    const enterpriseRulesBtn = document.getElementById('enterpriseRulesBtn');
+    const settlementRulesBtn = document.getElementById('settlementRulesBtn');
+    const closeRulesDrawerBtn = document.getElementById('closeRulesDrawerBtn');
+    const rulesTabRules = document.getElementById('rulesTabRules');
+    const rulesTabFlow = document.getElementById('rulesTabFlow');
+    const rulesPanelRules = document.getElementById('rulesPanelRules');
+    const rulesPanelFlow = document.getElementById('rulesPanelFlow');
+    const recordDrawerTitle = document.getElementById('recordDrawerTitle');
+    const recordDrawerSub = document.getElementById('recordDrawerSub');
+    const recordModeText = document.getElementById('recordModeText');
+    const recordAmountText = document.getElementById('recordAmountText');
+    const recordSettlementsText = document.getElementById('recordSettlementsText');
+    const recordAccountText = document.getElementById('recordAccountText');
+    const recordFilesText = document.getElementById('recordFilesText');
+    const recordReviewStatusText = document.getElementById('recordReviewStatusText');
+    const recordReviewReasonText = document.getElementById('recordReviewReasonText');
+    const recordCreatedAtText = document.getElementById('recordCreatedAtText');
+    const recordPayStatusText = document.getElementById('recordPayStatusText');
+    const recordReceiptText = document.getElementById('recordReceiptText');
+    const recordPayNoteText = document.getElementById('recordPayNoteText');
+    const withdrawModal = document.getElementById('withdrawModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelWithdrawBtn = document.getElementById('cancelWithdrawBtn');
+    const submitWithdrawBtn = document.getElementById('submitWithdrawBtn');
+    const settlementFile = document.getElementById('settlementFile');
+    const invoiceFile = document.getElementById('invoiceFile');
+    const extraFile = document.getElementById('extraFile');
+    const withdrawNote = document.getElementById('withdrawNote');
+    const withdrawSummary = document.getElementById('withdrawSummary');
+    const withdrawAccountName = document.getElementById('withdrawAccountName');
+    const withdrawAccountNo = document.getElementById('withdrawAccountNo');
+    const withdrawStep1 = document.getElementById('withdrawStep1');
+    const withdrawStep2 = document.getElementById('withdrawStep2');
+    const withdrawStep3 = document.getElementById('withdrawStep3');
+    const finalModeText = document.getElementById('finalModeText');
+    const finalAmountText = document.getElementById('finalAmountText');
+    const finalAccountText = document.getElementById('finalAccountText');
+    const finalSettlementsText = document.getElementById('finalSettlementsText');
+    const finalSettlementFileText = document.getElementById('finalSettlementFileText');
+    const finalInvoiceFileText = document.getElementById('finalInvoiceFileText');
+    const finalExtraFileText = document.getElementById('finalExtraFileText');
+    const settlementFileName = document.getElementById('settlementFileName');
+    const invoiceFileName = document.getElementById('invoiceFileName');
+    const extraFileName = document.getElementById('extraFileName');
+    const pendingList = document.getElementById('pendingList');
+    const rulesPanelRulesContent = document.getElementById('rulesPanelRulesContent');
+    const rulesPanelFlowContent = document.getElementById('rulesPanelFlowContent');
+    let rulesContext = 'enterprise';
+
+    const settlementData = [
+      {
+        month: '2026-08',
+        settlementNo: 'SET-202608-01',
+        revenue: 128430.50,
+        serviceFee: 6421.53,
+        withdrawn: false,
+        projects: [
+          { name: '小云雀挂载', orders: 2481, revenue: 42310.18 },
+          { name: '小云雀展归', orders: 1762, revenue: 26890.21 },
+          { name: '番茄小说-漫剧', orders: 931, revenue: 18642.11 },
+          { name: '网易云有声书', orders: 653, revenue: 14680.00 },
+          { name: 'CapCut拉失活', orders: 412, revenue: 9124.50 },
+          { name: 'CapCut拉新', orders: 219, revenue: 67783.50 },
+        ],
+      },
+      {
+        month: '2026-07',
+        settlementNo: 'SET-202607-01',
+        revenue: 114218.20,
+        serviceFee: 5710.91,
+        withdrawn: true,
+        projects: [
+          { name: '小云雀挂载', orders: 2340, revenue: 39012.20 },
+          { name: '小云雀展归', orders: 1642, revenue: 25411.00 },
+          { name: '番茄小说-漫剧', orders: 890, revenue: 17250.00 },
+          { name: '网易云有声书', orders: 590, revenue: 13986.00 },
+          { name: 'CapCut拉失活', orders: 380, revenue: 8368.50 },
+          { name: 'CapCut拉新', orders: 208, revenue: 50190.50 },
+        ],
+      },
+      {
+        month: '2026-06',
+        settlementNo: 'SET-202606-01',
+        revenue: 96720.00,
+        serviceFee: 4848.00,
+        withdrawn: true,
+        projects: [
+          { name: '小云雀挂载', orders: 2032, revenue: 32115.00 },
+          { name: '小云雀展归', orders: 1501, revenue: 21424.00 },
+          { name: '番茄小说-漫剧', orders: 742, revenue: 16348.00 },
+          { name: '网易云有声书', orders: 528, revenue: 12250.00 },
+          { name: 'CapCut拉失活', orders: 340, revenue: 7400.00 },
+          { name: 'CapCut拉新', orders: 174, revenue: 43183.00 },
+        ],
+      },
+      {
+        month: '2026-05',
+        settlementNo: 'SET-202605-01',
+        revenue: 82210.00,
+        serviceFee: 4110.50,
+        withdrawn: false,
+        projects: [
+          { name: '小云雀挂载', orders: 1820, revenue: 27110.00 },
+          { name: '小云雀展归', orders: 1245, revenue: 18980.00 },
+          { name: '番茄小说-漫剧', orders: 660, revenue: 14020.00 },
+          { name: '网易云有声书', orders: 421, revenue: 10490.00 },
+          { name: 'CapCut拉失活', orders: 300, revenue: 6250.00 },
+          { name: 'CapCut拉新', orders: 120, revenue: 27510.00 },
+        ],
+      },
+      {
+        month: '2026-04',
+        settlementNo: 'SET-202604-01',
+        revenue: 76840.00,
+        serviceFee: 3842.00,
+        withdrawn: false,
+        projects: [
+          { name: '小云雀挂载', orders: 1680, revenue: 24680.00 },
+          { name: '小云雀展归', orders: 1182, revenue: 17620.00 },
+          { name: '番茄小说-漫剧', orders: 612, revenue: 12840.00 },
+          { name: '网易云有声书', orders: 402, revenue: 9560.00 },
+          { name: 'CapCut拉失活', orders: 275, revenue: 5840.00 },
+          { name: 'CapCut拉新', orders: 108, revenue: 22280.00 },
+        ],
+      },
+      {
+        month: '2026-03',
+        settlementNo: 'SET-202603-01',
+        revenue: 73320.00,
+        serviceFee: 3666.00,
+        withdrawn: false,
+        projects: [
+          { name: '小云雀挂载', orders: 1604, revenue: 23320.00 },
+          { name: '小云雀展归', orders: 1098, revenue: 16650.00 },
+          { name: '番茄小说-漫剧', orders: 590, revenue: 12180.00 },
+          { name: '网易云有声书', orders: 388, revenue: 9020.00 },
+          { name: 'CapCut拉失活', orders: 260, revenue: 5420.00 },
+          { name: 'CapCut拉新', orders: 101, revenue: 20730.00 },
+        ],
+      },
+      {
+        month: '2026-02',
+        settlementNo: 'SET-202602-01',
+        revenue: 68950.00,
+        serviceFee: 3447.50,
+        withdrawn: false,
+        projects: [
+          { name: '小云雀挂载', orders: 1512, revenue: 21450.00 },
+          { name: '小云雀展归', orders: 1042, revenue: 15780.00 },
+          { name: '番茄小说-漫剧', orders: 560, revenue: 11460.00 },
+          { name: '网易云有声书', orders: 364, revenue: 8460.00 },
+          { name: 'CapCut拉失活', orders: 244, revenue: 5080.00 },
+          { name: 'CapCut拉新', orders: 96, revenue: 18220.00 },
+        ],
+      },
+    ];
+
+    let settlementState = {
+      selectedMonth: settlementData[0].month,
+      withdrawMode: 'merge',
+      withdrawStep: 1,
+      selectedMonths: [],
+      selectedPayable: 0,
+    };
+
+    let withdrawApplications = [
+      {
+        id: 'WA-202608-01',
+        mode: 'merge',
+        months: ['2026-08', '2026-05'],
+        amount: 200108.47,
+        status: '已提现',
+        reason: '',
+        payStatus: '已打款',
+        receiptNo: 'RC-202609-001',
+        receiptName: '打款回执单-20260901.pdf',
+        payNote: '2026-09-01 16:20 已完成打款',
+        settlementFile: '结算单-2026-08+2026-05.pdf',
+        invoiceFile: '增值税专用发票.pdf',
+        extraFile: '补充材料.pdf',
+        accountName: '未填写',
+        bankAccount: '未填写',
+        createdAt: '2026-09-01 10:18',
+      },
+      {
+        id: 'WA-202606-01',
+        mode: 'single',
+        months: ['2026-06'],
+        amount: 91872.00,
+        status: '已提现',
+        reason: '',
+        payStatus: '已打款',
+        receiptNo: 'RC-202608-188',
+        receiptName: '打款回执单-20260801.pdf',
+        payNote: '2026-08-01 15:40 已完成打款',
+        settlementFile: '结算单-2026-06.pdf',
+        invoiceFile: '发票-2026-06.pdf',
+        extraFile: '',
+        accountName: '未填写',
+        bankAccount: '未填写',
+        createdAt: '2026-07-01 09:20',
+      },
+      {
+        id: 'WA-202607-01',
+        mode: 'single',
+        months: ['2026-07'],
+        amount: 108507.29,
+        status: '审核中',
+        reason: '',
+        payStatus: '待打款',
+        receiptNo: '',
+        receiptName: '',
+        payNote: '',
+        settlementFile: '结算单-2026-07.pdf',
+        invoiceFile: '发票-2026-07.pdf',
+        extraFile: '',
+        accountName: '未填写',
+        bankAccount: '未填写',
+        createdAt: '2026-08-01 09:42',
+      },
+    ];
+
+    let enterpriseState = loadEnterpriseState();
+
+    function loadEnterpriseState() {
+      try {
+        const raw = localStorage.getItem(enterpriseStateKey);
+        if (!raw) {
+          return { status: 'draft', reason: '', data: { ...enterpriseDefaults } };
+        }
+        const parsed = JSON.parse(raw);
+        return {
+          status: parsed.status || 'draft',
+          reason: parsed.reason || '',
+          data: { ...enterpriseDefaults, ...(parsed.data || {}) },
+        };
+      } catch {
+        return { status: 'draft', reason: '', data: { ...enterpriseDefaults } };
+      }
+    }
+
+    function saveEnterpriseState() {
+      localStorage.setItem(enterpriseStateKey, JSON.stringify(enterpriseState));
+    }
+
+    function setPage(name) {
+      pages.forEach(page => page.classList.toggle('is-active', page.dataset.page === name));
+      navProject.classList.toggle('active', name === 'project');
+      navEnterprise.classList.toggle('active', name === 'enterprise');
+      navSettlement.classList.toggle('active', name === 'settlement');
+      pageTitle.textContent = name === 'project' ? '项目数据' : '企业信息';
+      if (name === 'settlement') pageTitle.textContent = '结算中心';
+    }
+
+    function fillEnterpriseForm(data) {
+      Object.entries(data).forEach(([key, value]) => {
+        if (enterpriseFields[key] && enterpriseFields[key].tagName === 'INPUT' && key !== 'businessLicense') {
+          enterpriseFields[key].value = value;
+        }
+      });
+      enterpriseFields.invoiceType.innerHTML = `<span>${data.invoiceType || enterpriseDefaults.invoiceType}</span><span>⌄</span>`;
+      enterpriseFields.invoiceRate.innerHTML = `<span>${data.invoiceRate || enterpriseDefaults.invoiceRate}</span><span>⌄</span>`;
+      const license = data.businessLicense || enterpriseDefaults.businessLicense;
+      businessLicenseName.textContent = license.name || '未上传营业执照';
+      businessLicensePreview.innerHTML = license.src
+        ? `<img src="${license.src}" alt="营业执照预览">`
+        : '图片预览';
+    }
+
+    function readEnterpriseForm() {
+      return {
+        companyName: enterpriseFields.companyName.value.trim(),
+        socialCode: enterpriseFields.socialCode.value.trim(),
+        companyPhone: enterpriseFields.companyPhone.value.trim(),
+        companyAddress: enterpriseFields.companyAddress.value.trim(),
+        businessLicense: enterpriseState.data.businessLicense || { ...enterpriseDefaults.businessLicense },
+        accountName: enterpriseFields.accountName.value.trim(),
+        bankName: enterpriseFields.bankName.value.trim(),
+        branchName: enterpriseFields.branchName.value.trim(),
+        bankAccount: enterpriseFields.bankAccount.value.trim(),
+        invoiceType: enterpriseFields.invoiceType.querySelector('span').textContent.trim(),
+        invoiceRate: enterpriseFields.invoiceRate.querySelector('span').textContent.trim(),
+      };
+    }
+
+    function setEnterpriseLocked(locked) {
+      Object.entries(enterpriseFields).forEach(([key, el]) => {
+        if (el.tagName === 'INPUT') el.disabled = locked;
+      });
+      [enterpriseFields.invoiceType, enterpriseFields.invoiceRate].forEach(el => {
+        el.classList.toggle('is-disabled', locked);
+      });
+      businessLicenseUploadBtn.disabled = locked;
+      businessLicenseClearBtn.disabled = locked;
+      businessLicenseUploadBtn.classList.toggle('disabled', locked);
+      businessLicenseClearBtn.classList.toggle('disabled', locked);
+    }
+
+    function renderEnterpriseState() {
+      fillEnterpriseForm(enterpriseState.data);
+      setEnterpriseLocked(enterpriseState.status === 'pending' || enterpriseState.status === 'approved');
+      updateWithdrawEntryPoints();
+
+      enterpriseStatusChip.className = `status-chip ${enterpriseState.status}`;
+      const labels = {
+        draft: '未提交',
+        pending: '审核中',
+        approved: '已通过',
+        rejected: '已驳回',
+      };
+      enterpriseStatusChip.textContent = labels[enterpriseState.status] || '未提交';
+
+      if (enterpriseState.status === 'approved') {
+        enterpriseCopy.textContent = '审核已通过，企业资料已锁定，后续不可编辑。';
+        submitEnterpriseBtn.textContent = '已通过';
+        submitEnterpriseBtn.disabled = true;
+      } else if (enterpriseState.status === 'pending') {
+        enterpriseCopy.textContent = '资料已提交，正在审核中。审核通过后将自动锁定，若驳回可查看原因后重新提交。';
+        submitEnterpriseBtn.textContent = '审核中';
+        submitEnterpriseBtn.disabled = true;
+      } else if (enterpriseState.status === 'rejected') {
+        enterpriseCopy.textContent = '审核已驳回，请查看驳回原因并修改后重新提交。';
+        submitEnterpriseBtn.textContent = '重新提交审核';
+        submitEnterpriseBtn.disabled = false;
+      } else {
+        enterpriseCopy.textContent = '保存后提交审核，审核通过后将锁定信息；审核驳回时可查看原因并重新提交。';
+        submitEnterpriseBtn.textContent = '提交审核';
+        submitEnterpriseBtn.disabled = false;
+      }
+
+      if (enterpriseState.status === 'rejected' && enterpriseState.reason) {
+        rejectionBox.classList.add('show');
+        rejectionBox.textContent = `驳回原因：${enterpriseState.reason}`;
+      } else {
+        rejectionBox.classList.remove('show');
+        rejectionBox.textContent = '';
+      }
+    }
+
+    function formatMoney(value) {
+      return Number(value).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function getSettlementMonthData(month) {
+      return settlementData.find(item => item.month === month) || settlementData[0];
+    }
+
+    function isSettlementWithdrawn(month) {
+      return getSettlementWithdrawStatus(month).status === '已提现';
+    }
+
+    function isSettlementPendingWithdraw(month) {
+      return getSettlementWithdrawStatus(month).status === '待提现';
+    }
+
+    function getPendingSettlements() {
+      return settlementData.filter(item => isSettlementPendingWithdraw(item.month));
+    }
+
+    function hasCompleteEnterpriseAccount() {
+      const data = enterpriseState.data || {};
+      return Boolean(
+        enterpriseState.status === 'approved' &&
+        data.companyName &&
+        data.accountName &&
+        data.bankName &&
+        data.branchName &&
+        data.bankAccount &&
+        data.businessLicense &&
+        data.businessLicense.name
+      );
+    }
+
+    function getWithdrawBlockReason(mode, selectedMonths) {
+      if (enterpriseState.status !== 'approved') {
+        return '企业信息需先通过审核，才能发起提现。';
+      }
+      const data = enterpriseState.data || {};
+      if (!data.accountName || !data.bankAccount) {
+        return '请先补全收款账户名称和收款银行帐号。';
+      }
+      if (!data.bankName || !data.branchName) {
+        return '请先补全开户行名称和支行名称。';
+      }
+      if (!data.businessLicense || !data.businessLicense.name) {
+        return '请先上传营业执照。';
+      }
+      if (!selectedMonths.length) {
+        return mode === 'merge' ? '暂无可提现账单。' : '当前账单不可提现。';
+      }
+      if (mode === 'single') {
+        const current = getSettlementMonthData(selectedMonths[0]);
+        if (!isSettlementPendingWithdraw(current.month)) return '当前结算单已提现。';
+      }
+      const pending = getPendingSettlements();
+      if (mode === 'merge' && pending.length === 0) {
+        return '暂无待提现账单。';
+      }
+      return '';
+    }
+
+    function setFileName(input, label) {
+      label.textContent = input.files && input.files.length ? input.files[0].name : '未选择任何文件';
+    }
+
+    function setUploadBoxState(input, label) {
+      const box = input.closest('.file-box');
+      if (!box) return;
+      box.classList.toggle('has-file', !!(input.files && input.files.length));
+      const state = box.querySelector('.file-state');
+      if (state) state.textContent = input.files && input.files.length ? '已上传' : '待上传';
+      if (label) {
+        label.textContent = input.files && input.files.length ? input.files[0].name : '未选择任何文件';
+      }
+    }
+
+    function getWithdrawSelection(mode, month) {
+      const pending = getPendingSettlements();
+      if (mode === 'merge') {
+        return pending.map(item => item.month);
+      }
+      const chosen = getSettlementMonthData(month || settlementState.selectedMonth);
+      return [chosen.month];
+    }
+
+    function getWithdrawItems(selectedMonths) {
+      return selectedMonths.map(month => getSettlementMonthData(month));
+    }
+
+    function renderPendingList(selectedMonths, mode) {
+      const items = getWithdrawItems(selectedMonths);
+      pendingList.innerHTML = items.map(item => {
+        const payable = item.revenue - item.serviceFee;
+        return `
+          <div class="selected-settlement-item">
+            <div class="selected-settlement-main">
+              <div class="selected-settlement-title">${item.settlementNo} · ${item.month} 结算单</div>
+              <div class="selected-settlement-sub">可提金额 ¥${formatMoney(payable)} · 状态：待提现</div>
+            </div>
+            <div class="status-tag pending">${mode === 'merge' ? '纳入合并提现' : '当前结算单'}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function getSelectedPayable(selectedMonths) {
+      return getWithdrawItems(selectedMonths).reduce((sum, item) => sum + (item.revenue - item.serviceFee), 0);
+    }
+
+    function getFileName(input) {
+      return input.files && input.files.length ? input.files[0].name : '未上传';
+    }
+
+    function getWithdrawApplication(mode, months) {
+      const normalizedMonths = [...months];
+      return withdrawApplications.find(item =>
+        item.mode === mode &&
+        item.months.length === normalizedMonths.length &&
+        item.months.every((month, index) => month === normalizedMonths[index])
+      );
+    }
+
+    function getWithdrawApplicationById(id) {
+      return withdrawApplications.find(item => item.id === id);
+    }
+
+    function getLatestWithdrawApplicationForMonth(month) {
+      return [...withdrawApplications].reverse().find(item => item.months.includes(month));
+    }
+
+    function getVisibleWithdrawApplicationForMonth(month) {
+      return [...withdrawApplications].reverse().find(item => item.months.includes(month) && item.status !== '待提现');
+    }
+
+    function getSettlementWithdrawStatus(month) {
+      const application = getLatestWithdrawApplicationForMonth(month);
+      if (!application) return { status: '待提现', className: 'pending', application: null };
+      if (application.status === '已提现') return { status: '已提现', className: 'withdrawn', application };
+      if (application.status === '审核中') return { status: '审核中', className: 'reviewing', application };
+      return { status: '待提现', className: 'pending', application };
+    }
+
+    function renderWithdrawRecordDrawer(application) {
+      const item = application || withdrawApplications[0];
+      const accountName = item.accountName || enterpriseState.data.accountName || '未填写';
+      const bankAccount = item.bankAccount || enterpriseState.data.bankAccount || '未填写';
+      recordDrawerTitle.textContent = `提现申请详情 · ${item.id}`;
+      recordDrawerSub.textContent = `查看用户提交的提现申请信息、审核状态与打款记录`;
+      recordModeText.textContent = item.mode === 'merge' ? '合并提现' : '单笔提现';
+      recordAmountText.textContent = `¥${formatMoney(item.amount)}`;
+      recordSettlementsText.textContent = item.months.join('、');
+      recordAccountText.textContent = `${accountName} ${bankAccount}`;
+      recordFilesText.innerHTML = `
+        <button class="file-view-btn" data-file-action="结算单" type="button" ${item.settlementFile ? '' : 'disabled'}>查看结算单</button>
+        <button class="file-view-btn" data-file-action="发票" type="button" ${item.invoiceFile ? '' : 'disabled'}>查看发票</button>
+        <button class="file-view-btn" data-file-action="补充材料" type="button" ${item.extraFile ? '' : 'disabled'}>查看补充材料</button>
+      `;
+      recordReviewStatusText.textContent = item.status || '待审核';
+      recordReviewReasonText.textContent = item.reason || '无';
+      recordCreatedAtText.textContent = item.createdAt || '-';
+      recordPayStatusText.textContent = item.payStatus || '待打款';
+      recordReceiptText.innerHTML = `<button class="file-view-btn" data-file-action="回执" type="button" ${item.receiptName ? '' : 'disabled'}>查看回执</button>`;
+      recordPayNoteText.textContent = item.payNote || '暂无打款说明';
+      overlay.classList.add('show');
+      withdrawRecordDrawer.classList.add('show');
+    }
+
+    function updateWithdrawApplication(id, patch) {
+      const item = getWithdrawApplicationById(id);
+      if (!item) return null;
+      Object.assign(item, patch);
+      return item;
+    }
+
+    function completeWithdrawApplication(id) {
+      const item = updateWithdrawApplication(id, {
+        status: '已提现',
+        payStatus: '已打款',
+        receiptNo: `RC-${id.slice(-6)}`,
+        receiptName: `打款回执单-${id}.pdf`,
+        payNote: `${new Date().toISOString().slice(0, 10)} 已完成打款`,
+      });
+      if (!item) return null;
+      item.createdAt = item.createdAt || new Date().toISOString().slice(0, 16).replace('T', ' ');
+      return item;
+    }
+
+    function canOpenWithdrawRecord(month) {
+      return Boolean(getVisibleWithdrawApplicationForMonth(month));
+    }
+
+    function updateWithdrawStepUI() {
+      const step = settlementState.withdrawStep;
+      const steps = [...withdrawModal.querySelectorAll('.steps .step')];
+      steps.forEach((node, index) => node.classList.toggle('active', index + 1 <= step));
+      withdrawStep1.classList.toggle('is-active', step === 1);
+      withdrawStep2.classList.toggle('is-active', step === 2);
+      withdrawStep3.classList.toggle('is-active', step === 3);
+
+      if (step === 1) {
+        submitWithdrawBtn.textContent = '下一步';
+        cancelWithdrawBtn.textContent = '取消';
+      } else if (step === 2) {
+        submitWithdrawBtn.textContent = '下一步';
+        cancelWithdrawBtn.textContent = '上一步';
+      } else {
+        submitWithdrawBtn.textContent = '提交申请';
+        cancelWithdrawBtn.textContent = '上一步';
+      }
+    }
+
+    function syncWithdrawSummary() {
+      const selectedMonths = settlementState.selectedMonths;
+      const selectedItems = getWithdrawItems(selectedMonths);
+      const payable = settlementState.selectedPayable;
+      const accountName = enterpriseState.data.accountName || '未填写';
+      const bankAccount = enterpriseState.data.bankAccount || '未填写';
+      withdrawSummary.textContent = `可提现金额 ¥${formatMoney(payable)} · 收款账户：${accountName} ${bankAccount}`;
+      withdrawAccountName.textContent = accountName;
+      withdrawAccountNo.textContent = bankAccount;
+      finalModeText.textContent = settlementState.withdrawMode === 'merge' ? '合并提现' : '单笔提现';
+      finalAmountText.textContent = `¥${formatMoney(payable)}`;
+      finalAccountText.textContent = `${accountName} ${bankAccount}`;
+      finalSettlementsText.textContent = selectedItems.map(item => `${item.month}`).join('、');
+      finalSettlementFileText.textContent = getFileName(settlementFile);
+      finalInvoiceFileText.textContent = getFileName(invoiceFile);
+      finalExtraFileText.textContent = getFileName(extraFile);
+    }
+
+    function renderSettlement() {
+      const rows = settlementData.map(item => {
+        const payable = item.revenue - item.serviceFee;
+        const withdrawState = getSettlementWithdrawStatus(item.month);
+        const statusClass = withdrawState.className;
+        const statusText = withdrawState.status;
+        const canView = canOpenWithdrawRecord(item.month);
+        const canWithdraw = statusText === '待提现';
+        return `
+          <tr>
+            <td>${item.month}</td>
+            <td>${item.settlementNo}</td>
+            <td>${formatMoney(item.revenue)}</td>
+            <td>${formatMoney(item.serviceFee)}</td>
+            <td>${formatMoney(payable)}</td>
+            <td><span class="status-tag ${statusClass}">${statusText}</span></td>
+            <td>
+              <div class="settlement-ops">
+                <button class="btn small" data-action="view" data-month="${item.month}" ${canView ? '' : 'disabled'}>查看</button>
+                <button class="btn small" data-action="download" data-month="${item.month}">下载结算单</button>
+                <button class="btn small" data-action="detail" data-month="${item.month}">查看明细</button>
+                <button class="btn small primary" data-action="withdraw" data-month="${item.month}" ${canWithdraw ? '' : 'disabled'}>提现</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      settlementRowsEl.innerHTML = rows;
+      settlementCountEl.textContent = settlementData.length;
+
+      const totalRevenue = settlementData.reduce((sum, item) => sum + item.revenue, 0);
+      const totalServiceFee = settlementData.reduce((sum, item) => sum + item.serviceFee, 0);
+      const totalWithdrawn = settlementData.filter(item => isSettlementWithdrawn(item.month)).reduce((sum, item) => sum + (item.revenue - item.serviceFee), 0);
+      const totalPending = settlementData.filter(item => isSettlementPendingWithdraw(item.month)).reduce((sum, item) => sum + (item.revenue - item.serviceFee), 0);
+      sumRevenueEl.textContent = formatMoney(totalRevenue);
+      sumServiceFeeEl.textContent = formatMoney(totalServiceFee);
+      sumWithdrawnEl.textContent = formatMoney(totalWithdrawn);
+      sumPendingEl.textContent = formatMoney(totalPending);
+      const latestVisibleMonth = settlementData.find(item => isSettlementPendingWithdraw(item.month)) || settlementData[0];
+      settlementMonthChip.textContent = `${latestVisibleMonth.month} 账单`;
+      updateWithdrawEntryPoints();
+    }
+
+    function renderDrawer(month) {
+      const item = getSettlementMonthData(month);
+      drawerTitle.textContent = `${item.month} 账单明细`;
+      drawerSub.textContent = `${item.settlementNo} · 每个项目对应的月结收益`;
+      drawerRows.innerHTML = item.projects.map(project => `
+        <tr>
+          <td>${project.name}</td>
+          <td>${project.orders}</td>
+          <td>${formatMoney(project.revenue)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function openDrawer(month) {
+      renderDrawer(month);
+      overlay.classList.add('show');
+      detailDrawer.classList.add('show');
+    }
+
+    function openWithdraw(mode, month) {
+      const selectedMonths = getWithdrawSelection(mode, month);
+      const selectedItems = getWithdrawItems(selectedMonths);
+      const payable = getSelectedPayable(selectedMonths);
+      const blockReason = getWithdrawBlockReason(mode, selectedMonths);
+      if (blockReason) {
+        alert(blockReason);
+        return;
+      }
+      settlementState.selectedMonth = selectedMonths[0];
+      settlementState.withdrawMode = mode;
+      settlementState.withdrawStep = 1;
+      settlementState.selectedMonths = selectedMonths;
+      settlementState.selectedPayable = payable;
+      renderPendingList(selectedMonths, mode);
+      syncWithdrawSummary();
+      updateWithdrawStepUI();
+      overlay.classList.add('show');
+      withdrawModal.classList.add('show');
+      withdrawModal.dataset.mode = mode;
+      withdrawModal.dataset.step = '1';
+      submitWithdrawBtn.disabled = selectedItems.length === 0;
+    }
+
+    function resetWithdrawFiles() {
+      settlementFile.value = '';
+      invoiceFile.value = '';
+      extraFile.value = '';
+      withdrawNote.value = '';
+      setUploadBoxState(settlementFile, settlementFileName);
+      setUploadBoxState(invoiceFile, invoiceFileName);
+      setUploadBoxState(extraFile, extraFileName);
+    }
+
+    function goWithdrawStep(step) {
+      settlementState.withdrawStep = step;
+      withdrawModal.dataset.step = String(step);
+      syncWithdrawSummary();
+      updateWithdrawStepUI();
+    }
+
+    function canSubmitWithdraw() {
+      return settlementFile.files && settlementFile.files.length > 0 && invoiceFile.files && invoiceFile.files.length > 0;
+    }
+
+    function submitWithdrawApplication() {
+      const checkedMonths = settlementState.selectedMonths;
+      if (!checkedMonths.length) {
+        alert('请先确认结算单。');
+        return;
+      }
+      const blockReason = getWithdrawBlockReason(settlementState.withdrawMode, checkedMonths);
+      if (blockReason) {
+        alert(blockReason);
+        return;
+      }
+      if (!canSubmitWithdraw()) {
+        alert('请先上传结算单和发票后再继续。');
+        return;
+      }
+      const now = new Date();
+      const createdAt = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      withdrawApplications.unshift({
+        id: `WA-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(Math.floor(Math.random() * 90) + 10)}`,
+        mode: settlementState.withdrawMode,
+        months: [...checkedMonths],
+        amount: settlementState.selectedPayable,
+        status: '审核中',
+        reason: '',
+        payStatus: '待打款',
+        receiptNo: '',
+        receiptName: '',
+        payNote: '',
+        settlementFile: settlementFileName.textContent,
+        invoiceFile: invoiceFileName.textContent,
+        extraFile: extraFileName.textContent,
+        accountName: enterpriseState.data.accountName || '未填写',
+        bankAccount: enterpriseState.data.bankAccount || '未填写',
+        createdAt,
+      });
+      settlementData.forEach(row => {
+        const matched = checkedMonths.includes(row.month);
+        if (matched) row.withdrawn = true;
+      });
+      resetWithdrawFiles();
+      closeOverlays();
+      renderSettlement();
+      alert(settlementState.withdrawMode === 'merge'
+        ? `已提交 ${checkedMonths.length} 笔合并提现申请，等待审核。`
+        : `已提交 ${settlementState.selectedMonth} 提现申请，等待审核。`);
+      updateWithdrawEntryPoints();
+    }
+
+    function updateWithdrawEntryPoints() {
+      const canWithdraw = settlementData.some(item => isSettlementPendingWithdraw(item.month));
+      openWithdrawModalBtn.disabled = !canWithdraw;
+      openWithdrawModalBtn.textContent = '合并提现';
+      openWithdrawModalBtn.title = canWithdraw && !hasCompleteEnterpriseAccount()
+        ? '企业信息审核通过且收款账户完整后可发起提现'
+        : '';
+    }
+
+    function closeOverlays() {
+      overlay.classList.remove('show');
+      detailDrawer.classList.remove('show');
+      withdrawModal.classList.remove('show');
+      withdrawRecordDrawer.classList.remove('show');
+      rulesDrawer.classList.remove('show');
+    }
+
+    function openRulesDrawer(pageName) {
+      rulesContext = pageName || 'enterprise';
+      rulesDrawer.classList.add('show');
+      overlay.classList.add('show');
+      if (rulesContext === 'settlement') {
+        rulesDrawer.querySelector('.drawer-title').textContent = '结算中心需求规则';
+        rulesDrawer.querySelector('.drawer-sub').textContent = '结算中心规则说明与提现业务流程';
+      } else {
+        rulesDrawer.querySelector('.drawer-title').textContent = '企业信息需求规则';
+        rulesDrawer.querySelector('.drawer-sub').textContent = '企业信息规则说明与审核业务流程';
+      }
+      renderRulesDrawerContent();
+      setRulesTab('rules');
+    }
+
+    function setRulesTab(tabName) {
+      const isRules = tabName === 'rules';
+      rulesTabRules.classList.toggle('active', isRules);
+      rulesTabFlow.classList.toggle('active', !isRules);
+      rulesPanelRules.classList.toggle('active', isRules);
+      rulesPanelFlow.classList.toggle('active', !isRules);
+    }
+
+    function renderRulesDrawerContent() {
+      if (rulesContext === 'settlement') {
+        rulesPanelRulesContent.innerHTML = `
+          <div class="rules-block">
+            <div class="rules-block-title">结算中心需求规则</div>
+            <ul class="rules-list">
+              <li>每月1号自动统计上月账单，展示账单月份、结算单、收益金额、服务费、应打款金额和提现状态。</li>
+              <li>提现状态分为待提现、审核中、已提现，状态由提现申请记录驱动。</li>
+              <li>合并提现仅汇总所有待提现账单；单笔提现仅针对当前账单。</li>
+              <li>提现申请必须上传加盖公章的结算单和发票，补充材料为可选项。</li>
+              <li>已提现和审核中的记录可查看申请信息、审核状态、打款状态和回执。</li>
+            </ul>
+          </div>
+        `;
+        rulesPanelFlowContent.innerHTML = `
+          <div class="flow-diagram">
+            <div class="flow-node primary">
+              <div class="flow-node-title">账单自动生成</div>
+              <div class="flow-node-text">每月1号自动统计上月账单，形成待提现 / 审核中 / 已提现状态。</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node">
+              <div class="flow-node-title">选择提现方式</div>
+              <div class="flow-node-text">支持合并提现和单笔提现，系统只允许选择对应范围的账单。</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-branch">
+              <div class="flow-stage">
+                <div class="flow-node secondary">
+                  <div class="flow-node-title">确认结算单</div>
+                  <div class="flow-node-text">自动勾选待提现账单，单笔提现仅显示当前账单。</div>
+                </div>
+                <div class="flow-arrow"></div>
+                <div class="flow-node secondary">
+                  <div class="flow-node-title">上传结算单与发票</div>
+                  <div class="flow-node-text">必须上传加盖公章的结算单和发票，补充材料可选。</div>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-decision">
+              <div class="flow-decision-inner">
+                <div class="flow-decision-title">资料是否完整</div>
+                <div class="flow-decision-text">结算单、发票必传</div>
+              </div>
+            </div>
+            <div class="flow-split">
+              <div class="flow-split-stem"></div>
+              <div class="flow-split-bar"></div>
+              <div class="flow-split-columns">
+                <div class="flow-branch-column">
+                  <div class="flow-branch-label">否</div>
+                  <div class="flow-column-stem"></div>
+                  <div class="flow-node">
+                    <div class="flow-node-title">阻断提交</div>
+                    <div class="flow-node-text">提示补充加盖公章的结算单和发票。</div>
+                  </div>
+                  <div class="flow-branch-tail">
+                    <div class="flow-branch-tail-text">↺ 返回上传资料</div>
+                  </div>
+                </div>
+                <div class="flow-branch-column">
+                  <div class="flow-branch-label">是</div>
+                  <div class="flow-column-stem"></div>
+                  <div class="flow-node primary">
+                    <div class="flow-node-title">提交提现申请</div>
+                    <div class="flow-node-text">状态变更为审核中，提现按钮置灰，可查看申请记录。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-decision">
+              <div class="flow-decision-inner">
+                <div class="flow-decision-title">审核是否通过</div>
+                <div class="flow-decision-text">管理侧处理</div>
+              </div>
+            </div>
+            <div class="flow-split">
+              <div class="flow-split-stem"></div>
+              <div class="flow-split-bar"></div>
+              <div class="flow-split-columns">
+                <div class="flow-branch-column">
+                  <div class="flow-branch-label">驳回</div>
+                  <div class="flow-column-stem"></div>
+                  <div class="flow-node">
+                    <div class="flow-node-title">查看驳回原因</div>
+                    <div class="flow-node-text">保留申请记录，用户按原因补充资料后重新提交。</div>
+                  </div>
+                  <div class="flow-branch-tail">
+                    <div class="flow-branch-tail-text">↺ 返回确认结算单</div>
+                  </div>
+                </div>
+                <div class="flow-branch-column">
+                  <div class="flow-branch-label">通过</div>
+                  <div class="flow-column-stem"></div>
+                  <div class="flow-node secondary">
+                    <div class="flow-node-title">打款完成</div>
+                    <div class="flow-node-text">管理侧上传打款回执，状态更新为已提现。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      rulesPanelRulesContent.innerHTML = `
+        <div class="rules-block">
+          <div class="rules-block-title">企业信息需求规则</div>
+          <ul class="rules-list">
+            <li>企业信息用于代理用户提交企业资料和结算账户信息。</li>
+            <li>公司信息包含企业名称、社会编码、公司电话、公司地址和营业执照图片。</li>
+            <li>对公账户信息包含收款账户名称、开户行名称、支行名称、收款银行帐号、发票类型和发票税率。</li>
+            <li>提交后进入审核中状态，审核通过后信息锁定不可编辑。</li>
+            <li>审核驳回后可查看驳回原因，并支持重新提交。</li>
+          </ul>
+        </div>
+      `;
+      rulesPanelFlowContent.innerHTML = `
+        <div class="flow-diagram">
+          <div class="flow-node primary">
+            <div class="flow-node-title">填写企业资料</div>
+            <div class="flow-node-text">填写企业名称、社会编码、公司电话、公司地址，并上传营业执照图片。</div>
+          </div>
+          <div class="flow-arrow"></div>
+          <div class="flow-node">
+            <div class="flow-node-title">填写对公账户</div>
+            <div class="flow-node-text">补全收款账户名称、开户行名称、支行名称、收款银行帐号、发票类型和发票税率。</div>
+          </div>
+          <div class="flow-arrow"></div>
+          <div class="flow-node primary">
+            <div class="flow-node-title">提交审核</div>
+            <div class="flow-node-text">提交后进入审核中状态，页面锁定编辑入口，等待管理侧审核。</div>
+          </div>
+          <div class="flow-arrow"></div>
+          <div class="flow-decision">
+            <div class="flow-decision-inner">
+              <div class="flow-decision-title">审核是否通过</div>
+              <div class="flow-decision-text">管理侧校验资料</div>
+            </div>
+          </div>
+          <div class="flow-split">
+            <div class="flow-split-stem"></div>
+            <div class="flow-split-bar"></div>
+            <div class="flow-split-columns">
+              <div class="flow-branch-column">
+                <div class="flow-branch-label">否</div>
+                <div class="flow-column-stem"></div>
+                <div class="flow-node">
+                  <div class="flow-node-title">查看驳回原因</div>
+                  <div class="flow-node-text">展示原因，恢复编辑，支持修改后重新提交。</div>
+                </div>
+                <div class="flow-branch-tail">
+                  <div class="flow-branch-tail-text">↺ 返回填写资料</div>
+                </div>
+              </div>
+              <div class="flow-branch-column">
+                <div class="flow-branch-label">是</div>
+                <div class="flow-column-stem"></div>
+                <div class="flow-node secondary">
+                  <div class="flow-node-title">审核通过</div>
+                  <div class="flow-node-text">企业信息锁定，不支持编辑，可进入结算中心发起提现。</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    navProject.addEventListener('click', () => setPage('project'));
+    navEnterprise.addEventListener('click', () => setPage('enterprise'));
+    navSettlement.addEventListener('click', () => setPage('settlement'));
+    document.querySelectorAll('[data-target]').forEach(item => {
+      item.addEventListener('click', () => setPage(item.dataset.target));
+    });
+
+    Object.entries(enterpriseFields).forEach(([key, el]) => {
+      if (el.tagName === 'INPUT') {
+        el.addEventListener('input', () => {
+          if (key === 'businessLicense') return;
+          enterpriseState.data[key] = el.value;
+          saveEnterpriseState();
+        });
+      }
+    });
+
+    businessLicenseUploadBtn.addEventListener('click', () => businessLicenseInput.click());
+    businessLicenseInput.addEventListener('change', () => {
+      const file = businessLicenseInput.files && businessLicenseInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        enterpriseState.data.businessLicense = { name: file.name, src: String(reader.result || '') };
+        saveEnterpriseState();
+        renderEnterpriseState();
+      };
+      reader.readAsDataURL(file);
+    });
+    businessLicenseClearBtn.addEventListener('click', () => {
+      enterpriseState.data.businessLicense = { ...enterpriseDefaults.businessLicense };
+      businessLicenseInput.value = '';
+      saveEnterpriseState();
+      renderEnterpriseState();
+    });
+
+    enterpriseFields.invoiceType.addEventListener('click', () => {
+      enterpriseState.data.invoiceType = '增值税专用发票';
+      saveEnterpriseState();
+      renderEnterpriseState();
+    });
+
+    enterpriseFields.invoiceRate.addEventListener('click', () => {
+      if (enterpriseState.status === 'pending' || enterpriseState.status === 'approved') return;
+      const rates = ['1%', '3%', '6%'];
+      const current = enterpriseState.data.invoiceRate || enterpriseDefaults.invoiceRate;
+      const next = rates[(rates.indexOf(current) + 1) % rates.length];
+      enterpriseState.data.invoiceRate = next;
+      saveEnterpriseState();
+      renderEnterpriseState();
+    });
+
+    submitEnterpriseBtn.addEventListener('click', () => {
+      if (submitEnterpriseBtn.disabled) return;
+      enterpriseState.data = readEnterpriseForm();
+      enterpriseState.status = 'pending';
+      enterpriseState.reason = '';
+      saveEnterpriseState();
+      renderEnterpriseState();
+    });
+
+    resetEnterpriseBtn.addEventListener('click', () => {
+      enterpriseState = { status: 'draft', reason: '', data: { ...enterpriseDefaults } };
+      saveEnterpriseState();
+      renderEnterpriseState();
+    });
+
+    mockPendingBtn.addEventListener('click', () => {
+      enterpriseState.data = readEnterpriseForm();
+      enterpriseState.status = 'pending';
+      enterpriseState.reason = '';
+      saveEnterpriseState();
+      renderEnterpriseState();
+      setPage('enterprise');
+    });
+
+    mockRejectBtn.addEventListener('click', () => {
+      enterpriseState.data = readEnterpriseForm();
+      enterpriseState.status = 'rejected';
+      enterpriseState.reason = '对公账户信息与企业名称不一致，请补充完整后重新提交。';
+      saveEnterpriseState();
+      renderEnterpriseState();
+      setPage('enterprise');
+    });
+
+    mockApproveBtn.addEventListener('click', () => {
+      enterpriseState.data = readEnterpriseForm();
+      enterpriseState.status = 'approved';
+      enterpriseState.reason = '';
+      saveEnterpriseState();
+      renderEnterpriseState();
+      setPage('enterprise');
+    });
+
+    settlementRowsEl.addEventListener('click', event => {
+      const btn = event.target.closest('button[data-action]');
+      if (!btn) return;
+      const { action, month } = btn.dataset;
+      if (action === 'view') {
+        const application = getVisibleWithdrawApplicationForMonth(month);
+        if (!application) {
+          alert('当前账单暂无提现申请记录。');
+          return;
+        }
+        setPage('settlement');
+        renderWithdrawRecordDrawer(application);
+        return;
+      }
+      if (action === 'download') {
+        alert(`${month} 结算单已开始下载`);
+      }
+      if (action === 'detail') {
+        setPage('settlement');
+        openDrawer(month);
+      }
+      if (action === 'withdraw') {
+        setPage('settlement');
+        const item = getSettlementMonthData(month);
+        if (!isSettlementPendingWithdraw(item.month)) {
+          alert('当前结算单已提现。');
+          return;
+        }
+        openWithdraw('single', month);
+      }
+    });
+
+    withdrawRecordDrawer.addEventListener('click', event => {
+      const btn = event.target.closest('[data-file-action]');
+      if (!btn || btn.disabled) return;
+      alert(`${btn.textContent}功能演示`);
+    });
+
+    closeRecordDrawerBtn.addEventListener('click', closeOverlays);
+    enterpriseRulesBtn.addEventListener('click', () => openRulesDrawer('enterprise'));
+    settlementRulesBtn.addEventListener('click', () => openRulesDrawer('settlement'));
+    closeRulesDrawerBtn.addEventListener('click', closeOverlays);
+    rulesTabRules.addEventListener('click', () => setRulesTab('rules'));
+    rulesTabFlow.addEventListener('click', () => setRulesTab('flow'));
+    openWithdrawModalBtn.addEventListener('click', () => {
+      if (!hasCompleteEnterpriseAccount()) {
+        alert('请先补全企业信息、营业执照和对公账户信息并通过审核后再发起提现。');
+        setPage('enterprise');
+        return;
+      }
+      openWithdraw('merge', settlementState.selectedMonth);
+    });
+    closeDrawerBtn.addEventListener('click', closeOverlays);
+    closeModalBtn.addEventListener('click', closeOverlays);
+    overlay.addEventListener('click', closeOverlays);
+
+    submitWithdrawBtn.addEventListener('click', () => {
+      const step = settlementState.withdrawStep;
+      if (step === 1) {
+        goWithdrawStep(2);
+        return;
+      }
+      if (step === 2) {
+        if (!canSubmitWithdraw()) {
+          alert('请先上传结算单和发票后再继续。');
+          return;
+        }
+        goWithdrawStep(3);
+        return;
+      }
+      submitWithdrawApplication();
+    });
+
+    cancelWithdrawBtn.addEventListener('click', () => {
+      if (settlementState.withdrawStep === 1) {
+        closeOverlays();
+        return;
+      }
+      goWithdrawStep(settlementState.withdrawStep - 1);
+    });
+
+    settlementFile.addEventListener('change', () => setUploadBoxState(settlementFile, settlementFileName));
+    invoiceFile.addEventListener('change', () => setUploadBoxState(invoiceFile, invoiceFileName));
+    extraFile.addEventListener('change', () => setUploadBoxState(extraFile, extraFileName));
+
+    document.querySelectorAll('.project-row').forEach(row => {
+      row.addEventListener('click', () => {
+        document.querySelectorAll('.project-row').forEach(item => item.classList.remove('active'));
+        row.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(item => item.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+
+    setPage('project');
+    renderEnterpriseState();
+    renderSettlement();
+    renderRulesDrawerContent();
+    setUploadBoxState(settlementFile, settlementFileName);
+    setUploadBoxState(invoiceFile, invoiceFileName);
+    setUploadBoxState(extraFile, extraFileName);
+    updateWithdrawEntryPoints();
+  </script>
+</body>
+</html>
