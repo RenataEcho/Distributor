@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>右豹代理后台 - 项目数据 Demo</title>
+  <title>右豹代理后台</title>
   <style>
     :root {
       --nav: #13202a;
@@ -261,6 +261,7 @@
 
     .page-shell.is-active {
       display: flex;
+      flex-direction: column;
     }
 
     .project-page {
@@ -378,6 +379,7 @@
       border-radius: 5px;
       font-size: 11px;
       font-weight: 500;
+      cursor: pointer;
     }
 
     .project-main {
@@ -395,7 +397,15 @@
       height: 62px;
       flex: 0 0 62px;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tabs-main {
+      display: flex;
       align-items: flex-start;
+      min-width: 0;
     }
 
     .tab {
@@ -627,6 +637,8 @@
 
     .enterprise-page {
       width: 100%;
+      min-height: 0;
+      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -723,6 +735,42 @@
       color: #3a4a58;
       font-size: 13px;
       font-weight: 500;
+    }
+
+    .field-label .req {
+      color: #dc2626;
+      margin-left: 2px;
+    }
+
+    .field-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .file-upload-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 38px;
+    }
+
+    .file-upload-row .btn {
+      height: 32px;
+      min-width: 72px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .file-upload-row .meta {
+      color: #8b95a5;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 100%;
     }
 
     .field-item .input,
@@ -866,6 +914,8 @@
 
     .settlement-page {
       width: 100%;
+      min-height: 0;
+      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -971,6 +1021,42 @@
       line-height: 1.5;
     }
 
+    .settlement-note-strong {
+      color: #1f2d3a;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .settlement-note-strong strong {
+      color: #dc2626;
+      font-weight: 700;
+    }
+
+    .drawer-calc-note {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #f7f9fc;
+      border: 1px solid #edf1f5;
+      color: #4c6075;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .drawer-calc-note strong {
+      color: #dc2626;
+    }
+
+    .drawer-total {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: #1f2d3a;
+      font-weight: 700;
+    }
+
     .settlement-table-wrap table {
       min-width: 1080px;
       width: 100%;
@@ -1058,8 +1144,12 @@
     }
 
     #rulesDrawer {
-      width: 680px;
+      width: 520px;
       padding: 18px 22px 16px;
+    }
+
+    #detailDrawer {
+      width: 560px;
     }
 
     .modal {
@@ -1122,37 +1212,9 @@
       gap: 10px;
     }
 
-    .rules-tabs {
-      display: flex;
-      gap: 8px;
-      margin-top: 14px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #edf1f5;
-    }
-
-    .rules-tab {
-      height: 30px;
-      padding: 0 12px;
-      border-radius: 999px;
-      border: 1px solid #dfe5ec;
-      background: #fff;
-      color: #4c6075;
-      cursor: pointer;
-    }
-
-    .rules-tab.active {
-      background: #2f5c8a;
-      border-color: #2f5c8a;
-      color: #fff;
-    }
-
     .rules-panel {
-      display: none;
-      padding-top: 14px;
-    }
-
-    .rules-panel.active {
       display: block;
+      padding-top: 16px;
     }
 
     .rules-block + .rules-block {
@@ -1176,321 +1238,193 @@
     }
 
     .rules-list li + li {
-      margin-top: 2px;
-    }
-
-    .rules-flow {
-      display: grid;
-      gap: 10px;
-    }
-
-    .flow-diagram {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      padding: 4px 0 2px;
-    }
-
-    .flow-node {
-      position: relative;
-      width: min(100%, 320px);
-      border-radius: 12px;
-      border: 1px solid #cfd8e3;
-      background: #f7fbff;
-      box-shadow: inset 0 0 0 1px rgba(47,92,138,.03);
-      padding: 12px 14px;
-      text-align: center;
-    }
-
-    .flow-node.primary {
-      background: #eff7ff;
-      border-color: #7aa6df;
-      width: min(100%, 360px);
-    }
-
-    .flow-node.secondary {
-      background: #f5fff5;
-      border-color: #9ed2a0;
-    }
-
-    .flow-node-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #1f2d3a;
-      line-height: 1.4;
-    }
-
-    .flow-node-text {
       margin-top: 4px;
+    }
+
+    .rules-list ul {
+      margin: 6px 0 0;
+      padding-left: 18px;
+    }
+
+    .rules-pointer {
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #f7f9fc;
+      border: 1px solid #edf1f5;
       color: #5a7080;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .flow-arrow {
-      width: 2px;
-      height: 16px;
-      background: linear-gradient(180deg, #7aa6df, #cfd8e3);
-      position: relative;
-    }
-
-    .flow-arrow::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -2px;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid #7aa6df;
-    }
-
-    .flow-branch {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .flow-branch-line {
-      flex: 1;
-      height: 2px;
-      background: #7aa6df;
-      position: relative;
-    }
-
-    .flow-branch-line::after {
-      content: "";
-      position: absolute;
-      right: -1px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-      border-left: 8px solid #7aa6df;
-    }
-
-    .flow-stage {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .flow-decision {
-      width: 128px;
-      height: 128px;
-      position: relative;
-      transform: rotate(45deg);
-      border: 1px solid #f0c78a;
-      background: #fff9ef;
-      margin: 2px 0;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-
-    .flow-decision .flow-decision-inner {
-      transform: rotate(-45deg);
-      text-align: center;
-      width: 100px;
-    }
-
-    .flow-decision-title {
       font-size: 13px;
-      font-weight: 700;
-      color: #8a5a13;
-      line-height: 1.4;
+      line-height: 1.6;
     }
 
-    .flow-decision-text {
-      margin-top: 4px;
-      font-size: 12px;
-      color: #9a6b21;
-      line-height: 1.45;
-    }
-
-    .flow-split {
-      width: 100%;
+    .page-tabs {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-
-    .flow-split-stem {
-      width: 2px;
-      height: 16px;
-      background: #7aa6df;
-      position: relative;
-    }
-
-    .flow-split-stem::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -1px;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid #7aa6df;
-    }
-
-    .flow-split-bar {
-      width: 420px;
-      height: 2px;
-      background: #7aa6df;
-      position: relative;
-      margin-top: 1px;
-    }
-
-    .flow-split-bar::before,
-    .flow-split-bar::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-    }
-
-    .flow-split-bar::before {
-      left: -1px;
-      border-right: 8px solid #7aa6df;
-    }
-
-    .flow-split-bar::after {
-      right: -1px;
-      border-left: 8px solid #7aa6df;
-    }
-
-    .flow-split-columns {
-      width: 520px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-      padding-top: 0;
-      align-items: start;
-    }
-
-    .flow-branch-column {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-      min-width: 0;
-    }
-
-    .flow-column-stem {
-      width: 2px;
-      height: 18px;
-      background: #7aa6df;
-      position: relative;
-      margin: 0 auto;
-    }
-
-    .flow-column-stem::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -2px;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid #7aa6df;
-    }
-
-    .flow-branch-column .flow-node {
-      width: 100%;
-    }
-
-    .flow-branch-path {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .flow-branch-label {
-      font-size: 12px;
-      color: #8b95a5;
-      height: 20px;
-      line-height: 20px;
-    }
-
-    .flow-branch-return {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 4px;
-    }
-
-    .flow-return-line {
-      width: 2px;
-      height: 30px;
-      background: #7487a8;
-      position: relative;
-    }
-
-    .flow-return-line::before {
-      content: "";
-      position: absolute;
-      top: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 8px solid #7487a8;
-    }
-
-    .flow-return-line::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 8px solid #7487a8;
-    }
-
-    .flow-branch-tail {
-      display: flex;
-      flex-direction: column;
       align-items: center;
       gap: 4px;
-      margin-top: 4px;
+      padding: 0 4px;
+      border-bottom: 1px solid #edf1f5;
     }
 
-    .flow-branch-tail-text {
-      color: #7487a8;
-      font-size: 12px;
-      line-height: 1;
-    }
-
-    .flow-item {
-      border: 1px solid #e6ebf0;
-      border-radius: 8px;
-      padding: 12px 14px;
-      background: #fafcff;
-    }
-
-    .flow-item-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #1f2d3a;
-      margin-bottom: 4px;
-    }
-
-    .flow-item-text {
+    .page-tab {
+      height: 36px;
+      padding: 0 14px;
+      border: 0;
+      background: transparent;
       color: #5a7080;
-      line-height: 1.6;
-      font-size: 13px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .page-tab.active {
+      color: #2f5c8a;
+      font-weight: 600;
+    }
+
+    .page-tab.active::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: -1px;
+      height: 2px;
+      background: #2f5c8a;
+    }
+
+    .page-tab-panel {
+      display: none;
+      min-height: 0;
+      flex: 1;
+    }
+
+    .page-tab-panel.active {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .page-tab-panel.active .enterprise-card,
+    .page-tab-panel.active .settlement-card {
+      width: 100%;
+    }
+
+    .flow-board {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 14px 16px 12px;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+    }
+
+    .flow-tab-bar {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-bottom: 12px;
+    }
+
+    .flow-tab {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid #dfe5ec;
+      background: #fff;
+      color: #4c6075;
+      cursor: pointer;
+    }
+
+    .flow-tab.active {
+      background: #2f5c8a;
+      border-color: #2f5c8a;
+      color: #fff;
+    }
+
+    .flow-svg-wrap {
+      overflow: auto;
+      max-height: 72vh;
+      flex: 1;
+      min-height: 0;
+      background: #fbfcfe;
+      border: 1px solid #eef2f6;
+      border-radius: 8px;
+    }
+
+    .flow-svg-wrap svg {
+      display: block;
+      font-family: inherit;
+    }
+
+    .flow-panel {
+      display: none;
+    }
+
+    .flow-panel.active {
+      display: block;
+    }
+
+    .flow-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 22px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #edf1f5;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .flow-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flow-legend-swatch {
+      width: 14px;
+      height: 10px;
+      border-radius: 2px;
+      border: 1px solid #cfd8e3;
+      background: #f7fbff;
+      flex-shrink: 0;
+    }
+
+    .flow-legend-swatch.diamond {
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      border-radius: 1px;
+      background: #fff9ef;
+      border-color: #f0c78a;
+    }
+
+    .flow-legend-swatch.line-yes {
+      height: 2px;
+      width: 18px;
+      border: 0;
+      background: #3d9a4a;
+    }
+
+    .flow-legend-swatch.line-no {
+      height: 2px;
+      width: 18px;
+      border: 0;
+      background: #d4534c;
+    }
+
+    .flow-legend-swatch.line-dash {
+      height: 0;
+      width: 18px;
+      border: 0;
+      border-top: 2px dashed #7aa6df;
+      background: transparent;
+      border-radius: 0;
     }
 
     .withdraw-step-panel {
@@ -1942,6 +1876,831 @@
       gap: 10px;
     }
 
+    #projectDetailModal {
+      width: 840px;
+      max-height: 85vh;
+      overflow: hidden;
+    }
+
+    #projectDetailModal.show {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-detail-body {
+      padding: 8px 24px 4px;
+      overflow: auto;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .project-detail-section {
+      padding: 16px 0 18px;
+    }
+
+    .project-detail-section + .project-detail-section {
+      border-top: 1px solid #eef1f5;
+    }
+
+    .project-detail-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 12px;
+    }
+
+    .project-detail-fields {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px 24px;
+    }
+
+    .project-detail-label {
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .project-detail-value {
+      color: #1f2d3a;
+      font-size: 14px;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    .project-detail-value.is-link {
+      color: #2f5c8a;
+    }
+
+    .project-icon-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: #111827;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .project-icon-box svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .price-hint {
+      margin: 0 0 10px;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .price-table-wrap {
+      border: 1px solid #eef1f5;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    #projectDetailModal .price-table {
+      width: 100%;
+      min-width: 0;
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-size: 13px;
+      color: #1f2d3a;
+    }
+
+    #projectDetailModal .price-table thead tr {
+      height: 40px;
+      background: #f7f8fa;
+    }
+
+    #projectDetailModal .price-table th,
+    #projectDetailModal .price-table td {
+      height: auto;
+      min-height: 40px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #eef1f5;
+      text-align: left;
+      font-weight: 400;
+      overflow: hidden;
+    }
+
+    #projectDetailModal .price-table th {
+      color: #667085;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    #projectDetailModal .price-table td {
+      color: #1f2d3a;
+      vertical-align: middle;
+    }
+
+    #projectDetailModal .price-table tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    #projectDetailModal .price-table tbody tr:nth-child(4) {
+      background: transparent;
+    }
+
+    #projectDetailModal .price-table .col-desc {
+      white-space: normal;
+      color: #667085;
+      line-height: 1.5;
+    }
+
+    .price-value,
+    .price-empty {
+      display: inline-flex;
+      align-items: center;
+      min-width: 72px;
+      height: 28px;
+      padding: 0 8px;
+      border: 1px solid #e4e7ed;
+      border-radius: 6px;
+      background: #f7f8fa;
+      font-weight: 600;
+      color: #1f2d3a;
+    }
+
+    .price-empty {
+      color: #9aa5b4;
+      font-weight: 400;
+    }
+
+    .project-detail-value a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .price-foot {
+      margin: 10px 0 0;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .doc-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .doc-tab {
+      height: 30px;
+      padding: 0 12px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: #5a7080;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .doc-tab.active {
+      background: #eef5ff;
+      border-color: #b7d4f5;
+      color: #2f5c8a;
+      font-weight: 600;
+    }
+
+    .doc-panel {
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: #f7f8fa;
+      color: #1f2d3a;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .doc-panel ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .doc-panel li + li {
+      margin-top: 4px;
+    }
+
+    .doc-warn {
+      color: #dc2626;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .notice-bell-wrap {
+      position: relative;
+    }
+
+    .notice-bell {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #e6ebf0;
+      border-radius: 8px;
+      background: #fff;
+      color: #4a5568;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .notice-bell:hover {
+      border-color: #c8d5e2;
+      color: var(--primary);
+    }
+
+    .notice-bell svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .notice-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: #dc2626;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      display: none;
+      place-items: center;
+      line-height: 1;
+    }
+
+    .notice-badge.show {
+      display: grid;
+    }
+
+    .notice-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 360px;
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(31,45,58,.16);
+      display: none;
+      z-index: 30;
+      overflow: hidden;
+    }
+
+    .notice-dropdown.show {
+      display: block;
+    }
+
+    .notice-dropdown-head {
+      height: 44px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eef1f5;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .notice-dropdown-link {
+      border: none;
+      background: none;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .notice-dropdown-list {
+      max-height: 320px;
+      overflow: auto;
+    }
+
+    .notice-dropdown-item {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: #fff;
+      padding: 12px 14px;
+      border-bottom: 1px solid #f3f5f7;
+      cursor: pointer;
+    }
+
+    .notice-dropdown-item:hover {
+      background: #f7f9fc;
+    }
+
+    .notice-dropdown-item.is-unread {
+      background: #f8fbff;
+    }
+
+    .notice-dropdown-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2d3a;
+      margin-bottom: 4px;
+    }
+
+    .notice-dropdown-desc {
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .notice-dropdown-time {
+      margin-top: 6px;
+      color: #9aa5b4;
+      font-size: 11px;
+    }
+
+    .workbench-page {
+      width: 100%;
+      min-height: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .workbench-welcome {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+    }
+
+    .workbench-hello {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2d3a;
+    }
+
+    .workbench-hello-sub {
+      margin-top: 6px;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .workbench-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .workbench-split {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .workbench-insight {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 18px 18px 12px;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .workbench-insight-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .workbench-insight-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f2d3a;
+    }
+
+    .workbench-insight-sub {
+      margin-top: 4px;
+      color: #8b95a5;
+      font-size: 12px;
+    }
+
+    .insight-periods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .insight-period {
+      height: 28px;
+      padding: 0 12px;
+      border: 1px solid #e6ebf0;
+      border-radius: 999px;
+      background: #fff;
+      color: #4a5568;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .insight-period.active {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: var(--primary);
+    }
+
+    .workbench-insight-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .workbench-insight-metrics .stat-card {
+      background: #f7f9fc;
+      box-shadow: none;
+    }
+
+    .insight-table-wrap {
+      min-height: 0;
+      max-height: calc(40px * 6);
+      overflow: auto;
+      overscroll-behavior: contain;
+      border: 1px solid #edf1f5;
+      border-radius: 8px;
+    }
+
+    .insight-table-wrap table {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .insight-table-wrap thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f6f8fb;
+    }
+
+    .notice-board {
+      background: #fff;
+      border: 1px solid #e9edf1;
+      border-radius: 10px;
+      padding: 18px 18px 8px;
+      box-shadow: 0 10px 28px rgba(31,45,58,.03);
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notice-board-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .notice-board-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f2d3a;
+    }
+
+    .notice-board-sub {
+      margin-top: 4px;
+      color: #8b95a5;
+      font-size: 12px;
+    }
+
+    .notice-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .notice-filter {
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid #e6ebf0;
+      border-radius: 999px;
+      background: #fff;
+      color: #4a5568;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .notice-filter.active {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: var(--primary);
+    }
+
+    .notice-list {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      max-height: calc(76px * 5);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .notice-item {
+      width: 100%;
+      min-height: 76px;
+      box-sizing: border-box;
+      text-align: left;
+      border: none;
+      border-top: 1px solid #f0f2f5;
+      background: #fff;
+      padding: 12px 4px;
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr) 120px;
+      gap: 10px;
+      align-items: start;
+      cursor: pointer;
+    }
+
+    .notice-item:hover {
+      background: #f8fbff;
+    }
+
+    .notice-dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: transparent;
+    }
+
+    .notice-item.is-unread .notice-dot {
+      background: #2563eb;
+    }
+
+    .notice-item-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .notice-item-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2d3a;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .notice-item-desc {
+      margin-top: 6px;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.6;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .notice-item-time {
+      color: #9aa5b4;
+      font-size: 12px;
+      text-align: right;
+      padding-top: 2px;
+      white-space: nowrap;
+    }
+
+    .notice-type {
+      height: 20px;
+      padding: 0 7px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      width: fit-content;
+    }
+
+    .notice-type.system { background: #fffbeb; color: #92400e; }
+    .notice-type.platform { background: #ecfeff; color: #0891b2; }
+
+    .notice-empty {
+      padding: 36px 0 28px;
+      text-align: center;
+      color: #8b95a5;
+      font-size: 13px;
+    }
+
+    #noticeModal {
+      width: 640px;
+    }
+
+    #noticeModal.show {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notice-modal-body {
+      padding: 18px 24px 8px;
+      overflow: auto;
+      max-height: min(62vh, 560px);
+    }
+
+    .notice-modal-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .notice-modal-time {
+      color: #9aa5b4;
+      font-size: 12px;
+    }
+
+    .notice-modal-desc {
+      color: #4a5568;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0 0 12px;
+    }
+
+    .notice-modal-detail {
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #f7f9fc;
+      border: 1px solid #edf1f5;
+      color: #1f2d3a;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .notice-modal-detail p {
+      margin: 0 0 8px;
+    }
+
+    .notice-modal-detail p:last-child {
+      margin-bottom: 0;
+    }
+
+    .notice-modal-detail ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .notice-media {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .notice-media[hidden] {
+      display: none;
+    }
+
+    .notice-media-item {
+      margin: 0;
+    }
+
+    .notice-media-img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid #e9edf1;
+      background: #fff;
+      cursor: zoom-in;
+    }
+
+    .notice-media-caption {
+      margin-top: 6px;
+      color: #8b95a5;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .notice-file {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e9edf1;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .notice-file-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .notice-file-icon svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .notice-file-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .notice-file-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2d3a;
+    }
+
+    .notice-file-meta {
+      margin-top: 2px;
+      color: #8b95a5;
+      font-size: 12px;
+    }
+
+    .notice-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(0,0,0,.55);
+      display: none;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .notice-lightbox.show {
+      display: grid;
+    }
+
+    .notice-lightbox img {
+      max-width: min(920px, 90vw);
+      max-height: 78vh;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 22px 48px rgba(31,45,58,.28);
+    }
+
+    .notice-lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 22px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255,255,255,.92);
+      color: #1f2d3a;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .notice-lightbox-caption {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 13px;
+      text-align: center;
+      max-width: 80vw;
+    }
+
     @media (max-width: 900px) {
       .app {
         min-width: 760px;
@@ -1951,6 +2710,10 @@
       .brand { padding-left: 14px; }
       .nav-item { width: 166px; padding-left: 32px; }
       .project-side { width: 220px; flex-basis: 220px; }
+      .workbench-stats,
+      .workbench-insight-metrics {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -1974,7 +2737,13 @@
       </div>
 
       <ul class="nav">
-        <li class="nav-item active" data-target="project">
+        <li class="nav-item active" data-target="workbench">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.4"/><rect x="13" y="4" width="7" height="7" rx="1.4"/><rect x="4" y="13" width="7" height="7" rx="1.4"/><rect x="13" y="13" width="7" height="7" rx="1.4"/></svg>
+          </span>
+          工作台
+        </li>
+        <li class="nav-item secondary" data-target="project">
           <span class="icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="12" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg>
           </span>
@@ -1999,16 +2768,56 @@
 
     <div class="workspace">
       <header class="topbar">
-        <div class="page-title">项目数据</div>
-        <div class="user">
-          <div class="avatar">赚</div>
-          <span>赚大钱</span>
-          <span style="color:#9aa3ae;">⌄</span>
+        <div class="page-title">工作台</div>
+        <div class="topbar-right">
+          <div class="notice-bell-wrap">
+            <button class="notice-bell" id="noticeBellBtn" type="button" title="消息通知">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 16V11a6 6 0 1 1 12 0v5"/><path d="M5 16h14"/><path d="M10 19a2 2 0 0 0 4 0"/></svg>
+              <span class="notice-badge" id="noticeBadge">0</span>
+            </button>
+            <div class="notice-dropdown" id="noticeDropdown">
+              <div class="notice-dropdown-head">
+                <span>消息通知</span>
+                <button class="notice-dropdown-link" id="noticeGoWorkbench" type="button">查看全部</button>
+              </div>
+              <div class="notice-dropdown-list" id="noticeDropdownList"></div>
+            </div>
+          </div>
+          <div class="user">
+            <div class="avatar">赚</div>
+            <span>赚大钱</span>
+            <span style="color:#9aa3ae;">⌄</span>
+          </div>
         </div>
       </header>
 
       <main class="content">
-        <div class="page-shell is-active" data-page="project">
+        <div class="page-shell is-active" data-page="workbench">
+          <div class="workbench-page">
+            <section class="workbench-welcome">
+              <div>
+                <div class="workbench-hello">欢迎回来，赚大钱</div>
+                <div class="workbench-hello-sub">查看授权项目数据统计，并处理系统提示与平台通知。</div>
+              </div>
+            </section>
+            <section class="workbench-stats" id="workbenchStats"></section>
+            <section class="workbench-split">
+            <section class="workbench-insight" id="workbenchInsight"></section>
+            <section class="notice-board">
+              <div class="notice-board-head">
+                <div>
+                  <div class="notice-board-title">消息通知</div>
+                  <div class="notice-board-sub" id="noticeBoardSub">展示标题、描述与时间，点击查看详情</div>
+                </div>
+                <div class="notice-filters" id="noticeFilters"></div>
+              </div>
+              <div class="notice-list" id="noticeList"></div>
+            </section>
+            </section>
+          </div>
+        </div>
+
+        <div class="page-shell" data-page="project">
           <div class="project-page">
           <aside class="project-side">
             <div class="project-search">
@@ -2027,9 +2836,12 @@
 
           <section class="project-main">
             <div class="tabs">
-              <div class="tab active">提词</div>
-              <div class="tab">作品</div>
-              <div class="tab">订单</div>
+              <div class="tabs-main">
+                <div class="tab active">提词</div>
+                <div class="tab">作品</div>
+                <div class="tab">订单</div>
+              </div>
+              <button class="btn ghost" id="projectRulesBtn" type="button">需求规则</button>
             </div>
 
             <div class="panel">
@@ -2144,7 +2956,11 @@
                 </div>
               </div>
             </div>
-
+            <div class="page-tabs" data-workspace-tabs="enterprise">
+              <button class="page-tab active" type="button" data-workspace-tab="main">企业资料</button>
+              <button class="page-tab" type="button" data-workspace-tab="flow">业务流程</button>
+            </div>
+            <div class="page-tab-panel active" data-workspace-panel="main">
             <div class="enterprise-card">
               <div class="section-block">
                 <div class="section-title">公司信息</div>
@@ -2210,6 +3026,28 @@
                 </div>
               </div>
 
+              <div class="section-block">
+                <div class="section-title">合同信息</div>
+                <div class="field-grid">
+                  <label class="field-item wide">
+                    <span class="field-label-row">
+                      <span class="field-label">合同附件<span class="req">*</span></span>
+                      <button class="btn link" id="downloadContractBtn" type="button">下载合同</button>
+                    </span>
+                    <div class="file-upload-row">
+                      <input type="file" id="contractFileInput" accept=".pdf,.doc,.docx,image/*" hidden>
+                      <button class="btn ghost" id="contractUploadBtn" type="button">上传附件</button>
+                      <button class="btn" id="contractClearBtn" type="button">清除</button>
+                      <span class="meta" id="contractFileName">未上传合同附件</span>
+                    </div>
+                  </label>
+                  <label class="field-item">
+                    <span class="field-label">合同快递单号<span class="req">*</span></span>
+                    <input class="input" id="contractExpressNo" placeholder="请输入合同快递单号">
+                  </label>
+                </div>
+              </div>
+
               <div class="enterprise-statusbar">
                 <div class="status-copy" id="enterpriseCopy">保存后提交审核，审核通过后将锁定信息；审核驳回时可查看原因并重新提交。</div>
                 <div class="review-actions">
@@ -2218,6 +3056,62 @@
                 </div>
               </div>
               <div class="rejection-box" id="rejectionBox"></div>
+            </div>
+            </div>
+            <div class="page-tab-panel" data-workspace-panel="flow">
+              <div class="flow-board">
+                <div class="flow-svg-wrap">
+                  <svg width="760" height="560" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg" aria-label="企业信息审核业务流程">
+                    <defs>
+                      <marker id="flow-arrow-e1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0,0.8 L8,4 L0,7.2 Z" fill="#7aa6df"/>
+                      </marker>
+                      <marker id="flow-arrow-e1-yes" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0,0.8 L8,4 L0,7.2 Z" fill="#3d9a4a"/>
+                      </marker>
+                      <marker id="flow-arrow-e1-no" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0,0.8 L8,4 L0,7.2 Z" fill="#d4534c"/>
+                      </marker>
+                    </defs>
+                    <g class="flow-edges">
+                      <line x1="380" y1="98" x2="380" y2="130" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-e1)"/>
+                      <line x1="380" y1="188" x2="380" y2="220" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-e1)"/>
+                      <line x1="380" y1="278" x2="380" y2="308" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-e1)"/>
+                      <line x1="308" y1="380" x2="240" y2="380" stroke="#d4534c" stroke-width="1.6" marker-end="url(#flow-arrow-e1-no)"/>
+                      <line x1="452" y1="380" x2="520" y2="380" stroke="#3d9a4a" stroke-width="1.6" marker-end="url(#flow-arrow-e1-yes)"/>
+                      <polyline points="40,380 22,380 22,22 380,22 380,40" fill="none" stroke="#d4534c" stroke-width="1.6" marker-end="url(#flow-arrow-e1-no)"/>
+                      <text x="268" y="368" text-anchor="middle" fill="#d4534c" font-size="11" font-weight="700">否</text>
+                      <text x="492" y="368" text-anchor="middle" fill="#3d9a4a" font-size="11" font-weight="700">是</text>
+                    </g>
+                    <g class="flow-nodes">
+                      <rect x="250" y="40" width="260" height="58" rx="8" fill="#eff7ff" stroke="#7aa6df"/>
+                      <text x="380" y="64" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">填写企业资料</text>
+                      <text x="380" y="82" text-anchor="middle" fill="#8b95a5" font-size="10">名称、编码、电话、执照</text>
+                      <rect x="250" y="130" width="260" height="58" rx="8" fill="#f7fbff" stroke="#cfd8e3"/>
+                      <text x="380" y="154" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">填写对公账户</text>
+                      <text x="380" y="172" text-anchor="middle" fill="#8b95a5" font-size="10">账户、发票、合同附件与单号</text>
+                      <rect x="250" y="220" width="260" height="58" rx="8" fill="#eff7ff" stroke="#7aa6df"/>
+                      <text x="380" y="244" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">提交审核</text>
+                      <text x="380" y="262" text-anchor="middle" fill="#8b95a5" font-size="10">进入审核中，锁定编辑</text>
+                      <polygon points="380,308 452,380 380,452 308,380" fill="#fff9ef" stroke="#f0c78a"/>
+                      <text x="380" y="374" text-anchor="middle" fill="#8a5a13" font-size="12" font-weight="700">审核是否通过</text>
+                      <text x="380" y="392" text-anchor="middle" fill="#9a6b21" font-size="10">管理侧校验资料</text>
+                      <rect x="40" y="350" width="200" height="60" rx="8" fill="#fff8f6" stroke="#e8b4ae"/>
+                      <text x="140" y="374" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">查看驳回原因</text>
+                      <text x="140" y="392" text-anchor="middle" fill="#8b95a5" font-size="10">恢复编辑后重新提交</text>
+                      <rect x="520" y="350" width="200" height="60" rx="8" fill="#f5fff5" stroke="#9ed2a0"/>
+                      <text x="620" y="374" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">审核通过</text>
+                      <text x="620" y="392" text-anchor="middle" fill="#8b95a5" font-size="10">信息锁定，可去提现</text>
+                    </g>
+                  </svg>
+                </div>
+                <div class="flow-legend">
+                  <span class="flow-legend-item"><span class="flow-legend-swatch"></span>步骤</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch diamond"></span>判定</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch line-yes"></span>是 / 通过</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch line-no"></span>否 / 驳回</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2228,7 +3122,7 @@
         <div class="settlement-head-left">
           <div>
           <div class="settlement-title">结算中心</div>
-          <div class="settlement-sub">每月1号自动统计上月账单，支持企业用户提现与结算资料上传。</div>
+          <div class="settlement-sub">按订单日期归入自然月统计；当月订单全部结算后才推送结算单，支持企业用户提现与结算资料上传。</div>
           </div>
           <button class="btn ghost" id="settlementRulesBtn" type="button">需求规则</button>
         </div>
@@ -2237,7 +3131,11 @@
           <button class="btn ghost" id="openWithdrawModal" type="button">合并提现</button>
         </div>
       </div>
-
+            <div class="page-tabs" data-workspace-tabs="settlement">
+              <button class="page-tab active" type="button" data-workspace-tab="main">结算账单</button>
+              <button class="page-tab" type="button" data-workspace-tab="flow">业务流程</button>
+            </div>
+            <div class="page-tab-panel active" data-workspace-panel="main">
             <div class="settlement-stats">
               <div class="stat-card">
                 <div class="stat-label">累计收益金额</div>
@@ -2258,7 +3156,11 @@
             </div>
 
             <div class="settlement-card">
-              <div class="settlement-note">提现为企业用户提现，提交时需要上传结算单、发票等资料，审核通过后方可打款。</div>
+              <div class="settlement-note">
+                <div class="settlement-note-strong">可提现金额口径：每个项目的<strong>收益金额 × (1 − 服务费比例)</strong>，再将所得金额求和。</div>
+                <div class="settlement-note-strong">月结账单以<strong>订单日期</strong>归入自然月（如 2026.8.1～2026.8.31），<strong>不以订单结算日期</strong>为准。<strong>当月订单全部结算后才推送结算单</strong>；存在未结算订单则不推送。</div>
+                提现为企业用户提现，提交时需要上传结算单、发票等资料，审核通过后方可打款。
+              </div>
               <div class="table-wrap settlement-table-wrap">
                 <table>
                   <colgroup>
@@ -2270,7 +3172,7 @@
                       <th>结算单</th>
                       <th>收益金额</th>
                       <th>服务费</th>
-                      <th>应打款金额</th>
+                      <th>可提现金额</th>
                       <th>提现状态</th>
                       <th>操作</th>
                     </tr>
@@ -2285,6 +3187,86 @@
                   <button class="page-btn">‹</button>
                   <button class="page-num">1</button>
                   <button class="page-btn">›</button>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="page-tab-panel" data-workspace-panel="flow">
+              <div class="flow-board">
+                <div class="flow-svg-wrap">
+                  <svg width="800" height="900" viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg" aria-label="结算提现业务流程">
+                    <defs>
+                      <marker id="flow-arrow-s1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0,0.8 L8,4 L0,7.2 Z" fill="#7aa6df"/>
+                      </marker>
+                      <marker id="flow-arrow-s1-yes" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0,0.8 L8,4 L0,7.2 Z" fill="#3d9a4a"/>
+                      </marker>
+                      <marker id="flow-arrow-s1-no" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                        <path d="M0,0.8 L8,4 L0,7.2 Z" fill="#d4534c"/>
+                      </marker>
+                    </defs>
+                    <g class="flow-edges">
+                      <line x1="400" y1="98" x2="400" y2="130" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-s1)"/>
+                      <line x1="400" y1="188" x2="400" y2="228" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-s1)"/>
+                      <line x1="400" y1="286" x2="400" y2="322" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-s1)"/>
+                      <line x1="530" y1="354" x2="560" y2="354" stroke="#7aa6df" stroke-width="1.4" stroke-dasharray="4 3"/>
+                      <line x1="400" y1="386" x2="400" y2="418" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-s1)"/>
+                      <line x1="326" y1="492" x2="248" y2="492" stroke="#d4534c" stroke-width="1.6" marker-end="url(#flow-arrow-s1-no)"/>
+                      <line x1="400" y1="566" x2="400" y2="598" stroke="#3d9a4a" stroke-width="1.6" marker-end="url(#flow-arrow-s1-yes)"/>
+                      <polyline points="48,492 28,492 28,304 400,304 400,322" fill="none" stroke="#d4534c" stroke-width="1.6" marker-end="url(#flow-arrow-s1-no)"/>
+                      <line x1="400" y1="656" x2="400" y2="688" stroke="#7aa6df" stroke-width="1.6" marker-end="url(#flow-arrow-s1)"/>
+                      <line x1="326" y1="762" x2="248" y2="762" stroke="#d4534c" stroke-width="1.6" marker-end="url(#flow-arrow-s1-no)"/>
+                      <line x1="474" y1="762" x2="552" y2="762" stroke="#3d9a4a" stroke-width="1.6" marker-end="url(#flow-arrow-s1-yes)"/>
+                      <polyline points="48,762 18,762 18,208 400,208 400,228" fill="none" stroke="#d4534c" stroke-width="1.6" marker-end="url(#flow-arrow-s1-no)"/>
+                      <text x="282" y="480" text-anchor="middle" fill="#d4534c" font-size="11" font-weight="700">否</text>
+                      <text x="418" y="586" fill="#3d9a4a" font-size="11" font-weight="700">是</text>
+                      <text x="280" y="750" text-anchor="middle" fill="#d4534c" font-size="11" font-weight="700">驳回</text>
+                      <text x="520" y="750" text-anchor="middle" fill="#3d9a4a" font-size="11" font-weight="700">通过</text>
+                    </g>
+                    <g class="flow-nodes">
+                      <rect x="270" y="40" width="260" height="58" rx="8" fill="#eff7ff" stroke="#7aa6df"/>
+                      <text x="400" y="64" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">结算单推送</text>
+                      <text x="400" y="82" text-anchor="middle" fill="#8b95a5" font-size="10">自然月订单全部结算后才推送</text>
+                      <rect x="270" y="130" width="260" height="58" rx="8" fill="#f7fbff" stroke="#cfd8e3"/>
+                      <text x="400" y="154" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">选择提现方式</text>
+                      <text x="400" y="172" text-anchor="middle" fill="#8b95a5" font-size="10">合并提现或单笔提现</text>
+                      <rect x="270" y="228" width="260" height="58" rx="8" fill="#f5fff5" stroke="#9ed2a0"/>
+                      <text x="400" y="252" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">确认结算单</text>
+                      <text x="400" y="270" text-anchor="middle" fill="#8b95a5" font-size="10">自动勾选，驳回后重提</text>
+                      <rect x="270" y="322" width="260" height="64" rx="8" fill="#f5fff5" stroke="#9ed2a0"/>
+                      <text x="400" y="346" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">上传结算单与发票</text>
+                      <text x="400" y="364" text-anchor="middle" fill="#8b95a5" font-size="10">公章结算单、发票必传</text>
+                      <rect x="560" y="330" width="180" height="48" rx="8" fill="#fbfcfe" stroke="#7aa6df" stroke-dasharray="4 3"/>
+                      <text x="650" y="350" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">补充材料</text>
+                      <text x="650" y="366" text-anchor="middle" fill="#8b95a5" font-size="10">可选旁路，不阻断</text>
+                      <polygon points="400,418 474,492 400,566 326,492" fill="#fff9ef" stroke="#f0c78a"/>
+                      <text x="400" y="486" text-anchor="middle" fill="#8a5a13" font-size="12" font-weight="700">资料是否完整</text>
+                      <text x="400" y="504" text-anchor="middle" fill="#9a6b21" font-size="10">结算单、发票必传</text>
+                      <rect x="48" y="462" width="200" height="60" rx="8" fill="#fff8f6" stroke="#e8b4ae"/>
+                      <text x="148" y="486" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">阻断提交</text>
+                      <text x="148" y="504" text-anchor="middle" fill="#8b95a5" font-size="10">提示补齐必传资料</text>
+                      <rect x="270" y="598" width="260" height="58" rx="8" fill="#eff7ff" stroke="#7aa6df"/>
+                      <text x="400" y="622" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">提交提现申请</text>
+                      <text x="400" y="640" text-anchor="middle" fill="#8b95a5" font-size="10">状态变为审核中</text>
+                      <polygon points="400,688 474,762 400,836 326,762" fill="#fff9ef" stroke="#f0c78a"/>
+                      <text x="400" y="756" text-anchor="middle" fill="#8a5a13" font-size="12" font-weight="700">审核是否通过</text>
+                      <text x="400" y="774" text-anchor="middle" fill="#9a6b21" font-size="10">管理侧处理</text>
+                      <rect x="48" y="732" width="200" height="60" rx="8" fill="#fff8f6" stroke="#e8b4ae"/>
+                      <text x="148" y="756" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">查看驳回原因</text>
+                      <text x="148" y="774" text-anchor="middle" fill="#8b95a5" font-size="10">保留记录后重新提交</text>
+                      <rect x="552" y="732" width="200" height="60" rx="8" fill="#f5fff5" stroke="#9ed2a0"/>
+                      <text x="652" y="756" text-anchor="middle" fill="#1f2d3a" font-size="12" font-weight="700">打款完成</text>
+                      <text x="652" y="774" text-anchor="middle" fill="#8b95a5" font-size="10">回执上传，已提现</text>
+                    </g>
+                  </svg>
+                </div>
+                <div class="flow-legend">
+                  <span class="flow-legend-item"><span class="flow-legend-swatch"></span>步骤</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch diamond"></span>判定</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch line-yes"></span>是 / 通过</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch line-no"></span>否 / 驳回</span>
+                  <span class="flow-legend-item"><span class="flow-legend-swatch line-dash"></span>可选旁路</span>
                 </div>
               </div>
             </div>
@@ -2306,17 +3288,25 @@
     <div class="drawer-section">
       <table class="drawer-table">
         <colgroup>
-          <col style="width:180px"><col style="width:90px"><col style="width:110px">
+          <col style="width:150px"><col style="width:70px"><col style="width:100px"><col style="width:90px">
         </colgroup>
         <thead>
           <tr>
             <th>项目名称</th>
             <th>订单量</th>
             <th>收益金额</th>
+            <th>服务费比例</th>
           </tr>
         </thead>
       <tbody id="drawerRows"></tbody>
       </table>
+      <div class="drawer-total">
+        <span>可提现金额合计</span>
+        <span id="drawerWithdrawableTotal">¥0.00</span>
+      </div>
+      <div class="drawer-calc-note" id="drawerCalcNote">
+        可提现金额口径：每个项目的<strong>收益金额 × (1 − 服务费比例)</strong>所得金额之和。月结账单以<strong>订单日期</strong>自然月归集，当月订单全部结算后才推送结算单。
+      </div>
     </div>
   </aside>
 
@@ -2356,19 +3346,12 @@
     <div class="drawer-head rules-head">
       <div>
         <div class="drawer-title" id="rulesDrawerTitle">需求规则</div>
-        <div class="drawer-sub" id="rulesDrawerSub">企业信息与结算中心的规则说明与业务流程</div>
+        <div class="drawer-sub" id="rulesDrawerSub">企业信息与结算中心的规则说明</div>
       </div>
       <button class="btn small" id="closeRulesDrawerBtn" type="button">关闭</button>
     </div>
-    <div class="rules-tabs">
-      <button class="rules-tab active" id="rulesTabRules" type="button">需求规则</button>
-      <button class="rules-tab" id="rulesTabFlow" type="button">业务流程</button>
-    </div>
     <div class="rules-panel active" id="rulesPanelRules">
       <div id="rulesPanelRulesContent"></div>
-    </div>
-    <div class="rules-panel" id="rulesPanelFlow">
-      <div id="rulesPanelFlowContent"></div>
     </div>
   </aside>
 
@@ -2484,12 +3467,299 @@
     </div>
   </div>
 
+  <div class="modal" id="projectDetailModal" aria-hidden="true">
+    <div class="withdraw-modal-titlebar">
+      <div class="modal-title" id="projectDetailTitle">项目详情</div>
+      <button class="btn small" id="closeProjectDetailBtn" type="button">×</button>
+    </div>
+    <div class="project-detail-body">
+      <section class="project-detail-section">
+        <div class="project-detail-heading">基本信息</div>
+        <div class="project-detail-fields">
+          <div>
+            <div class="project-detail-label">前端标题</div>
+            <div class="project-detail-value" id="projectDetailFrontTitle">-</div>
+          </div>
+          <div>
+            <div class="project-detail-label">素材链接</div>
+            <div class="project-detail-value" id="projectDetailMaterial">-</div>
+          </div>
+          <div>
+            <div class="project-detail-label">书单链接</div>
+            <div class="project-detail-value" id="projectDetailBookList">-</div>
+          </div>
+        </div>
+      </section>
+      <section class="project-detail-section">
+        <div class="project-detail-heading">项目图标</div>
+        <div class="project-icon-box" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <path d="M30.4 7.8c3.8 2.2 6.2 5.3 7.4 9.2-3.1-.8-5.7-.7-7.8.4-1.7.9-2.2 2.5-1.4 4.7 3.7.4 6.3 2 7.7 4.8 1.1 2.3.8 4.4-.9 6.4-3.7 4.5-9.4 6-17.1 4.5 2.8-2.1 4.2-4.3 4.3-6.5-4.5.9-8.4-.2-11.5-3.4-3.1-3.2-4-6.9-2.7-11.2 2.4 2 5.1 2.7 8.1 2.2 2.8-.5 5.1-1.9 6.8-4.2 1.7-2.3 4.1-4.6 7.1-6.9Z" fill="#fff"/>
+            <path d="M28.7 18.3c-3.5 1.5-5.3 3.6-5.5 6.4-.1 2.2 1 4.1 3.4 5.7-4 .2-7.1-.7-9.2-2.7-1.5-1.4-2.1-3.1-1.8-5.1 2.4.3 4.7-.3 6.8-1.7 1.9-1.2 4-2.1 6.3-2.6Z" fill="#e5e7eb"/>
+          </svg>
+        </div>
+      </section>
+      <section class="project-detail-section">
+        <div class="project-detail-heading">项目价格</div>
+        <p class="price-hint">结算字段、单价类型与描述由项目同步，未配置字段不计入代理收益。</p>
+        <div class="price-table-wrap">
+          <table class="price-table">
+            <colgroup>
+              <col style="width:160px">
+              <col style="width:110px">
+              <col style="width:100px">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>结算字段</th>
+                <th>单价类型</th>
+                <th>价格</th>
+                <th>描述</th>
+              </tr>
+            </thead>
+            <tbody id="projectPriceRows"></tbody>
+          </table>
+        </div>
+        <p class="price-foot">本项目收益按「单量 × 价格」计算，未配置字段不计入。</p>
+      </section>
+      <section class="project-detail-section">
+        <div class="project-detail-heading">说明文档</div>
+        <div class="doc-tabs" id="projectDocTabs"></div>
+        <div class="doc-panel" id="projectDocPanel"></div>
+      </section>
+    </div>
+    <div class="withdraw-footer">
+      <button class="btn primary" id="ackProjectDetailBtn" type="button">知道了</button>
+    </div>
+  </div>
+
+  <div class="modal" id="noticeModal" aria-hidden="true">
+    <div class="withdraw-modal-titlebar">
+      <div class="modal-title" id="noticeModalTitle">消息详情</div>
+      <button class="btn small" id="closeNoticeModalBtn" type="button">×</button>
+    </div>
+    <div class="notice-modal-body">
+      <div class="notice-modal-meta">
+        <span class="notice-type platform" id="noticeModalType">平台通知</span>
+        <span class="notice-modal-time" id="noticeModalTime">-</span>
+      </div>
+      <p class="notice-modal-desc" id="noticeModalDesc"></p>
+      <div class="notice-modal-detail" id="noticeModalDetail"></div>
+      <div class="notice-media" id="noticeModalMedia" hidden></div>
+    </div>
+    <div class="withdraw-footer">
+      <button class="btn ghost" id="closeNoticeModalFooterBtn" type="button">关闭</button>
+      <button class="btn primary" id="noticeModalActionBtn" type="button">去处理</button>
+    </div>
+  </div>
+
+  <div class="notice-lightbox" id="noticeLightbox" aria-hidden="true">
+    <button class="notice-lightbox-close" id="closeNoticeLightboxBtn" type="button" title="关闭预览">×</button>
+    <img id="noticeLightboxImg" alt="">
+    <div class="notice-lightbox-caption" id="noticeLightboxCaption"></div>
+  </div>
+
   <script>
     const pages = [...document.querySelectorAll('.page-shell')];
-    const navProject = document.querySelector('[data-target="project"]');
-    const navEnterprise = document.querySelector('[data-target="enterprise"]');
-    const navSettlement = document.querySelector('[data-target="settlement"]');
     const pageTitle = document.querySelector('.page-title');
+    const pageTitles = {
+      workbench: '工作台',
+      project: '项目数据',
+      enterprise: '企业信息',
+      settlement: '结算中心',
+    };
+    let workbenchPeriod = 'day';
+    const workbenchInsightData = {
+      day: {
+        range: '2026-09-07',
+        projects: [
+          { name: '小云雀挂载', keywords: 128, orders: 86, amount: 14820.50 },
+          { name: '小云雀展归', keywords: 96, orders: 62, amount: 9240.00 },
+          { name: '番茄小说-漫剧', keywords: 54, orders: 31, amount: 6128.40 },
+          { name: '网易云有声书', keywords: 41, orders: 22, amount: 4860.00 },
+          { name: 'CapCut拉失活', keywords: 28, orders: 14, amount: 2980.00 },
+          { name: 'CapCut拉新', keywords: 36, orders: 18, amount: 8640.00 },
+        ],
+      },
+      week: {
+        range: '2026-08-31～2026-09-06',
+        projects: [
+          { name: '小云雀挂载', keywords: 612, orders: 518, amount: 87640.20 },
+          { name: '小云雀展归', keywords: 448, orders: 371, amount: 54880.00 },
+          { name: '番茄小说-漫剧', keywords: 266, orders: 188, amount: 36412.80 },
+          { name: '网易云有声书', keywords: 198, orders: 134, amount: 29160.00 },
+          { name: 'CapCut拉失活', keywords: 142, orders: 86, amount: 17880.00 },
+          { name: 'CapCut拉新', keywords: 174, orders: 109, amount: 51840.00 },
+        ],
+      },
+      month: {
+        range: '2026-08-01～2026-08-31',
+        projects: [
+          { name: '小云雀挂载', keywords: 2480, orders: 2481, amount: 42310.18 },
+          { name: '小云雀展归', keywords: 1760, orders: 1762, amount: 26890.21 },
+          { name: '番茄小说-漫剧', keywords: 930, orders: 931, amount: 18642.11 },
+          { name: '网易云有声书', keywords: 650, orders: 653, amount: 14680.00 },
+          { name: 'CapCut拉失活', keywords: 410, orders: 412, amount: 9124.50 },
+          { name: 'CapCut拉新', keywords: 220, orders: 219, amount: 67783.50 },
+        ],
+      },
+    };
+    const noticeTypeMap = {
+      system: { label: '系统提示', className: 'system' },
+      platform: { label: '平台通知', className: 'platform' },
+    };
+    const noticeReadKey = 'youbao-notice-read-ids';
+    function noticeSvg(title, rows) {
+      const height = 88 + rows.length * 38;
+      const lines = rows.map((row, index) => {
+        const y = 70 + index * 38;
+        return `<rect x="24" y="${y}" width="592" height="30" rx="6" fill="#f7f9fc"/>
+          <text x="36" y="${y + 20}" fill="#1f2d3a" font-size="13" font-family="PingFang SC, Microsoft YaHei, sans-serif">${row}</text>`;
+      }).join('');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="${height}" viewBox="0 0 640 ${height}">
+        <rect width="640" height="${height}" rx="12" fill="#eef3f8"/>
+        <rect x="12" y="12" width="616" height="${height - 24}" rx="10" fill="#fff" stroke="#e9edf1"/>
+        <text x="28" y="44" fill="#1f2d3a" font-size="16" font-weight="700" font-family="PingFang SC, Microsoft YaHei, sans-serif">${title}</text>
+        ${lines}
+      </svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+    const noticeSeed = [
+      {
+        id: 'n-system-feature',
+        type: 'system',
+        title: '项目详情弹窗已上线',
+        desc: '项目列表支持查看详情，可同步项目价格、素材链接与说明文档。',
+        time: '2026-09-07 10:20',
+        detail: '<p>本次能力更新已发布到项目数据页，项目行新增「详情」入口。</p><ul><li>基本信息：前端标题、素材链接、书单链接</li><li>项目价格：结算字段、单价类型、价格与描述</li><li>说明文档：公告、规则、注意事项</li></ul><p>未配置的价格字段不计入代理收益。</p>',
+        media: [
+          {
+            type: 'image',
+            src: noticeSvg('项目详情', ['前端标题：小云雀挂载', '素材链接：已配置', '书单链接：已配置', '收益口径：单量 × 价格']),
+            alt: '项目详情界面示意',
+            caption: '项目详情示意，点击可放大查看',
+          },
+        ],
+        action: { page: 'project', tab: 'cue', label: '前往项目数据' },
+      },
+      {
+        id: 'n-system-enterprise',
+        type: 'system',
+        title: '提现前请先完成企业资料审核',
+        desc: '未通过审核或缺少对公账户、执照、合同时，结算中心提现入口将被阻断。',
+        time: '2026-09-06 16:42',
+        detail: '<p>系统检测到当前账号若未完成企业资料审核，将无法发起合并提现或单笔提现。</p><ul><li>需通过审核的企业名称、执照、对公账户</li><li>需上传合同附件并填写合同快递单号</li><li>审核通过后资料锁定，收款账户只读带出</li></ul>',
+        action: { page: 'enterprise', tab: 'main', label: '完善企业信息' },
+      },
+      {
+        id: 'n-system-maintain',
+        type: 'system',
+        title: '9 月 8 日 02:00-04:00 系统维护',
+        desc: '维护期间项目数据导出、企业资料提交与提现申请将暂时不可用。',
+        time: '2026-09-03 20:30',
+        detail: '<p>系统计划于 2026-09-08 02:00 至 04:00 进行例行维护。</p><p>维护窗口内以下能力暂停：</p><ul><li>项目数据导出 / 批量导入</li><li>企业资料提交审核</li><li>结算提现申请</li></ul><p>请提前完成待处理操作，维护结束后自动恢复。</p>',
+        media: [
+          {
+            type: 'image',
+            src: noticeSvg('维护窗口', ['开始时间：2026-09-08 02:00', '结束时间：2026-09-08 04:00', '影响范围：导出 / 提交 / 提现', '恢复方式：维护结束后自动恢复']),
+            alt: '系统维护时间示意',
+            caption: '维护窗口示意',
+          },
+          { type: 'file', name: '系统维护公告.pdf', size: '186 KB' },
+        ],
+      },
+      {
+        id: 'n-system-withdraw-files',
+        type: 'system',
+        title: '提现申请需上传结算单与发票',
+        desc: '公章结算单、发票为必传材料，补充材料可选，不完整将阻断提交。',
+        time: '2026-09-05 11:16',
+        detail: '<p>提交提现申请时，请按以下规则准备材料：</p><ul><li>结算单：须加盖公章，必传</li><li>发票：与结算单金额匹配，必传</li><li>补充材料：可选旁路，不阻断主流程</li></ul><p>资料不完整时系统会提示补齐，不会进入审核。</p>',
+        media: [
+          { type: 'file', name: '结算单上传示例.jpg', size: '420 KB' },
+          { type: 'file', name: '发票样例.pdf', size: '96 KB' },
+        ],
+        action: { page: 'settlement', tab: 'main', label: '前往结算中心' },
+      },
+      {
+        id: 'n-platform-review',
+        type: 'platform',
+        title: '企业资料审核已驳回',
+        desc: '对公账户信息与企业名称不一致，请修改后重新提交。',
+        time: '2026-09-06 18:05',
+        detail: '<p>平台已完成企业资料审核，本次结果为驳回。</p><ul><li>驳回原因：对公账户信息与企业名称不一致</li><li>资料已解锁，可修改后重新提交</li><li>重新提交后将再次进入审核中</li></ul>',
+        media: [
+          {
+            type: 'image',
+            src: noticeSvg('资料审核', ['审核结果：已驳回', '驳回原因：对公账户与企业名称不一致', '处理建议：核对收款账户后重提', '当前状态：可重新编辑提交']),
+            alt: '企业资料审核结果',
+            caption: '审核结果示意',
+          },
+        ],
+        action: { page: 'enterprise', tab: 'main', label: '查看企业资料' },
+      },
+      {
+        id: 'n-platform-withdraw-review',
+        type: 'platform',
+        title: '8 月提现申请已通过审核',
+        desc: '申请金额 ¥12,480.00 已审核通过，预计 1-2 个工作日完成打款。',
+        time: '2026-09-05 09:40',
+        detail: '<p>平台已完成提现审核，当前申请状态为已通过。</p><ul><li>申请类型：单笔提现</li><li>申请金额：¥12,480.00</li><li>后续：财务打款并回传回执</li></ul>',
+        media: [
+          {
+            type: 'image',
+            src: noticeSvg('提现审核', ['申请编号：WD-202608-018', '审核结果：已通过', '申请金额：¥12,480.00', '预计打款：1-2 个工作日']),
+            alt: '提现审核结果',
+            caption: '提现审核结果示意',
+          },
+        ],
+        action: { page: 'settlement', tab: 'main', label: '查看提现记录' },
+      },
+      {
+        id: 'n-platform-month-bill',
+        type: 'platform',
+        title: '结算单按自然月推送，须当月订单全部结算',
+        desc: '以订单日期归入自然月；只要存在未结算订单，则不推送该月结算单。',
+        time: '2026-09-04 09:00',
+        detail: '<p>结算单按订单日期归入自然月后推送，不以订单结算日期为准。</p><ul><li>统计范围：一个自然月，例如 2026.8.1～2026.8.31</li><li>推送条件：该自然月内全部订单均已结算</li><li>只要存在任一未结算订单，则不推送该月结算单</li><li>可提现金额：各项目收益金额 × (1 − 服务费比例) 后求和</li><li>推送后可在结算中心查看明细并申请提现</li></ul>',
+        media: [
+          {
+            type: 'image',
+            src: noticeSvg('账单生成', ['统计口径：订单日期自然月', '示例范围：2026.8.1～2026.8.31', '推送条件：当月订单全部结算', '有未结算订单则不推送']),
+            alt: '账单生成规则',
+            caption: '账单生成规则示意',
+          },
+        ],
+        action: { page: 'settlement', tab: 'main', label: '查看结算账单' },
+      },
+      {
+        id: 'n-platform-keywords',
+        type: 'platform',
+        title: '部分关键词已批量下线',
+        desc: '「小云雀挂载」中 12 条违规或失效关键词已批量下线，请及时更换提词。',
+        time: '2026-09-02 14:26',
+        detail: '<p>平台已对项目「小云雀挂载」执行关键词批量下线。</p><ul><li>下线数量：12 条</li><li>原因：违规词 / 失效词</li><li>影响：对应提词不再进入投放与结算</li></ul><p>请在项目数据中更换可用提词后重新提交。</p>',
+        media: [
+          {
+            type: 'image',
+            src: noticeSvg('关键词批量下线', ['项目：小云雀挂载', '下线数量：12 条', '示例：免费领 / 内部价 / 限时秒杀', '处理：更换提词后重新提交']),
+            alt: '关键词批量下线清单',
+            caption: '下线清单示意，点击可放大查看',
+          },
+          { type: 'file', name: '下线关键词清单.xlsx', size: '24 KB' },
+        ],
+        action: { page: 'project', tab: 'cue', label: '前往提词' },
+      },
+    ];
+    let noticeFilter = 'all';
+    let noticeReadIds = [];
+    try {
+      noticeReadIds = JSON.parse(localStorage.getItem(noticeReadKey) || '[]');
+      if (!Array.isArray(noticeReadIds)) noticeReadIds = [];
+    } catch (error) {
+      noticeReadIds = [];
+    }
 
     const enterpriseStateKey = 'youbao-enterprise-demo-state';
     const enterpriseDefaults = {
@@ -2504,6 +3774,8 @@
       bankAccount: '',
       invoiceType: '增值税专用发票',
       invoiceRate: '3%',
+      contractFile: { name: '', src: '' },
+      contractExpressNo: '',
     };
 
     const enterpriseFields = {
@@ -2518,12 +3790,19 @@
       bankAccount: document.getElementById('bankAccount'),
       invoiceType: document.getElementById('invoiceType'),
       invoiceRate: document.getElementById('invoiceRate'),
+      contractExpressNo: document.getElementById('contractExpressNo'),
     };
 
     const businessLicensePreview = document.getElementById('businessLicensePreview');
     const businessLicenseName = document.getElementById('businessLicenseName');
     const businessLicenseUploadBtn = document.getElementById('businessLicenseUploadBtn');
     const businessLicenseClearBtn = document.getElementById('businessLicenseClearBtn');
+    const contractFileInput = document.getElementById('contractFileInput');
+    const contractUploadBtn = document.getElementById('contractUploadBtn');
+    const contractClearBtn = document.getElementById('contractClearBtn');
+    const contractFileName = document.getElementById('contractFileName');
+    const downloadContractBtn = document.getElementById('downloadContractBtn');
+    const drawerWithdrawableTotal = document.getElementById('drawerWithdrawableTotal');
 
     const enterpriseStatusChip = document.getElementById('enterpriseStatusChip');
     const enterpriseCopy = document.getElementById('enterpriseCopy');
@@ -2553,11 +3832,8 @@
     const rulesDrawer = document.getElementById('rulesDrawer');
     const enterpriseRulesBtn = document.getElementById('enterpriseRulesBtn');
     const settlementRulesBtn = document.getElementById('settlementRulesBtn');
+    const projectRulesBtn = document.getElementById('projectRulesBtn');
     const closeRulesDrawerBtn = document.getElementById('closeRulesDrawerBtn');
-    const rulesTabRules = document.getElementById('rulesTabRules');
-    const rulesTabFlow = document.getElementById('rulesTabFlow');
-    const rulesPanelRules = document.getElementById('rulesPanelRules');
-    const rulesPanelFlow = document.getElementById('rulesPanelFlow');
     const recordDrawerTitle = document.getElementById('recordDrawerTitle');
     const recordDrawerSub = document.getElementById('recordDrawerSub');
     const recordModeText = document.getElementById('recordModeText');
@@ -2573,6 +3849,31 @@
     const recordPayNoteText = document.getElementById('recordPayNoteText');
     const withdrawModal = document.getElementById('withdrawModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
+    const projectDetailModal = document.getElementById('projectDetailModal');
+    const closeProjectDetailBtn = document.getElementById('closeProjectDetailBtn');
+    const ackProjectDetailBtn = document.getElementById('ackProjectDetailBtn');
+    const noticeModal = document.getElementById('noticeModal');
+    const noticeLightbox = document.getElementById('noticeLightbox');
+    const closeNoticeModalBtn = document.getElementById('closeNoticeModalBtn');
+    const closeNoticeModalFooterBtn = document.getElementById('closeNoticeModalFooterBtn');
+    const closeNoticeLightboxBtn = document.getElementById('closeNoticeLightboxBtn');
+    const noticeModalActionBtn = document.getElementById('noticeModalActionBtn');
+    const noticeModalMedia = document.getElementById('noticeModalMedia');
+    const noticeBellBtn = document.getElementById('noticeBellBtn');
+    const noticeDropdown = document.getElementById('noticeDropdown');
+    const noticeGoWorkbench = document.getElementById('noticeGoWorkbench');
+    const workbenchInsight = document.getElementById('workbenchInsight');
+    const noticeFilters = document.getElementById('noticeFilters');
+    const noticeList = document.getElementById('noticeList');
+    const noticeDropdownList = document.getElementById('noticeDropdownList');
+    const projectDetailTitle = document.getElementById('projectDetailTitle');
+    const projectDetailFrontTitle = document.getElementById('projectDetailFrontTitle');
+    const projectDetailMaterial = document.getElementById('projectDetailMaterial');
+    const projectDetailBookList = document.getElementById('projectDetailBookList');
+    const projectPriceRows = document.getElementById('projectPriceRows');
+    const projectDocTabs = document.getElementById('projectDocTabs');
+    const projectDocPanel = document.getElementById('projectDocPanel');
+    let currentProjectDocKey = 'notice';
     const cancelWithdrawBtn = document.getElementById('cancelWithdrawBtn');
     const submitWithdrawBtn = document.getElementById('submitWithdrawBtn');
     const settlementFile = document.getElementById('settlementFile');
@@ -2597,7 +3898,6 @@
     const extraFileName = document.getElementById('extraFileName');
     const pendingList = document.getElementById('pendingList');
     const rulesPanelRulesContent = document.getElementById('rulesPanelRulesContent');
-    const rulesPanelFlowContent = document.getElementById('rulesPanelFlowContent');
     let rulesContext = 'enterprise';
 
     const settlementData = [
@@ -2796,13 +4096,355 @@
       localStorage.setItem(enterpriseStateKey, JSON.stringify(enterpriseState));
     }
 
-    function setPage(name) {
+    function setPage(name, updateUrl) {
       pages.forEach(page => page.classList.toggle('is-active', page.dataset.page === name));
-      navProject.classList.toggle('active', name === 'project');
-      navEnterprise.classList.toggle('active', name === 'enterprise');
-      navSettlement.classList.toggle('active', name === 'settlement');
-      pageTitle.textContent = name === 'project' ? '项目数据' : '企业信息';
-      if (name === 'settlement') pageTitle.textContent = '结算中心';
+      document.querySelectorAll('.nav-item[data-target]').forEach(item => {
+        item.classList.toggle('active', item.dataset.target === name);
+      });
+      pageTitle.textContent = pageTitles[name] || '工作台';
+      if (updateUrl) {
+        const params = getWorkspaceQuery();
+        if (name === 'workbench') params.delete('page');
+        else params.set('page', name);
+        if (name !== 'enterprise' && name !== 'settlement') {
+          params.delete('tab');
+          params.delete('flow');
+        }
+        const qs = params.toString();
+        history.replaceState({}, '', qs ? `?${qs}` : location.pathname + location.hash);
+      }
+      applyWorkspaceQuery();
+      if (name === 'workbench') renderWorkbench();
+    }
+
+    function getNotices() {
+      return noticeSeed.map(item => ({
+        ...item,
+        unread: !noticeReadIds.includes(item.id),
+      }));
+    }
+
+    function saveNoticeReads() {
+      localStorage.setItem(noticeReadKey, JSON.stringify(noticeReadIds));
+    }
+
+    function getUnreadNotices() {
+      return getNotices().filter(item => item.unread);
+    }
+
+    function markNoticeRead(id) {
+      if (!noticeReadIds.includes(id)) {
+        noticeReadIds.push(id);
+        saveNoticeReads();
+      }
+      renderNoticeSurfaces();
+    }
+
+    function goMenu(page, tabKey) {
+      setPage(page, true);
+      if (page === 'project' && tabKey) {
+        const labelMap = { cue: '提词', work: '作品', order: '订单' };
+        const label = labelMap[tabKey];
+        document.querySelectorAll('.project-main .tabs-main .tab').forEach(tab => {
+          tab.classList.toggle('active', tab.textContent.trim() === label);
+        });
+      }
+      if ((page === 'enterprise' || page === 'settlement') && tabKey) {
+        setWorkspaceTab(page, tabKey, true);
+      }
+    }
+
+    function renderWorkbench() {
+      renderWorkbenchStats();
+      renderWorkbenchInsight();
+      renderNoticeSurfaces();
+    }
+
+    function renderWorkbenchStats() {
+      const host = document.getElementById('workbenchStats');
+      if (!host) return;
+      const statusLabels = {
+        draft: '未提交',
+        pending: '审核中',
+        approved: '已通过',
+        rejected: '已驳回',
+      };
+      const projectCount = document.querySelectorAll('.project-row').length;
+      const enterpriseStatus = statusLabels[enterpriseState.status] || '未提交';
+      const pendingCount = typeof getPendingSettlements === 'function'
+        ? getPendingSettlements().length
+        : 0;
+      host.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">授权项目</div>
+          <div class="stat-value">${projectCount}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">企业审核</div>
+          <div class="stat-value">${enterpriseStatus}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">待提现账单</div>
+          <div class="stat-value orange">${pendingCount}</div>
+        </div>
+      `;
+    }
+
+    function renderWorkbenchInsight() {
+      const host = document.getElementById('workbenchInsight');
+      if (!host) return;
+      const periods = [
+        { key: 'day', label: '日' },
+        { key: 'week', label: '周' },
+        { key: 'month', label: '月' },
+      ];
+      const current = workbenchInsightData[workbenchPeriod] || workbenchInsightData.day;
+      const totals = current.projects.reduce((sum, item) => {
+        sum.keywords += item.keywords;
+        sum.orders += item.orders;
+        sum.amount += item.amount;
+        return sum;
+      }, { keywords: 0, orders: 0, amount: 0 });
+      host.innerHTML = `
+        <div class="workbench-insight-head">
+          <div>
+            <div class="workbench-insight-title">数据统计</div>
+            <div class="workbench-insight-sub">按授权项目统计关键词数量、订单量与订单总额 · ${current.range}</div>
+          </div>
+          <div class="insight-periods">
+            ${periods.map(item => `
+              <button class="insight-period${workbenchPeriod === item.key ? ' active' : ''}" type="button" data-period="${item.key}">${item.label}</button>
+            `).join('')}
+          </div>
+        </div>
+        <div class="workbench-insight-metrics">
+          <div class="stat-card">
+            <div class="stat-label">关键词数量</div>
+            <div class="stat-value">${totals.keywords.toLocaleString('zh-CN')}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">订单量</div>
+            <div class="stat-value">${totals.orders.toLocaleString('zh-CN')}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">订单总额</div>
+            <div class="stat-value">${formatMoney(totals.amount)}</div>
+          </div>
+        </div>
+        <div class="table-wrap insight-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>项目</th>
+                <th>关键词数量</th>
+                <th>订单量</th>
+                <th>订单总额</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${current.projects.map(item => `
+                <tr>
+                  <td>${item.name}</td>
+                  <td>${item.keywords.toLocaleString('zh-CN')}</td>
+                  <td>${item.orders.toLocaleString('zh-CN')}</td>
+                  <td>${formatMoney(item.amount)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderNoticeFilters() {
+      const host = document.getElementById('noticeFilters');
+      if (!host) return;
+      const filters = [
+        { key: 'all', label: '全部' },
+        { key: 'system', label: '系统提示' },
+        { key: 'platform', label: '平台通知' },
+      ];
+      host.innerHTML = filters.map(item => `
+        <button class="notice-filter${noticeFilter === item.key ? ' active' : ''}" type="button" data-notice-filter="${item.key}">${item.label}</button>
+      `).join('');
+    }
+
+    function renderNoticeList() {
+      const host = document.getElementById('noticeList');
+      const sub = document.getElementById('noticeBoardSub');
+      if (!host) return;
+      const notices = getNotices().filter(item => noticeFilter === 'all' || item.type === noticeFilter);
+      const unread = getUnreadNotices().length;
+      if (sub) sub.textContent = unread ? `${unread} 条未读 · 点击查看详情` : '暂无未读消息 · 点击仍可查看详情';
+      if (!notices.length) {
+        host.innerHTML = '<div class="notice-empty">当前分类暂无消息</div>';
+        return;
+      }
+      host.innerHTML = notices.map(item => {
+        const type = noticeTypeMap[item.type] || noticeTypeMap.platform;
+        return `
+          <button class="notice-item${item.unread ? ' is-unread' : ''}" type="button" data-notice-id="${item.id}">
+            <span class="notice-dot" aria-hidden="true"></span>
+            <span>
+              <span class="notice-item-title-row">
+                <span class="notice-type ${type.className}">${type.label}</span>
+                <span class="notice-item-title">${item.title}</span>
+              </span>
+              <span class="notice-item-desc">${item.desc}</span>
+            </span>
+            <span class="notice-item-time">${item.time}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderNoticeDropdown() {
+      const host = document.getElementById('noticeDropdownList');
+      const badge = document.getElementById('noticeBadge');
+      if (badge) {
+        const unread = getUnreadNotices().length;
+        badge.textContent = unread > 99 ? '99+' : String(unread);
+        badge.classList.toggle('show', unread > 0);
+      }
+      if (!host) return;
+      const latest = getNotices().slice(0, 4);
+      host.innerHTML = latest.map(item => `
+        <button class="notice-dropdown-item${item.unread ? ' is-unread' : ''}" type="button" data-notice-id="${item.id}">
+          <div class="notice-dropdown-title">${item.title}</div>
+          <div class="notice-dropdown-desc">${item.desc}</div>
+          <div class="notice-dropdown-time">${item.time}</div>
+        </button>
+      `).join('');
+    }
+
+    function renderNoticeSurfaces() {
+      renderNoticeFilters();
+      renderNoticeList();
+      renderNoticeDropdown();
+    }
+
+    function setNoticeDropdownOpen(open) {
+      const dropdown = document.getElementById('noticeDropdown');
+      if (!dropdown) return;
+      dropdown.classList.toggle('show', open);
+    }
+
+    function openNoticeDetail(id) {
+      const item = getNotices().find(notice => notice.id === id);
+      if (!item) return;
+      markNoticeRead(id);
+      setNoticeDropdownOpen(false);
+      const type = noticeTypeMap[item.type] || noticeTypeMap.platform;
+      document.getElementById('noticeModalTitle').textContent = item.title;
+      const typeEl = document.getElementById('noticeModalType');
+      typeEl.className = `notice-type ${type.className}`;
+      typeEl.textContent = type.label;
+      document.getElementById('noticeModalTime').textContent = item.time;
+      document.getElementById('noticeModalDesc').textContent = item.desc;
+      renderNoticeDetailContent(item);
+      const actionBtn = document.getElementById('noticeModalActionBtn');
+      if (item.action) {
+        actionBtn.hidden = false;
+        actionBtn.textContent = item.action.label;
+        actionBtn.dataset.page = item.action.page;
+        actionBtn.dataset.tab = item.action.tab || '';
+      } else {
+        actionBtn.hidden = true;
+        actionBtn.dataset.page = '';
+        actionBtn.dataset.tab = '';
+      }
+      overlay.classList.add('show');
+      noticeModal.classList.add('show');
+      noticeModal.setAttribute('aria-hidden', 'false');
+    }
+
+    function renderNoticeDetailContent(item) {
+      const detailEl = document.getElementById('noticeModalDetail');
+      const mediaEl = document.getElementById('noticeModalMedia');
+      if (item.detail) {
+        detailEl.hidden = false;
+        detailEl.innerHTML = item.detail;
+      } else {
+        detailEl.hidden = true;
+        detailEl.innerHTML = '';
+      }
+      const media = item.media || [];
+      if (!media.length) {
+        mediaEl.hidden = true;
+        mediaEl.innerHTML = '';
+        return;
+      }
+      mediaEl.hidden = false;
+      mediaEl.innerHTML = media.map((entry, index) => {
+        if (entry.type === 'image') {
+          return `
+            <figure class="notice-media-item">
+              <img class="notice-media-img" src="${entry.src}" alt="${entry.alt || item.title}" data-media-index="${index}">
+              ${entry.caption ? `<figcaption class="notice-media-caption">${entry.caption}</figcaption>` : ''}
+            </figure>
+          `;
+        }
+        if (entry.type === 'file') {
+          return `
+            <div class="notice-file">
+              <span class="notice-file-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v6h6"/></svg>
+              </span>
+              <div class="notice-file-main">
+                <div class="notice-file-name">${entry.name}</div>
+                <div class="notice-file-meta">${entry.size || '附件'}</div>
+              </div>
+              <button class="btn small" type="button" data-file-name="${entry.name}">查看</button>
+            </div>
+          `;
+        }
+        return '';
+      }).join('');
+    }
+
+    function openNoticeLightbox(src, caption) {
+      document.getElementById('noticeLightboxImg').src = src;
+      document.getElementById('noticeLightboxCaption').textContent = caption || '';
+      noticeLightbox.classList.add('show');
+      noticeLightbox.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeNoticeLightbox() {
+      noticeLightbox.classList.remove('show');
+      noticeLightbox.setAttribute('aria-hidden', 'true');
+    }
+
+    function getWorkspaceQuery() {
+      return new URLSearchParams(location.search);
+    }
+
+    function writeWorkspaceQuery(tab) {
+      const params = getWorkspaceQuery();
+      if (tab === 'flow') params.set('tab', 'flow');
+      else params.delete('tab');
+      params.delete('flow');
+      const qs = params.toString();
+      history.replaceState({}, '', qs ? `?${qs}` : location.pathname + location.hash);
+    }
+
+    function setWorkspaceTab(pageName, tabName, updateUrl) {
+      const page = document.querySelector(`.page-shell[data-page="${pageName}"]`);
+      if (!page) return;
+      page.querySelectorAll('[data-workspace-tabs] .page-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.workspaceTab === tabName);
+      });
+      page.querySelectorAll('[data-workspace-panel]').forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.workspacePanel === tabName);
+      });
+      if (updateUrl) writeWorkspaceQuery(tabName);
+    }
+
+    function applyWorkspaceQuery() {
+      const tab = getWorkspaceQuery().get('tab') === 'flow' ? 'flow' : 'main';
+      const activePage = document.querySelector('.page-shell.is-active')?.dataset.page;
+      if (activePage === 'enterprise' || activePage === 'settlement') {
+        setWorkspaceTab(activePage, tab, false);
+      }
     }
 
     function fillEnterpriseForm(data) {
@@ -2818,6 +4460,8 @@
       businessLicensePreview.innerHTML = license.src
         ? `<img src="${license.src}" alt="营业执照预览">`
         : '图片预览';
+      const contract = data.contractFile || enterpriseDefaults.contractFile;
+      contractFileName.textContent = contract.name || '未上传合同附件';
     }
 
     function readEnterpriseForm() {
@@ -2833,6 +4477,8 @@
         bankAccount: enterpriseFields.bankAccount.value.trim(),
         invoiceType: enterpriseFields.invoiceType.querySelector('span').textContent.trim(),
         invoiceRate: enterpriseFields.invoiceRate.querySelector('span').textContent.trim(),
+        contractFile: enterpriseState.data.contractFile || { ...enterpriseDefaults.contractFile },
+        contractExpressNo: enterpriseFields.contractExpressNo.value.trim(),
       };
     }
 
@@ -2847,6 +4493,10 @@
       businessLicenseClearBtn.disabled = locked;
       businessLicenseUploadBtn.classList.toggle('disabled', locked);
       businessLicenseClearBtn.classList.toggle('disabled', locked);
+      contractUploadBtn.disabled = locked;
+      contractClearBtn.disabled = locked;
+      contractUploadBtn.classList.toggle('disabled', locked);
+      contractClearBtn.classList.toggle('disabled', locked);
     }
 
     function renderEnterpriseState() {
@@ -2894,6 +4544,51 @@
       return Number(value).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
+    const DEFAULT_SERVICE_FEE_RATE = 0.05;
+
+    function roundMoney(value) {
+      return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+    }
+
+    function getProjectFeeRate(project) {
+      const rate = project && Number(project.serviceFeeRate);
+      return Number.isFinite(rate) ? rate : DEFAULT_SERVICE_FEE_RATE;
+    }
+
+    function formatFeeRate(rate) {
+      const percent = Number(rate) * 100;
+      return `${percent % 1 ? percent.toFixed(1) : percent.toFixed(0)}%`;
+    }
+
+    function getProjectServiceFee(project) {
+      return roundMoney(project.revenue * getProjectFeeRate(project));
+    }
+
+    function getProjectWithdrawable(project) {
+      return roundMoney(project.revenue * (1 - getProjectFeeRate(project)));
+    }
+
+    function getBillRevenue(item) {
+      if (item.projects && item.projects.length) {
+        return roundMoney(item.projects.reduce((sum, project) => sum + project.revenue, 0));
+      }
+      return Number(item.revenue) || 0;
+    }
+
+    function getBillServiceFee(item) {
+      if (item.projects && item.projects.length) {
+        return roundMoney(item.projects.reduce((sum, project) => sum + getProjectServiceFee(project), 0));
+      }
+      return Number(item.serviceFee) || 0;
+    }
+
+    function getBillWithdrawable(item) {
+      if (item.projects && item.projects.length) {
+        return roundMoney(item.projects.reduce((sum, project) => sum + getProjectWithdrawable(project), 0));
+      }
+      return roundMoney((item.revenue || 0) - (item.serviceFee || 0));
+    }
+
     function getSettlementMonthData(month) {
       return settlementData.find(item => item.month === month) || settlementData[0];
     }
@@ -2920,7 +4615,10 @@
         data.branchName &&
         data.bankAccount &&
         data.businessLicense &&
-        data.businessLicense.name
+        data.businessLicense.name &&
+        data.contractFile &&
+        data.contractFile.name &&
+        data.contractExpressNo
       );
     }
 
@@ -2937,6 +4635,12 @@
       }
       if (!data.businessLicense || !data.businessLicense.name) {
         return '请先上传营业执照。';
+      }
+      if (!data.contractFile || !data.contractFile.name) {
+        return '请先上传合同附件。';
+      }
+      if (!data.contractExpressNo) {
+        return '请先填写合同快递单号。';
       }
       if (!selectedMonths.length) {
         return mode === 'merge' ? '暂无可提现账单。' : '当前账单不可提现。';
@@ -2983,12 +4687,12 @@
     function renderPendingList(selectedMonths, mode) {
       const items = getWithdrawItems(selectedMonths);
       pendingList.innerHTML = items.map(item => {
-        const payable = item.revenue - item.serviceFee;
+        const payable = getBillWithdrawable(item);
         return `
           <div class="selected-settlement-item">
             <div class="selected-settlement-main">
               <div class="selected-settlement-title">${item.settlementNo} · ${item.month} 结算单</div>
-              <div class="selected-settlement-sub">可提金额 ¥${formatMoney(payable)} · 状态：待提现</div>
+              <div class="selected-settlement-sub">可提现金额 ¥${formatMoney(payable)} · 状态：待提现</div>
             </div>
             <div class="status-tag pending">${mode === 'merge' ? '纳入合并提现' : '当前结算单'}</div>
           </div>
@@ -2997,7 +4701,7 @@
     }
 
     function getSelectedPayable(selectedMonths) {
-      return getWithdrawItems(selectedMonths).reduce((sum, item) => sum + (item.revenue - item.serviceFee), 0);
+      return getWithdrawItems(selectedMonths).reduce((sum, item) => sum + getBillWithdrawable(item), 0);
     }
 
     function getFileName(input) {
@@ -3122,7 +4826,7 @@
 
     function renderSettlement() {
       const rows = settlementData.map(item => {
-        const payable = item.revenue - item.serviceFee;
+        const payable = getBillWithdrawable(item);
         const withdrawState = getSettlementWithdrawStatus(item.month);
         const statusClass = withdrawState.className;
         const statusText = withdrawState.status;
@@ -3132,8 +4836,8 @@
           <tr>
             <td>${item.month}</td>
             <td>${item.settlementNo}</td>
-            <td>${formatMoney(item.revenue)}</td>
-            <td>${formatMoney(item.serviceFee)}</td>
+            <td>${formatMoney(getBillRevenue(item))}</td>
+            <td>${formatMoney(getBillServiceFee(item))}</td>
             <td>${formatMoney(payable)}</td>
             <td><span class="status-tag ${statusClass}">${statusText}</span></td>
             <td>
@@ -3150,10 +4854,10 @@
       settlementRowsEl.innerHTML = rows;
       settlementCountEl.textContent = settlementData.length;
 
-      const totalRevenue = settlementData.reduce((sum, item) => sum + item.revenue, 0);
-      const totalServiceFee = settlementData.reduce((sum, item) => sum + item.serviceFee, 0);
-      const totalWithdrawn = settlementData.filter(item => isSettlementWithdrawn(item.month)).reduce((sum, item) => sum + (item.revenue - item.serviceFee), 0);
-      const totalPending = settlementData.filter(item => isSettlementPendingWithdraw(item.month)).reduce((sum, item) => sum + (item.revenue - item.serviceFee), 0);
+      const totalRevenue = settlementData.reduce((sum, item) => sum + getBillRevenue(item), 0);
+      const totalServiceFee = settlementData.reduce((sum, item) => sum + getBillServiceFee(item), 0);
+      const totalWithdrawn = settlementData.filter(item => isSettlementWithdrawn(item.month)).reduce((sum, item) => sum + getBillWithdrawable(item), 0);
+      const totalPending = settlementData.filter(item => isSettlementPendingWithdraw(item.month)).reduce((sum, item) => sum + getBillWithdrawable(item), 0);
       sumRevenueEl.textContent = formatMoney(totalRevenue);
       sumServiceFeeEl.textContent = formatMoney(totalServiceFee);
       sumWithdrawnEl.textContent = formatMoney(totalWithdrawn);
@@ -3165,15 +4869,18 @@
 
     function renderDrawer(month) {
       const item = getSettlementMonthData(month);
+      const withdrawable = getBillWithdrawable(item);
       drawerTitle.textContent = `${item.month} 账单明细`;
-      drawerSub.textContent = `${item.settlementNo} · 每个项目对应的月结收益`;
+      drawerSub.textContent = `${item.settlementNo} · 按订单日期自然月归集，当月全部结算后推送`;
       drawerRows.innerHTML = item.projects.map(project => `
         <tr>
           <td>${project.name}</td>
           <td>${project.orders}</td>
           <td>${formatMoney(project.revenue)}</td>
+          <td>${formatFeeRate(getProjectFeeRate(project))}</td>
         </tr>
       `).join('');
+      drawerWithdrawableTotal.textContent = `¥${formatMoney(withdrawable)}`;
     }
 
     function openDrawer(month) {
@@ -3284,12 +4991,191 @@
         : '';
     }
 
+    const projectDocMeta = [
+      { key: 'intro', label: '项目说明' },
+      { key: 'keyword', label: '关键词要求' },
+      { key: 'backfill', label: '回填说明' },
+      { key: 'settle', label: '订单结算' },
+      { key: 'notice', label: '特别注意' },
+      { key: 'faq', label: '常见问题' },
+    ];
+
+    const defaultProjectDocs = {
+      intro: `
+        <ol>
+          <li>本项目面向代理侧投放与回填，按有效单量结算。</li>
+          <li>请按说明文档准备素材、关键词与回填字段，避免因资料不符影响审核。</li>
+          <li>项目价格以弹窗「项目价格」为准，未配置字段不计入收益。</li>
+        </ol>
+      `,
+      keyword: `
+        <ol>
+          <li>关键词须与项目主题相关，禁止堆砌无关热词。</li>
+          <li>同一账号短时间内重复提交相同关键词将被判无效。</li>
+          <li>禁止使用竞品品牌词、夸大承诺词及平台违禁词。</li>
+        </ol>
+      `,
+      backfill: `
+        <ol>
+          <li>请按项目要求回填账号、作品或订单信息，字段需真实可核验。</li>
+          <li>回填完成后等待审核，驳回需按反馈修改后再提交。</li>
+          <li>截图、链接与账号主体须一致，信息不匹配视为无效。</li>
+        </ol>
+      `,
+      settle: `
+        <ol>
+          <li>有效单按对应结算字段统计，收益 = 单量 × 价格。</li>
+          <li>未配置价格的字段不计入本期收益。</li>
+          <li>阶梯单价按量级区间计价；未配置阶梯时该字段不结算。</li>
+        </ol>
+      `,
+      notice: `
+        <ol>
+          <li>投放素材、话术须符合平台规范，不得出现违规引流。</li>
+          <li>回填数据须真实有效，虚假数据不予结算。</li>
+          <li>账号异常、封禁或投诉需及时同步，不得隐瞒。</li>
+          <li class="doc-warn">提倡原创，杜绝抄袭；</li>
+          <li class="doc-warn">禁止地推和刷量行为，一经核实取消结算资格。</li>
+        </ol>
+      `,
+      faq: `
+        <ol>
+          <li>问：为什么有的字段显示「未配置」？答：该结算字段尚未配置价格，不计入收益。</li>
+          <li>问：价格和说明不一致以谁为准？答：以本弹窗「项目价格」与对应说明文档为准。</li>
+          <li>问：审核被驳回怎么办？答：按反馈信息修改后重新提交，勿重复刷单。</li>
+        </ol>
+      `,
+    };
+
+    const projectDetailsMap = {
+      '小云雀挂载': {
+        frontTitle: '小云雀挂载',
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [
+          { field: '拉新量', type: '固定单价', price: '4.20', desc: '挂载拉新 · 有效拉新按条结算' },
+          { field: '拉旧量 (拉失活量)', type: '固定单价', price: '2.40', desc: '挂载拉新 · 拉回失活用户' },
+          { field: '转存量', type: '固定单价', price: '2.00', desc: '挂载拉新 · 文件转存有效量' },
+          { field: '会员量', type: '阶梯单价', price: '', desc: '挂载拉新 · 会员开通按量阶梯计价' },
+        ],
+      },
+      '小云雀展归': {
+        frontTitle: '小云雀展归',
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [
+          { field: '拉新量', type: '固定单价', price: '4.20', desc: '展归拉新 · 有效拉新按条结算' },
+          { field: '拉旧量 (拉失活量)', type: '固定单价', price: '2.40', desc: '展归拉新 · 拉回失活用户' },
+          { field: '转存量', type: '固定单价', price: '2.00', desc: '展归拉新 · 文件转存有效量' },
+          { field: '会员量', type: '阶梯单价', price: '', desc: '展归拉新 · 会员开通按量阶梯计价' },
+        ],
+      },
+      '番茄小说-漫剧': {
+        frontTitle: '番茄小说-漫剧',
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [
+          { field: '有效播放量', type: '固定单价', price: '0.08', desc: '漫剧完播有效播放按条结算' },
+          { field: '付费转化', type: '固定单价', price: '12.00', desc: '开通会员按单结算' },
+          { field: '会员量', type: '阶梯单价', price: '', desc: '会员开通按量阶梯计价' },
+        ],
+      },
+      '网易云有声书': {
+        frontTitle: '网易云有声书',
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [
+          { field: '有效收听量', type: '固定单价', price: '0.12', desc: '有声书有效收听按条结算' },
+          { field: '拉新量', type: '固定单价', price: '3.50', desc: '拉新开通按条结算' },
+        ],
+      },
+      'CapCut拉失活': {
+        frontTitle: 'CapCut拉失活',
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [
+          { field: '拉旧量 (拉失活量)', type: '固定单价', price: '2.40', desc: '召回失活用户按条结算' },
+          { field: '转存量', type: '固定单价', price: '1.80', desc: '文件转存有效量' },
+        ],
+      },
+      'CapCut拉新': {
+        frontTitle: 'CapCut拉新',
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [
+          { field: '拉新量', type: '固定单价', price: '5.00', desc: '有效拉新按条结算' },
+          { field: '会员量', type: '阶梯单价', price: '', desc: '会员开通按量阶梯计价' },
+        ],
+      },
+    };
+
+    function renderLinkValue(el, value) {
+      const text = value && value !== '-' ? value : '-';
+      if (text !== '-' && /^https?:\/\//.test(text)) {
+        el.classList.add('is-link');
+        el.innerHTML = `<a href="${text}" target="_blank" rel="noopener noreferrer">${text}</a>`;
+        return;
+      }
+      el.classList.remove('is-link');
+      el.textContent = text;
+    }
+
+    function renderProjectPrices(prices) {
+      projectPriceRows.innerHTML = (prices || []).map(item => {
+        const priceHtml = item.price
+          ? `<span class="price-value">${item.price}</span>`
+          : `<span class="price-empty">未配置</span>`;
+        return `
+          <tr>
+            <td title="${item.field}">${item.field}</td>
+            <td>${item.type}</td>
+            <td>${priceHtml}</td>
+            <td class="col-desc" title="${item.desc}">${item.desc}</td>
+          </tr>
+        `;
+      }).join('') || `<tr><td colspan="4"><span class="price-empty">暂无价格配置</span></td></tr>`;
+    }
+
+    function renderProjectDocs(docs, activeKey) {
+      const source = docs || defaultProjectDocs;
+      const key = source[activeKey] ? activeKey : 'notice';
+      currentProjectDocKey = key;
+      projectDocTabs.innerHTML = projectDocMeta.map(tab => `
+        <button class="doc-tab${tab.key === key ? ' active' : ''}" type="button" data-doc-key="${tab.key}">${tab.label}</button>
+      `).join('');
+      projectDocPanel.innerHTML = source[key] || defaultProjectDocs[key];
+    }
+
+    function openProjectDetail(name) {
+      const detail = projectDetailsMap[name] || {
+        frontTitle: name,
+        materialLink: '-',
+        bookListLink: '-',
+        prices: [],
+        docs: defaultProjectDocs,
+      };
+      projectDetailTitle.textContent = `项目详情 · ${name}`;
+      projectDetailFrontTitle.textContent = detail.frontTitle || name;
+      renderLinkValue(projectDetailMaterial, detail.materialLink);
+      renderLinkValue(projectDetailBookList, detail.bookListLink);
+      renderProjectPrices(detail.prices);
+      renderProjectDocs(detail.docs || defaultProjectDocs, 'notice');
+      overlay.classList.add('show');
+      projectDetailModal.classList.add('show');
+      projectDetailModal.setAttribute('aria-hidden', 'false');
+    }
+
     function closeOverlays() {
       overlay.classList.remove('show');
       detailDrawer.classList.remove('show');
       withdrawModal.classList.remove('show');
       withdrawRecordDrawer.classList.remove('show');
       rulesDrawer.classList.remove('show');
+      projectDetailModal.classList.remove('show');
+      projectDetailModal.setAttribute('aria-hidden', 'true');
+      noticeModal.classList.remove('show');
+      noticeModal.setAttribute('aria-hidden', 'true');
+      closeNoticeLightbox();
     }
 
     function openRulesDrawer(pageName) {
@@ -3298,199 +5184,215 @@
       overlay.classList.add('show');
       if (rulesContext === 'settlement') {
         rulesDrawer.querySelector('.drawer-title').textContent = '结算中心需求规则';
-        rulesDrawer.querySelector('.drawer-sub').textContent = '结算中心规则说明与提现业务流程';
+        rulesDrawer.querySelector('.drawer-sub').textContent = '账单统计、提现申请、审核打款与行内操作规则';
+      } else if (rulesContext === 'project') {
+        rulesDrawer.querySelector('.drawer-title').textContent = '项目数据需求规则';
+        rulesDrawer.querySelector('.drawer-sub').textContent = '本次新增：项目详情弹窗、项目价格与说明文档';
       } else {
         rulesDrawer.querySelector('.drawer-title').textContent = '企业信息需求规则';
-        rulesDrawer.querySelector('.drawer-sub').textContent = '企业信息规则说明与审核业务流程';
+        rulesDrawer.querySelector('.drawer-sub').textContent = '资料字段、审核状态、锁定与提现前置条件';
       }
       renderRulesDrawerContent();
-      setRulesTab('rules');
-    }
-
-    function setRulesTab(tabName) {
-      const isRules = tabName === 'rules';
-      rulesTabRules.classList.toggle('active', isRules);
-      rulesTabFlow.classList.toggle('active', !isRules);
-      rulesPanelRules.classList.toggle('active', isRules);
-      rulesPanelFlow.classList.toggle('active', !isRules);
     }
 
     function renderRulesDrawerContent() {
-      if (rulesContext === 'settlement') {
+      if (rulesContext === 'project') {
         rulesPanelRulesContent.innerHTML = `
           <div class="rules-block">
-            <div class="rules-block-title">结算中心需求规则</div>
+            <div class="rules-block-title">本次补充范围</div>
             <ul class="rules-list">
-              <li>每月1号自动统计上月账单，展示账单月份、结算单、收益金额、服务费、应打款金额和提现状态。</li>
-              <li>提现状态分为待提现、审核中、已提现，状态由提现申请记录驱动。</li>
-              <li>合并提现仅汇总所有待提现账单；单笔提现仅针对当前账单。</li>
-              <li>提现申请必须上传加盖公章的结算单和发票，补充材料为可选项。</li>
-              <li>已提现和审核中的记录可查看申请信息、审核状态、打款状态和回执。</li>
+              <li>仅补充本次新增的项目详情能力，不覆盖提词 / 作品 / 订单原有列表与筛选规则。</li>
+              <li>入口：左侧项目列表行内「详情」按钮；点行本身只切换当前项目，不打开弹窗。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">项目详情弹窗</div>
+            <ul class="rules-list">
+              <li>标题格式：「项目详情 · {项目名称}」，右上角「×」与底部「知道了」均可关闭。</li>
+              <li>弹窗固定展示四块：基本信息、项目图标、项目价格、说明文档。</li>
+              <li>基本信息展示前端标题、素材链接、书单链接；无值时显示「-」。</li>
+              <li>项目图标只读展示当前项目图标。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">项目价格</div>
+            <ul class="rules-list">
+              <li>价格表参考管理侧项目价格配置，<strong>不展示「原始价格」</strong>。</li>
+              <li>列固定为：结算字段、单价类型、价格、描述。</li>
+              <li>字段名使用「价格」，不再使用「代理价格」。</li>
+              <li>价格只读。已配置显示数值；未配置显示「未配置」，该字段不计入收益。</li>
+              <li>单价类型包含固定单价、阶梯单价；阶梯未配置时同样按未配置处理。</li>
+              <li>收益按「单量 × 价格」计算，未配置字段不计入。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">说明文档</div>
+            <ul class="rules-list">
+              <li>页签固定为：项目说明、关键词要求、回填说明、订单结算、特别注意、常见问题。</li>
+              <li>默认打开「特别注意」。</li>
+              <li>「特别注意」中关于抄袭、地推和刷量的条款用红色强调。</li>
+              <li>说明文档只读，切换页签仅替换正文，不关闭弹窗。</li>
             </ul>
           </div>
         `;
-        rulesPanelFlowContent.innerHTML = `
-          <div class="flow-diagram">
-            <div class="flow-node primary">
-              <div class="flow-node-title">账单自动生成</div>
-              <div class="flow-node-text">每月1号自动统计上月账单，形成待提现 / 审核中 / 已提现状态。</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-node">
-              <div class="flow-node-title">选择提现方式</div>
-              <div class="flow-node-text">支持合并提现和单笔提现，系统只允许选择对应范围的账单。</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-branch">
-              <div class="flow-stage">
-                <div class="flow-node secondary">
-                  <div class="flow-node-title">确认结算单</div>
-                  <div class="flow-node-text">自动勾选待提现账单，单笔提现仅显示当前账单。</div>
-                </div>
-                <div class="flow-arrow"></div>
-                <div class="flow-node secondary">
-                  <div class="flow-node-title">上传结算单与发票</div>
-                  <div class="flow-node-text">必须上传加盖公章的结算单和发票，补充材料可选。</div>
-                </div>
-              </div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-decision">
-              <div class="flow-decision-inner">
-                <div class="flow-decision-title">资料是否完整</div>
-                <div class="flow-decision-text">结算单、发票必传</div>
-              </div>
-            </div>
-            <div class="flow-split">
-              <div class="flow-split-stem"></div>
-              <div class="flow-split-bar"></div>
-              <div class="flow-split-columns">
-                <div class="flow-branch-column">
-                  <div class="flow-branch-label">否</div>
-                  <div class="flow-column-stem"></div>
-                  <div class="flow-node">
-                    <div class="flow-node-title">阻断提交</div>
-                    <div class="flow-node-text">提示补充加盖公章的结算单和发票。</div>
-                  </div>
-                  <div class="flow-branch-tail">
-                    <div class="flow-branch-tail-text">↺ 返回上传资料</div>
-                  </div>
-                </div>
-                <div class="flow-branch-column">
-                  <div class="flow-branch-label">是</div>
-                  <div class="flow-column-stem"></div>
-                  <div class="flow-node primary">
-                    <div class="flow-node-title">提交提现申请</div>
-                    <div class="flow-node-text">状态变更为审核中，提现按钮置灰，可查看申请记录。</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="flow-decision">
-              <div class="flow-decision-inner">
-                <div class="flow-decision-title">审核是否通过</div>
-                <div class="flow-decision-text">管理侧处理</div>
-              </div>
-            </div>
-            <div class="flow-split">
-              <div class="flow-split-stem"></div>
-              <div class="flow-split-bar"></div>
-              <div class="flow-split-columns">
-                <div class="flow-branch-column">
-                  <div class="flow-branch-label">驳回</div>
-                  <div class="flow-column-stem"></div>
-                  <div class="flow-node">
-                    <div class="flow-node-title">查看驳回原因</div>
-                    <div class="flow-node-text">保留申请记录，用户按原因补充资料后重新提交。</div>
-                  </div>
-                  <div class="flow-branch-tail">
-                    <div class="flow-branch-tail-text">↺ 返回确认结算单</div>
-                  </div>
-                </div>
-                <div class="flow-branch-column">
-                  <div class="flow-branch-label">通过</div>
-                  <div class="flow-column-stem"></div>
-                  <div class="flow-node secondary">
-                    <div class="flow-node-title">打款完成</div>
-                    <div class="flow-node-text">管理侧上传打款回执，状态更新为已提现。</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        return;
+      }
+      if (rulesContext === 'settlement') {
+        rulesPanelRulesContent.innerHTML = `
+          <div class="rules-block">
+            <div class="rules-block-title">页面定位</div>
+            <ul class="rules-list">
+              <li>结算中心面向已通过企业审核的代理用户，按月查看收益账单并发起对公提现。</li>
+              <li>流程图只在页内「业务流程」Tab 展示，本抽屉不复述全流程、不嵌第二份图。</li>
+            </ul>
           </div>
+          <div class="rules-block">
+            <div class="rules-block-title">账单生成与列表</div>
+            <ul class="rules-list">
+              <li>账单以<strong>订单日期</strong>为准归入自然月后统计，<strong>不以订单结算日期为准</strong>。</li>
+              <li>订单日期范围为自然月，例如 <strong>2026.8.1～2026.8.31</strong>。</li>
+              <li><strong>仅当该自然月内全部订单均已结算，才推送对应结算单。</strong></li>
+              <li>只要该自然月内存在任一未结算订单，则不推送该月结算单；待全部结算后再推送。</li>
+              <li>已推送的账单在列表按账单月份倒序展示。</li>
+              <li>每条账单固定展示：账单月份、结算单号、收益金额、服务费、可提现金额、提现状态、操作。</li>
+              <li><strong>可提现金额口径 = 每个项目的收益金额 × (1 − 服务费比例) 所得金额之和</strong>，金额统一保留两位小数。</li>
+              <li>页头统计口径：
+                <ul>
+                  <li>累计收益金额：全部账单收益之和。</li>
+                  <li>累计服务费：全部账单服务费之和。</li>
+                  <li>已提现：状态为「已提现」的可提现金额之和。</li>
+                  <li>待提现：状态为「待提现」的可提现金额之和。</li>
+                </ul>
+              </li>
+              <li>页头月份芯片优先展示最近一笔待提现账单月份；若无待提现则展示最新账单月份。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">提现状态</div>
+            <ul class="rules-list">
+              <li>状态由该账单最近一条提现申请记录驱动，共三态：待提现、审核中、已提现。</li>
+              <li>无申请记录，或申请已被驳回回到待提现：显示「待提现」。</li>
+              <li>已提交且管理侧未终态：显示「审核中」。</li>
+              <li>管理侧审核通过并完成打款：显示「已提现」。</li>
+              <li>审核中、已提现的账单不可再次发起提现；待提现才可点行内「提现」或纳入合并提现。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">发起提现前置条件</div>
+            <ul class="rules-list">
+              <li>企业信息必须为「已通过」，否则提示先完成企业审核。</li>
+              <li>须同时具备：企业名称、营业执照、收款账户名称、开户行名称、支行名称、收款银行帐号、合同附件、合同快递单号。</li>
+              <li>缺收款账户名称或帐号、缺开户行/支行、未传营业执照、未传合同附件或未填合同快递单号时，分别给出对应阻断提示。</li>
+              <li>合并提现：仅汇总当前全部「待提现」账单；若没有待提现账单，按钮置灰。</li>
+              <li>单笔提现：仅针对当前行账单；该账单不是待提现时提示「当前结算单已提现」。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">提现申请三步</div>
+            <ul class="rules-list">
+              <li>第 1 步「确认结算单」：系统自动勾选本次范围内的待提现账单，展示结算单号、月份、可提金额；收款账户只读带出企业信息。</li>
+              <li>第 2 步「上传资料」：
+                <ul>
+                  <li>结算单：必传，须为加盖公章的结算单。</li>
+                  <li>发票：必传，支持扫描件或清晰照片。</li>
+                  <li>补充材料：可选，不阻断提交。</li>
+                </ul>
+              </li>
+              <li>未上传结算单或发票时，不允许进入第 3 步，提示先补齐必传资料。</li>
+              <li>第 3 步「提交申请」：复核申请类型、金额、结算单范围、收款账户和已传文件后提交。</li>
+              <li>提交成功后生成提现申请记录，相关账单进入「审核中」，对应提现按钮置灰，可在「查看」中打开申请详情。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">审核、驳回与打款</div>
+            <ul class="rules-list">
+              <li>管理侧审核申请：通过后进入打款；驳回须写明原因，申请保留，账单回到可重提。</li>
+              <li>驳回后用户按原因回到确认结算单、补齐资料后重新提交，形成闭环。</li>
+              <li>打款完成须上传打款回执，账单更新为「已提现」，页头已提现/待提现金额同步重算。</li>
+            </ul>
+          </div>
+          <div class="rules-block">
+            <div class="rules-block-title">行内操作</div>
+            <ul class="rules-list">
+              <li>查看：仅当该月已有非待提现申请记录时可点，打开申请信息、审核状态、打款状态与回执。</li>
+              <li>下载结算单：任意账单可下载对应结算单文件。</li>
+              <li>查看明细：按项目拆开本月订单量、收益金额与服务费比例，并按口径汇总可提现金额。</li>
+              <li>提现：仅待提现可点，走单笔提现三步。</li>
+            </ul>
+          </div>
+          <p class="rules-pointer">流程图见页内「业务流程」Tab，不在此重复绘制。</p>
         `;
         return;
       }
       rulesPanelRulesContent.innerHTML = `
         <div class="rules-block">
-          <div class="rules-block-title">企业信息需求规则</div>
+          <div class="rules-block-title">页面定位</div>
           <ul class="rules-list">
-            <li>企业信息用于代理用户提交企业资料和结算账户信息。</li>
-            <li>公司信息包含企业名称、社会编码、公司电话、公司地址和营业执照图片。</li>
-            <li>对公账户信息包含收款账户名称、开户行名称、支行名称、收款银行帐号、发票类型和发票税率。</li>
-            <li>提交后进入审核中状态，审核通过后信息锁定不可编辑。</li>
-            <li>审核驳回后可查看驳回原因，并支持重新提交。</li>
+            <li>企业信息用于代理用户提交公司资料与对公结算账户，是结算中心发起提现的前置页。</li>
+            <li>流程图只在页内「业务流程」Tab 展示，本抽屉不复述全流程、不嵌第二份图。</li>
           </ul>
         </div>
-      `;
-      rulesPanelFlowContent.innerHTML = `
-        <div class="flow-diagram">
-          <div class="flow-node primary">
-            <div class="flow-node-title">填写企业资料</div>
-            <div class="flow-node-text">填写企业名称、社会编码、公司电话、公司地址，并上传营业执照图片。</div>
-          </div>
-          <div class="flow-arrow"></div>
-          <div class="flow-node">
-            <div class="flow-node-title">填写对公账户</div>
-            <div class="flow-node-text">补全收款账户名称、开户行名称、支行名称、收款银行帐号、发票类型和发票税率。</div>
-          </div>
-          <div class="flow-arrow"></div>
-          <div class="flow-node primary">
-            <div class="flow-node-title">提交审核</div>
-            <div class="flow-node-text">提交后进入审核中状态，页面锁定编辑入口，等待管理侧审核。</div>
-          </div>
-          <div class="flow-arrow"></div>
-          <div class="flow-decision">
-            <div class="flow-decision-inner">
-              <div class="flow-decision-title">审核是否通过</div>
-              <div class="flow-decision-text">管理侧校验资料</div>
-            </div>
-          </div>
-          <div class="flow-split">
-            <div class="flow-split-stem"></div>
-            <div class="flow-split-bar"></div>
-            <div class="flow-split-columns">
-              <div class="flow-branch-column">
-                <div class="flow-branch-label">否</div>
-                <div class="flow-column-stem"></div>
-                <div class="flow-node">
-                  <div class="flow-node-title">查看驳回原因</div>
-                  <div class="flow-node-text">展示原因，恢复编辑，支持修改后重新提交。</div>
-                </div>
-                <div class="flow-branch-tail">
-                  <div class="flow-branch-tail-text">↺ 返回填写资料</div>
-                </div>
-              </div>
-              <div class="flow-branch-column">
-                <div class="flow-branch-label">是</div>
-                <div class="flow-column-stem"></div>
-                <div class="flow-node secondary">
-                  <div class="flow-node-title">审核通过</div>
-                  <div class="flow-node-text">企业信息锁定，不支持编辑，可进入结算中心发起提现。</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="rules-block">
+          <div class="rules-block-title">公司信息字段</div>
+          <ul class="rules-list">
+            <li>企业名称：必填，须与营业执照、对公账户名称一致。</li>
+            <li>社会编码：必填，填写统一社会信用代码。</li>
+            <li>公司电话：必填，填写可联系到企业的电话。</li>
+            <li>公司地址：必填，填写营业执照登记或实际经营地址。</li>
+            <li>营业执照：必传图片。支持选择图片预览，可清除后重传；未上传时展示「未上传营业执照」。</li>
+          </ul>
         </div>
+        <div class="rules-block">
+          <div class="rules-block-title">对公账户字段</div>
+          <ul class="rules-list">
+            <li>收款账户名称：必填，须与企业名称一致，作为提现打款户名。</li>
+            <li>开户行名称、支行名称：必填，用于对公打款路由。</li>
+            <li>收款银行帐号：必填，对公账号。</li>
+            <li>发票类型：本页固定为增值税专用发票，不可改选其他类型。</li>
+            <li>发票税率：可在 1% / 3% / 6% 间切换，默认 3%。</li>
+          </ul>
+        </div>
+        <div class="rules-block">
+          <div class="rules-block-title">合同信息字段</div>
+          <ul class="rules-list">
+            <li>合同附件：必传。支持 PDF / Word / 图片，可清除后重传；未上传时展示「未上传合同附件」。</li>
+            <li>字段旁提供「下载合同」：按当前已填企业名称、社会编码、对公账户等信息动态渲染合同模板并下载。</li>
+            <li>合同快递单号：必填，用于核验纸质合同寄送。</li>
+            <li>审核中、已通过时合同附件与快递单号一并锁定；下载合同始终可用。</li>
+          </ul>
+        </div>
+        <div class="rules-block">
+          <div class="rules-block-title">审核状态与锁定</div>
+          <ul class="rules-list">
+            <li>未提交：全部字段可编辑，主按钮为「提交审核」。</li>
+            <li>审核中：公司信息、对公账户、营业执照、合同附件/快递单号全部锁定，主按钮置灰显示「审核中」。</li>
+            <li>已通过：信息永久锁定，主按钮置灰显示「已通过」，此后不可再改；满足账户完整后才可去结算中心提现。</li>
+            <li>已驳回：恢复编辑，展示驳回原因，主按钮改为「重新提交审核」。</li>
+            <li>重置：清空本地已填资料并回到未提交，仅用于演示回退，不作为线上用户操作。</li>
+          </ul>
+        </div>
+        <div class="rules-block">
+          <div class="rules-block-title">提交、驳回与重提</div>
+          <ul class="rules-list">
+            <li>提交后进入审核中，等待管理侧校验企业资料与对公账户一致性。</li>
+            <li>管理侧驳回必须给出原因（如账户名与企业名称不一致），页面顶部展示「驳回原因：…」。</li>
+            <li>用户按原因修改资料后重新提交，再次进入审核中并重新锁定。</li>
+            <li>审核通过后不可再提交；若需变更账户，不在本页开放编辑（本 Demo 以锁定为准）。</li>
+          </ul>
+        </div>
+        <div class="rules-block">
+          <div class="rules-block-title">与结算中心的关系</div>
+          <ul class="rules-list">
+            <li>未通过审核，或缺少企业名称 / 执照 / 开户行 / 支行 / 收款账户名称 / 帐号 / 合同附件 / 合同快递单号时，结算中心合并提现与单笔提现均被阻断。</li>
+            <li>提现申请页的收款账户、收款账号只读带出本页已审通过的对公信息。</li>
+          </ul>
+        </div>
+        <p class="rules-pointer">流程图见页内「业务流程」Tab，不在此重复绘制。</p>
       `;
     }
 
-    navProject.addEventListener('click', () => setPage('project'));
-    navEnterprise.addEventListener('click', () => setPage('enterprise'));
-    navSettlement.addEventListener('click', () => setPage('settlement'));
     document.querySelectorAll('[data-target]').forEach(item => {
-      item.addEventListener('click', () => setPage(item.dataset.target));
+      item.addEventListener('click', () => setPage(item.dataset.target, true));
     });
 
     Object.entries(enterpriseFields).forEach(([key, el]) => {
@@ -3522,6 +5424,26 @@
       renderEnterpriseState();
     });
 
+    contractUploadBtn.addEventListener('click', () => contractFileInput.click());
+    contractFileInput.addEventListener('change', () => {
+      const file = contractFileInput.files && contractFileInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        enterpriseState.data.contractFile = { name: file.name, src: String(reader.result || '') };
+        saveEnterpriseState();
+        renderEnterpriseState();
+      };
+      reader.readAsDataURL(file);
+    });
+    contractClearBtn.addEventListener('click', () => {
+      enterpriseState.data.contractFile = { ...enterpriseDefaults.contractFile };
+      contractFileInput.value = '';
+      saveEnterpriseState();
+      renderEnterpriseState();
+    });
+    downloadContractBtn.addEventListener('click', downloadContractTemplate);
+
     enterpriseFields.invoiceType.addEventListener('click', () => {
       enterpriseState.data.invoiceType = '增值税专用发票';
       saveEnterpriseState();
@@ -3538,9 +5460,104 @@
       renderEnterpriseState();
     });
 
+    function getEnterpriseSubmitBlockReason(data) {
+      if (!data.companyName) return '请填写企业名称。';
+      if (!data.socialCode) return '请填写社会编码。';
+      if (!data.companyPhone) return '请填写公司电话。';
+      if (!data.companyAddress) return '请填写公司地址。';
+      if (!data.businessLicense || !data.businessLicense.name) return '请上传营业执照。';
+      if (!data.accountName) return '请填写收款账户名称。';
+      if (!data.bankName) return '请填写开户行名称。';
+      if (!data.branchName) return '请填写支行名称。';
+      if (!data.bankAccount) return '请填写收款银行帐号。';
+      if (!data.contractFile || !data.contractFile.name) return '请上传合同附件。';
+      if (!data.contractExpressNo) return '请填写合同快递单号。';
+      return '';
+    }
+
+    function buildContractTemplate(data) {
+      const company = data.companyName || '（待填写企业名称）';
+      const socialCode = data.socialCode || '（待填写统一社会信用代码）';
+      const address = data.companyAddress || '（待填写公司地址）';
+      const phone = data.companyPhone || '（待填写公司电话）';
+      const accountName = data.accountName || '（待填写收款账户名称）';
+      const bankName = data.bankName || '（待填写开户行名称）';
+      const branchName = data.branchName || '（待填写支行名称）';
+      const bankAccount = data.bankAccount || '（待填写收款银行帐号）';
+      const invoiceType = data.invoiceType || '增值税专用发票';
+      const invoiceRate = data.invoiceRate || '3%';
+      const today = new Date().toISOString().slice(0, 10);
+      const expressNo = data.contractExpressNo || '（提交审核前补齐快递单号）';
+      return `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>右豹代理合作协议 · ${company}</title>
+  <style>
+    body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: #1f2d3a; padding: 40px 48px; line-height: 1.8; }
+    h1 { font-size: 22px; text-align: center; margin: 0 0 8px; }
+    .sub { text-align: center; color: #8b95a5; font-size: 13px; margin-bottom: 28px; }
+    h2 { font-size: 15px; margin: 22px 0 8px; }
+    p, li { font-size: 14px; }
+    .meta { margin: 0 0 6px; }
+    .sign { display: flex; justify-content: space-between; margin-top: 36px; gap: 40px; }
+    .sign div { flex: 1; }
+  </style>
+</head>
+<body>
+  <h1>右豹代理合作协议</h1>
+  <div class="sub">模板按当前企业资料动态生成 · ${today}</div>
+  <p class="meta">甲方：右豹（平台方）</p>
+  <p class="meta">乙方：${company}</p>
+  <p class="meta">统一社会信用代码：${socialCode}</p>
+  <p class="meta">公司地址：${address}</p>
+  <p class="meta">公司电话：${phone}</p>
+  <h2>第一条 合作内容</h2>
+  <p>甲乙双方就代理推广、订单回填与对公结算事宜达成本协议。乙方按项目说明开展推广，甲方按已确认的项目价格与有效单量结算收益。</p>
+  <h2>第二条 对公结算账户</h2>
+  <p>收款账户名称：${accountName}</p>
+  <p>开户行名称：${bankName}</p>
+  <p>支行名称：${branchName}</p>
+  <p>收款银行帐号：${bankAccount}</p>
+  <p>发票类型：${invoiceType}；发票税率：${invoiceRate}。</p>
+  <h2>第三条 费用与结算</h2>
+  <p>月结账单以订单日期归入自然月，不以订单结算日期为准；该自然月内全部订单均已结算后才推送结算单。可提现金额按每个项目的收益金额 × (1 − 服务费比例) 所得金额之和计算。</p>
+  <h2>第四条 合同寄送</h2>
+  <p>乙方下载本协议后打印盖章，并回传扫描件。纸质合同快递单号：${expressNo}。</p>
+  <h2>第五条 生效</h2>
+  <p>本协议自双方盖章之日起生效。未尽事宜由双方另行书面确认。</p>
+  <div class="sign">
+    <div>甲方（盖章）：右豹<br>日期：${today}</div>
+    <div>乙方（盖章）：${company}<br>日期：${today}</div>
+  </div>
+</body>
+</html>`;
+    }
+
+    function downloadContractTemplate() {
+      const data = readEnterpriseForm();
+      const html = buildContractTemplate(data);
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const company = (data.companyName || '未填写企业').replace(/[\\/:*?"<>|]/g, '');
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `右豹代理合作协议-${company}.html`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
     submitEnterpriseBtn.addEventListener('click', () => {
       if (submitEnterpriseBtn.disabled) return;
-      enterpriseState.data = readEnterpriseForm();
+      const data = readEnterpriseForm();
+      const blockReason = getEnterpriseSubmitBlockReason(data);
+      if (blockReason) {
+        alert(blockReason);
+        return;
+      }
+      enterpriseState.data = data;
       enterpriseState.status = 'pending';
       enterpriseState.reason = '';
       saveEnterpriseState();
@@ -3621,9 +5638,14 @@
     closeRecordDrawerBtn.addEventListener('click', closeOverlays);
     enterpriseRulesBtn.addEventListener('click', () => openRulesDrawer('enterprise'));
     settlementRulesBtn.addEventListener('click', () => openRulesDrawer('settlement'));
+    projectRulesBtn.addEventListener('click', () => openRulesDrawer('project'));
     closeRulesDrawerBtn.addEventListener('click', closeOverlays);
-    rulesTabRules.addEventListener('click', () => setRulesTab('rules'));
-    rulesTabFlow.addEventListener('click', () => setRulesTab('flow'));
+    document.querySelectorAll('[data-workspace-tabs] .page-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const pageName = tab.closest('[data-workspace-tabs]').dataset.workspaceTabs;
+        setWorkspaceTab(pageName, tab.dataset.workspaceTab, true);
+      });
+    });
     openWithdrawModalBtn.addEventListener('click', () => {
       if (!hasCompleteEnterpriseAccount()) {
         alert('请先补全企业信息、营业执照和对公账户信息并通过审核后再发起提现。');
@@ -3634,6 +5656,71 @@
     });
     closeDrawerBtn.addEventListener('click', closeOverlays);
     closeModalBtn.addEventListener('click', closeOverlays);
+    closeProjectDetailBtn.addEventListener('click', closeOverlays);
+    ackProjectDetailBtn.addEventListener('click', closeOverlays);
+    closeNoticeModalBtn.addEventListener('click', closeOverlays);
+    closeNoticeModalFooterBtn.addEventListener('click', closeOverlays);
+    closeNoticeLightboxBtn.addEventListener('click', event => {
+      event.stopPropagation();
+      closeNoticeLightbox();
+    });
+    noticeLightbox.addEventListener('click', event => {
+      if (event.target === noticeLightbox) closeNoticeLightbox();
+    });
+    noticeModalMedia.addEventListener('click', event => {
+      const image = event.target.closest('.notice-media-img');
+      if (image) {
+        const caption = image.closest('.notice-media-item')?.querySelector('.notice-media-caption')?.textContent || '';
+        openNoticeLightbox(image.src, caption);
+        return;
+      }
+      const fileBtn = event.target.closest('[data-file-name]');
+      if (fileBtn) alert(`${fileBtn.dataset.fileName} 预览功能演示`);
+    });
+    noticeModalActionBtn.addEventListener('click', () => {
+      const page = noticeModalActionBtn.dataset.page;
+      const tab = noticeModalActionBtn.dataset.tab;
+      closeOverlays();
+      if (page) goMenu(page, tab);
+    });
+    noticeBellBtn.addEventListener('click', event => {
+      event.stopPropagation();
+      setNoticeDropdownOpen(!noticeDropdown.classList.contains('show'));
+    });
+    noticeGoWorkbench.addEventListener('click', () => {
+      setNoticeDropdownOpen(false);
+      setPage('workbench', true);
+    });
+    noticeDropdownList.addEventListener('click', event => {
+      const item = event.target.closest('[data-notice-id]');
+      if (!item) return;
+      openNoticeDetail(item.dataset.noticeId);
+    });
+    noticeList.addEventListener('click', event => {
+      const item = event.target.closest('[data-notice-id]');
+      if (!item) return;
+      openNoticeDetail(item.dataset.noticeId);
+    });
+    noticeFilters.addEventListener('click', event => {
+      const btn = event.target.closest('[data-notice-filter]');
+      if (!btn) return;
+      noticeFilter = btn.dataset.noticeFilter;
+      renderNoticeSurfaces();
+    });
+    workbenchInsight.addEventListener('click', event => {
+      const btn = event.target.closest('[data-period]');
+      if (!btn) return;
+      workbenchPeriod = btn.dataset.period;
+      renderWorkbenchInsight();
+    });
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.notice-bell-wrap')) setNoticeDropdownOpen(false);
+    });
+    projectDocTabs.addEventListener('click', event => {
+      const tab = event.target.closest('[data-doc-key]');
+      if (!tab) return;
+      renderProjectDocs(defaultProjectDocs, tab.dataset.docKey);
+    });
     overlay.addEventListener('click', closeOverlays);
 
     submitWithdrawBtn.addEventListener('click', () => {
@@ -3666,21 +5753,30 @@
     extraFile.addEventListener('change', () => setUploadBoxState(extraFile, extraFileName));
 
     document.querySelectorAll('.project-row').forEach(row => {
-      row.addEventListener('click', () => {
+      row.addEventListener('click', event => {
         document.querySelectorAll('.project-row').forEach(item => item.classList.remove('active'));
         row.classList.add('active');
+        const detailBtn = event.target.closest('.detail-btn');
+        if (detailBtn) {
+          const name = row.querySelector('span')?.textContent.trim();
+          if (name) openProjectDetail(name);
+        }
       });
     });
-    document.querySelectorAll('.tab').forEach(tab => {
+    document.querySelectorAll('.project-main .tabs-main .tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(item => item.classList.remove('active'));
+        document.querySelectorAll('.project-main .tab').forEach(item => item.classList.remove('active'));
         tab.classList.add('active');
       });
     });
 
-    setPage('project');
+    const bootPage = getWorkspaceQuery().get('page');
+    setPage(['workbench', 'project', 'enterprise', 'settlement'].includes(bootPage) ? bootPage : 'workbench');
     renderEnterpriseState();
     renderSettlement();
+    renderWorkbench();
+    const bootNotice = getWorkspaceQuery().get('notice');
+    if (bootNotice) openNoticeDetail(bootNotice);
     renderRulesDrawerContent();
     setUploadBoxState(settlementFile, settlementFileName);
     setUploadBoxState(invoiceFile, invoiceFileName);
